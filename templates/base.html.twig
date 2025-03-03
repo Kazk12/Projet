@@ -2,18 +2,81 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('styles/app.css') }}" />
             <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
         {% endblock %}
-
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header id="header" class="bg-white shadow-md">
+            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+                <a class="brand logo-brand text-indigo-600 text-2xl font-bold" href="/">MyApp</a>
+                <div class="flex items-center space-x-4">
+                    <nav class="hidden md:flex space-x-4">
+                        <ul class="flex space-x-4">
+                            <li>
+                                <a href="{{ path('app_home') }}" class="text-gray-700 hover:text-gray-900">Home</a>
+                            </li>
+                            {% if not app.user %}
+                                <li>
+                                    <a href="{{ path('app_login') }}" class="text-gray-700 hover:text-gray-900">Login</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_register') }}" class="text-gray-700 hover:text-gray-900">Register</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a href="{{ path('app_logout') }}" class="text-gray-700 hover:text-gray-900">Logout</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="text-gray-700 hover:text-gray-900 focus:outline-none">
+                            <span class="material-icons">menu</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <nav id="mobile-menu" class="hidden md:hidden px-4 pt-4 pb-2 space-y-1">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="{{ path('app_home') }}" class="block text-gray-700 hover:text-gray-900">Home</a>
+                    </li>
+                    {% if not app.user %}
+                        <li>
+                            <a href="{{ path('app_login') }}" class="block text-gray-700 hover:text-gray-900">Login</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('app_register') }}" class="block text-gray-700 hover:text-gray-900">Register</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ path('app_logout') }}" class="block text-gray-700 hover:text-gray-900">Logout</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
+
+        <div class="base">
+            <!-- Page -->
+            {% include "partials/flash.html.twig" %}
+            <div class="page">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+
+        {% block js %}
+        <script>
+            document.getElementById('mobile-menu-button').addEventListener('click', function() {
+                var menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        </script>
+        {% endblock %}
     </body>
 </html>
