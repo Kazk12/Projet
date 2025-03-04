@@ -27,3 +27,4 @@ services:
         arguments:
             $requestStack: "@request_stack"
         tags: ["app.password_updater"]
+        

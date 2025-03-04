@@ -16,6 +16,19 @@ class AnnounceRepository extends ServiceEntityRepository
         parent::__construct($registry, Announce::class);
     }
 
+   /**
+     * @return AnnounceMine[]
+     */
+    public function findByUserId(int $userId): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :userId')
+            ->setParameter('userId', $userId)
+            ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Announce[] Returns an array of Announce objects
     //     */

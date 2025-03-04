@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Announce{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ asset('styles/announce.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="p-6">
+            <h2 class="text-2xl font-extrabold text-gray-900 mb-6">Edit Announce</h2>
+            {{ form_start(form) }}
+            <div class="mb-4">
+                {{ form_label(form.thumbnailFile, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.thumbnailFile, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(form.rate, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                <div class="star-rating flex">
+                    {% for choice in form.rate %}
+                        <label class="star">
+                            {{ form_widget(choice) }}
+                            <span class="material-icons">star</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="mb-4">
+                {{ form_label(form.content, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.content, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+            </div>
+            <div class="mb-4">
+                {{ form_label(form.book, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_widget(form.book, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+            </div>
+            <div>
+                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Save
+                </button>
+            </div>
+            {{ form_end(form) }}
+          
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const stars = document.querySelectorAll('.star-rating label');
+        stars.forEach(star => {
+            star.addEventListener('click', function () {
+                const value = this.querySelector('input').value;
+                stars.forEach(s => {
+                    const input = s.querySelector('input');
+                    if (input.value <= value) {
+                        s.querySelector('span').classList.add('text-yellow-500');
+                    } else {
+                        s.querySelector('span').classList.remove('text-yellow-500');
+                    }
+                });
+            });
+
+            // Pré-remplir les étoiles en fonction de la valeur actuelle
+            const checkedValue = document.querySelector('.star-rating input:checked')?.value || 0;
+            stars.forEach(s => {
+                const input = s.querySelector('input');
+                if (input.value <= checkedValue) {
+                    s.querySelector('span').classList.add('text-yellow-500');
+                } else {
+                    s.querySelector('span').classList.remove('text-yellow-500');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

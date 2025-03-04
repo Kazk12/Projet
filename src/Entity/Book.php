@@ -36,10 +36,18 @@ class Book
     #[ORM\OneToMany(targetEntity: Announce::class, mappedBy: 'book')]
     private Collection $announces;
 
+    #[ORM\Column(length: 255)]
+    private ?string $img = null;
+
     public function __construct()
     {
         $this->typeBooks = new ArrayCollection();
         $this->announces = new ArrayCollection();
+    }
+
+    public function __toString(): string
+    {
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -139,6 +147,18 @@ class Book
                 $announce->setBook(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(string $img): static
+    {
+        $this->img = $img;
 
         return $this;
     }

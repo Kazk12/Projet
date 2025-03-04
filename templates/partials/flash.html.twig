@@ -1,36 +1,81 @@
-<div class="flash-container">
+{# filepath: /c:/Users/Dev404/Desktop/Symfony/Projet/templates/partials/flash.html.twig #}
+<div id="flash-container" class="fixed bottom-4 right-4 z-50 w-80 space-y-3 transition-all duration-300">
     {% for type, messages in app.flashes %}
-        <div class="alert alert-{{ type }}">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            {{ messages | join('. ')}}
+        {% set bgColor = type == 'success' ? 'bg-emerald-50 border-emerald-500 text-emerald-800' : 
+                         type == 'error' or type == 'danger' ? 'bg-red-50 border-red-500 text-red-800' :
+                         type == 'warning' ? 'bg-amber-50 border-amber-500 text-amber-800' :
+                         type == 'info' ? 'bg-blue-50 border-blue-500 text-blue-800' : 
+                         'bg-gray-50 border-gray-500 text-gray-800' %}
+        
+        {% set iconColor = type == 'success' ? 'text-emerald-500' : 
+                          type == 'error' or type == 'danger' ? 'text-red-500' :
+                          type == 'warning' ? 'text-amber-500' :
+                          type == 'info' ? 'text-blue-500' : 
+                          'text-gray-500' %}
+        
+        {% set icon = type == 'success' ? 'check_circle' : 
+                     type == 'error' or type == 'danger' ? 'error' :
+                     type == 'warning' ? 'warning' :
+                     type == 'info' ? 'info' : 
+                     'notifications' %}
+        
+        <div class="flash-message {{ bgColor }} border-l-4 p-4 rounded-md shadow-lg transform transition-all duration-500 ease-in-out opacity-0 translate-x-5" data-type="{{ type }}">
+            <div class="flex items-start">
+                <div class="flex-shrink-0">
+                    <span class="material-icons {{ iconColor }}">{{ icon }}</span>
+                </div>
+                <div class="ml-3 flex-1">
+                    <p class="text-sm font-medium">{{ messages | join('. ') }}</p>
+                </div>
+                <div class="ml-auto pl-3">
+                    <div class="-mx-1.5 -my-1.5">
+                        <button type="button" class="close-flash inline-flex rounded-md p-1.5 {{ iconColor }} hover:bg-opacity-10 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-{{ type == 'success' ? 'emerald' : type == 'error' or type == 'danger' ? 'red' : type == 'warning' ? 'amber' : type == 'info' ? 'blue' : 'gray' }}-500">
+                            <span class="sr-only">Fermer</span>
+                            <span class="material-icons text-sm">close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     {% endfor %}
 </div>
 
-<style>
-.flash-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    width: 300px;
-}
-
-.flash-container .alert {
-    margin-bottom: 10px;
-    position: relative;
-    padding-right: 35px;
-}
-
-.flash-container .alert .close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 24px; /* Augmenter la taille de la croix */
-    cursor: pointer;
-}
-</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation d'entrée pour les messages flash
+    const flashMessages = document.querySelectorAll('.flash-message');
+    
+    setTimeout(() => {
+        flashMessages.forEach((message, index) => {
+            setTimeout(() => {
+                message.classList.remove('opacity-0', 'translate-x-5');
+            }, index * 150);
+        });
+    }, 100);
+    
+    // Configuration de la fermeture des messages flash
+    document.querySelectorAll('.close-flash').forEach(button => {
+        button.addEventListener('click', function() {
+            const flashMessage = this.closest('.flash-message');
+            flashMessage.classList.add('opacity-0', 'translate-x-5');
+            
+            setTimeout(() => {
+                flashMessage.remove();
+            }, 500);
+        });
+    });
+    
+    // Fermeture automatique après 5 secondes
+    setTimeout(() => {
+        flashMessages.forEach((message, index) => {
+            setTimeout(() => {
+                message.classList.add('opacity-0', 'translate-x-5');
+                
+                setTimeout(() => {
+                    message.remove();
+                }, 500);
+            }, index * 150);
+        });
+    }, 5000);
+});
+</script>

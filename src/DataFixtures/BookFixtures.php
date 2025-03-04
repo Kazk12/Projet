@@ -13,66 +13,79 @@ class BookFixtures extends Fixture
             'author' => 'Kohei Horikoshi',
             'title' => 'My Hero Academia',
             'createdAt' => '2014-07-07',
+            'img' => 'my_hero_academia.jpg',
         ],
         [
             'author' => 'Masashi Kishimoto',
             'title' => 'Boruto: Naruto Next Generations',
             'createdAt' => '2016-05-09',
+            'img' => 'boruto.jpg',
         ],
         [
             'author' => 'Eiichiro Oda',
             'title' => 'One Piece',
             'createdAt' => '1997-07-22',
+            'img' => 'one_piece.jpg',
         ],
         [
             'author' => 'Hajime Isayama',
             'title' => 'Attack on Titan',
             'createdAt' => '2009-09-09',
+            'img' => 'attack_on_titan.jpg',
         ],
         [
             'author' => 'Tite Kubo',
             'title' => 'Bleach',
             'createdAt' => '2001-08-07',
+            'img' => 'bleach.jpg',
         ],
         [
             'author' => 'Akira Toriyama',
             'title' => 'Dragon Ball',
             'createdAt' => '1984-12-03',
+            'img' => 'dragon_ball.jpg',
         ],
         [
             'author' => 'Naoko Takeuchi',
             'title' => 'Sailor Moon',
             'createdAt' => '1991-12-28',
+            'img' => 'sailor_moon.jpg',
         ],
         [
             'author' => 'Clamp',
             'title' => 'Cardcaptor Sakura',
             'createdAt' => '1996-05-01',
+            'img' => 'cardcaptor_sakura.jpg',
         ],
         [
             'author' => 'Rumiko Takahashi',
             'title' => 'Inuyasha',
             'createdAt' => '1996-11-13',
+            'img' => 'inuyasha.jpg',
         ],
         [
             'author' => 'Yoshihiro Togashi',
             'title' => 'Hunter x Hunter',
             'createdAt' => '1998-03-03',
+            'img' => 'hunter_x_hunter.jpg',
         ],
         [
             'author' => 'Tsugumi Ohba',
             'title' => 'Death Note',
             'createdAt' => '2003-12-01',
+            'img' => 'death_note.jpg',
         ],
         [
             'author' => 'Kentaro Miura',
             'title' => 'Berserk',
             'createdAt' => '1989-08-25',
+            'img' => 'berserk.jpg',
         ],
         [
             'author' => 'Yūki Tabata',
             'title' => 'Black Clover',
             'createdAt' => '2015-02-16',
+            'img' => 'black_clover.jpg',
         ],
     ];
 
@@ -83,6 +96,7 @@ class BookFixtures extends Fixture
             $book->setAuthor($bookData['author']);
             $book->setTitle($bookData['title']);
             $book->setCreatedAt(new \DateTimeImmutable($bookData['createdAt']));
+            $book->setImg($bookData['img']);
             $manager->persist($book);
 
             // Ajouter une référence pour chaque livre

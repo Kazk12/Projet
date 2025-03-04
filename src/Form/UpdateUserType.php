@@ -16,12 +16,12 @@ class UpdateUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'attr' => ['class' => 'form-control'],
-            ])
             ->add('pseudo', TextType::class, [
                 'label' => 'Pseudo',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'Email',
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('plainPassword', RepeatedType::class, [
@@ -36,6 +36,7 @@ class UpdateUserType extends AbstractType
                 ],
                 'invalid_message' => 'The password fields must match.',
                 'mapped' => false,
+                'required' => false,
             ]);
     }
 

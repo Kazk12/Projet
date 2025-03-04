@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Form\UpdateUserType;
 use App\Interfaces\PasswordUpdaterInterface;
 use App\Repository\AnnounceRepository;
+use App\Form\CommentType;
 use App\Repository\UserRepository;
 use App\Entity\User;
+use App\Interfaces\CommentFormServiceInterface;
+use App\Interfaces\UpdateProfilInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +24,10 @@ final class HomeController extends AbstractController
     public function index(
         AnnounceRepository $announceRepository,
         PaginatorInterface $paginator,
-        Request $request
+        Request $request,
+        EntityManagerInterface $entityManager,
+        CommentFormServiceInterface $commentFormService
+
     ): Response
     {
         /** 
@@ -30,26 +37,50 @@ final class HomeController extends AbstractController
         $queryBuilder = $announceRepository->createQueryBuilder('a');
 
         $pagination = $paginator->paginate(
-            $queryBuilder, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $queryBuilder, 
+            $request->query->getInt('page', 1), 
+            6
         );
+
+        $commentForms = [];
+        foreach ($pagination as $announce) {
+            $commentForms[$announce->getId()] = $commentFormService->createCommentForm($announce)->createView();
+        }
+
+        if ($request->isMethod('POST')) {
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $announceId = $form->get('announceId')->getData();
+                $announce = $announceRepository->find($announceId);
+
+                $comment->setUser($user);
+                $comment->setAnnounce($announce);
+                $comment->setCreatedAt(new \DateTimeImmutable());
+
+                $entityManager->persist($comment);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_home');
+            }
+        }
 
         return $this->render('home/index.html.twig', [
             'pagination' => $pagination,
+            'comment_forms' => $commentForms,
         ]);
     }
 
     #[Route('/update', name: 'app_user_update')]
     public function update(
         EntityManagerInterface $entityManager,
-        UserRepository $userRepository,
-        PasswordUpdaterInterface $passwordUpdater,
+        UpdateProfilInterface $updateProfilService,
         Request $request
 
     ): Response
     {
-
         /** 
          * @var User $user
          */
@@ -59,20 +90,16 @@ final class HomeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
+            $pseudo = $form->get('pseudo')->getData();
+            $plainPassword = $form->get('plainPassword')->getData(); // Ceci contient déjà la valeur validée
             $email = $form->get('email')->getData();
-            $newPassword = $form->get('plainPassword')->getData();
-
-            if ($email && $newPassword) {
-                $passwordUpdater->updatePassword($user, $email, $newPassword);
-            } elseif ($email || $newPassword) {
-                $this->addFlash('danger', 'Email and password must be filled together to change password.');
-            }
-
-            $entityManager->flush();
+            
+            $updateProfilService->updateProfil($user, $pseudo, $email, $plainPassword);
             $this->addFlash('success', 'User updated successfully.');
-
+            
             return $this->redirectToRoute('app_user_update');
         }
+
         return $this->render('user/update.html.twig', [
             'updateForm' => $form->createView(),
         ]);

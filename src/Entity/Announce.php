@@ -7,8 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: AnnounceRepository::class)]
+#[Vich\Uploadable]
 class Announce
 {
     #[ORM\Id]
@@ -18,6 +23,11 @@ class Announce
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageUrl = null;
+
+    #[Vich\UploadableField(mapping: 'announces', fileNameProperty: 'imageUrl')]
+    #[Assert\Image()]
+    private ?File $thumbnailFile = null;
+
 
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $rate = null;
@@ -53,6 +63,13 @@ class Announce
     {
         $this->userLikeAnnounces = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function __serialize(): array
+    {
+        return [];
     }
 
     public function getId(): ?int
@@ -203,4 +220,27 @@ class Announce
 
         return $this;
     }
+
+    /**
+     * Get the value of thumbnailFile
+     */ 
+    public function getThumbnailFile() : ?File
+    {
+        return $this->thumbnailFile;
+    }
+
+    /**
+     * Set the value of thumbnailFile
+     *
+     * @return  self
+     */ 
+    public function setThumbnailFile(?File $thumbnailFile) : void
+    {
+        $this->thumbnailFile = $thumbnailFile;
+
+       if(null !== $thumbnailFile){
+           $this->updatedAt = new \DateTimeImmutable();
+       }
+    }
+
 }
