@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\AnnounceFilter;
 use App\Entity\Comment;
 use App\Form\UpdateUserType;
 use App\Interfaces\PasswordUpdaterInterface;
@@ -34,7 +35,9 @@ final class HomeController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-        $queryBuilder = $announceRepository->createQueryBuilder('a');
+        $filter = new AnnounceFilter($user ? $user->getId() : null);
+        $queryBuilder = $announceRepository->findByUserStatus($filter);
+      
 
         $pagination = $paginator->paginate(
             $queryBuilder, 

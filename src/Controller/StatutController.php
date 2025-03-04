@@ -45,4 +45,7 @@ final class StatutController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+
+    
 }

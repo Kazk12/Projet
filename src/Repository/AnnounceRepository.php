@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\DTO\AnnounceFilter;
 use App\Entity\Announce;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -27,6 +28,30 @@ class AnnounceRepository extends ServiceEntityRepository
             ->orderBy('a.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+
+     /**
+     * @return Announce[]
+     */
+    public function findByUserStatus(AnnounceFilter $filter): array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->leftJoin('a.user', 'u')
+            ->leftJoin('u.statuts', 's', 'WITH', 's.otherUser = a.user AND s.user = :userId')
+            ->setParameter('userId', $filter->getUserId())
+            ->setParameter('blocked', 'Blocked')
+            ->setParameter('friend', 'Friend');
+
+        if ($filter->getUserId() !== null) {
+            $qb->where('s.statut IS NULL OR s.statut != :blocked')
+                ->orderBy('CASE WHEN s.statut = :friend THEN 0 ELSE 1 END', 'ASC')
+                ->addOrderBy('a.createdAt', 'DESC');
+        } else {
+            $qb->orderBy('a.createdAt', 'DESC');
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     //    /**

@@ -176,6 +176,9 @@
 {% block javascripts %}
 <script>
     {% for announce in pagination %}
+
+    // Fonction pour ouvrir et fermer 'voir les commentaires'
+
         function toggleComments_{{ announce.id }}() {
             const commentsDiv = document.getElementById('comments_{{ announce.id }}');
             if (commentsDiv.classList.contains('hidden')) {
@@ -186,21 +189,27 @@
         }
     {% endfor %}
     
-    // Fonction pour ouvrir/fermer le menu déroulant
+    
+    // fonction pour ouvrir et fermer le menu déroulant afin d'ajouter en amis ou bloquer les utilisateurs
+
     function toggleDropdown(announceId) {
-        // Fermer tous les autres dropdowns
+       
         document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
             if (dropdown.id !== `dropdown-${announceId}`) {
                 dropdown.classList.add('hidden');
             }
         });
         
-        // Toggle le dropdown actuel
+        
         const dropdown = document.getElementById(`dropdown-${announceId}`);
         dropdown.classList.toggle('hidden');
     }
     
-    // Fermer les dropdowns quand on clique ailleurs
+
+    
+    // Fermer le menu déroulant lorsqu'on clique en dehors de celui-ci
+
+    
     document.addEventListener('click', function(event) {
         if (!event.target.closest('button[onclick^="toggleDropdown"]')) {
             document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
