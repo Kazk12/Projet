@@ -91,7 +91,7 @@ final class HomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $pseudo = $form->get('pseudo')->getData();
-            $plainPassword = $form->get('plainPassword')->getData(); // Ceci contient déjà la valeur validée
+            $plainPassword = $form->get('plainPassword')->getData(); 
             $email = $form->get('email')->getData();
             
             $updateProfilService->updateProfil($user, $pseudo, $email, $plainPassword);

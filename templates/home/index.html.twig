@@ -1,3 +1,4 @@
+{# filepath: /c:/Users/Dev404/Desktop/Symfony/Projet/templates/home/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}Découvrez les dernières critiques{% endblock %}
@@ -34,6 +35,27 @@
                                 </svg>
                             </div>
                         {% endif %}
+                        
+                        {# Ajout des trois points avec menu déroulant #}
+                        <div class="absolute top-3 right-3">
+                            <div class="relative">
+                                <button onclick="toggleDropdown({{ announce.id }})" class="bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-sm hover:bg-white transition-all duration-200 text-gray-700 hover:text-indigo-600">
+                                    <span class="material-icons text-base">more_vert</span>
+                                </button>
+                                
+                                {# Menu déroulant #}
+                                <div id="dropdown-{{ announce.id }}" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+                                    <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Friend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <span class="material-icons text-gray-500 mr-2 text-sm">person_add</span>
+                                        <span>Add friend</span>
+                                    </a>
+                                    <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Blocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                        <span class="material-icons text-gray-500 mr-2 text-sm">block</span>
+                                        <span>Block</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="p-6 flex flex-col flex-grow">
@@ -163,6 +185,29 @@
             }
         }
     {% endfor %}
+    
+    // Fonction pour ouvrir/fermer le menu déroulant
+    function toggleDropdown(announceId) {
+        // Fermer tous les autres dropdowns
+        document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
+            if (dropdown.id !== `dropdown-${announceId}`) {
+                dropdown.classList.add('hidden');
+            }
+        });
+        
+        // Toggle le dropdown actuel
+        const dropdown = document.getElementById(`dropdown-${announceId}`);
+        dropdown.classList.toggle('hidden');
+    }
+    
+    // Fermer les dropdowns quand on clique ailleurs
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('button[onclick^="toggleDropdown"]')) {
+            document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
+                dropdown.classList.add('hidden');
+            });
+        }
+    });
 </script>
 {% endblock %}
 {% endblock %}
