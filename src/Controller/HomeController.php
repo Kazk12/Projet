@@ -108,4 +108,12 @@ final class HomeController extends AbstractController
             'updateForm' => $form->createView(),
         ]);
     }
+
+
+    #[Route('/profil', name: 'app_profil')]
+    public function profil(): Response
+    {
+        return $this->render('profil/profil.html.twig');
+    }
+
 }

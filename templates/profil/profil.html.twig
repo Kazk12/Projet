@@ -1,0 +1,177 @@
+{# filepath: /c:/Users/Dev404/Desktop/Symfony/Projet/templates/profil/profil.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Votre profil{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto">
+        {# En-tête du profil #}
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+            <div class="bg-indigo-600 p-6">
+                <div class="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center mb-4 sm:mb-0">
+                        <div class="h-20 w-20 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white text-3xl font-bold mr-4">
+                            {{ app.user.pseudo|slice(0, 1)|upper }}
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-white">
+                            Bienvenue, {{ app.user.pseudo }}
+                        </h1>
+                    </div>
+                    <div class="flex space-x-3">
+                        <a href="{{ path('app_user_update') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                            <span class="material-icons text-sm mr-1">edit</span>
+                            Modifier le profil
+                        </a>
+                        <a href="{{ path('app_logout') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                            <span class="material-icons text-sm mr-1">logout</span>
+                            Déconnexion
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Sections du profil #}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {# Mes annonces #}
+            <div class="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                <div class="bg-indigo-600 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <span class="material-icons mr-2">article</span>
+                        Mes annonces
+                    </h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <a href="{{ path('app_announce_mine') }}" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
+                        <span class="material-icons text-indigo-500 mr-2">visibility</span>
+                        Voir toutes mes annonces
+                    </a>
+                    <a href="{{ path('app_announce_new') }}" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
+                        <span class="material-icons text-indigo-500 mr-2">add_circle</span>
+                        Créer une nouvelle annonce
+                    </a>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Annonces actives</span>
+                            <span class="text-sm font-medium text-gray-800">5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Mes préférences #}
+            <div class="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                <div class="bg-indigo-600 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <span class="material-icons mr-2">favorite</span>
+                        Mes préférences
+                    </h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <a href="#" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
+                        <span class="material-icons text-indigo-500 mr-2">thumb_up</span>
+                        Voir tous mes likes
+                    </a>
+                    <a href="#" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
+                        <span class="material-icons text-indigo-500 mr-2">category</span>
+                        Voir mes catégories préférées
+                    </a>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Catégories populaires</span>
+                            <span class="text-sm font-medium text-gray-800">3</span>
+                        </div>
+                        <div class="mt-3">
+                            <div class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 mr-2">
+                                Action
+                            </div>
+                            <div class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                               Shonen
+                            </div>
+                             <div class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                               Isekai
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Moi et les autres #}
+            <div class="bg-white rounded-xl shadow-md overflow-hidden h-full">
+                <div class="bg-indigo-600 px-6 py-4">
+                    <h3 class="text-xl font-bold text-white flex items-center">
+                        <span class="material-icons mr-2">people</span>
+                        Moi et les autres
+                    </h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    <a href="#" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
+                        <span class="material-icons text-indigo-500 mr-2">group</span>
+                        Voir tous mes amis
+                    </a>
+                    <a href="#" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
+                        <span class="material-icons text-indigo-500 mr-2">block</span>
+                        Voir toutes les personnes bloquées
+                    </a>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex justify-between items-center mb-3">
+                            <span class="text-sm text-gray-500">Vos amis</span>
+                            <span class="text-xs font-medium text-indigo-600">Voir tout</span>
+                        </div>
+                        <div class="flex -space-x-2 overflow-hidden">
+                            <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-indigo-500 flex items-center justify-center text-xs text-white">
+                                JD
+                            </div>
+                            <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-gray-500 flex items-center justify-center text-xs text-white">
+                                MP
+                            </div>
+                            <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-indigo-400 flex items-center justify-center text-xs text-white">
+                                AB
+                            </div>
+                            <div class="inline-block h-8 w-8 rounded-full ring-2 ring-white bg-gray-600 flex items-center justify-center text-xs text-white">
+                                +3
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Activité récente #}
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mt-6">
+            <div class="bg-indigo-600 px-6 py-4">
+                <h3 class="text-xl font-bold text-white flex items-center">
+                    <span class="material-icons mr-2">history</span>
+                    Activité récente
+                </h3>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="flex items-start space-x-3">
+                        <span class="material-icons text-indigo-500">edit</span>
+                        <div>
+                            <p class="text-gray-800 text-sm">Modification de votre annonce</p>
+                            <p class="text-xs text-gray-500">Il y a 2 jours</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="material-icons text-indigo-500">thumb_up</span>
+                        <div>
+                            <p class="text-gray-800 text-sm">Nouveau like reçu</p>
+                            <p class="text-xs text-gray-500">Il y a 3 jours</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <span class="material-icons text-indigo-500">comment</span>
+                        <div>
+                            <p class="text-gray-800 text-sm">Nouveau commentaire</p>
+                            <p class="text-xs text-gray-500">Il y a 5 jours</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
