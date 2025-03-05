@@ -38,6 +38,7 @@ final class HomeController extends AbstractController
         $filter = new AnnounceFilter($user ? $user->getId() : null);
         $queryBuilder = $announceRepository->findByUserStatus($filter);
       
+        // dd($queryBuilder);
 
         $pagination = $paginator->paginate(
             $queryBuilder, 
