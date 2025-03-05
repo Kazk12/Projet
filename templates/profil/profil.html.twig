@@ -1,4 +1,4 @@
-{# filepath: /c:/Users/Dev404/Desktop/Symfony/Projet/templates/profil/profil.html.twig #}
+
 {% extends 'base.html.twig' %}
 
 {% block title %}Votre profil{% endblock %}
@@ -106,7 +106,7 @@
                     </h3>
                 </div>
                 <div class="p-6 space-y-4">
-                    <a href="#" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
+                    <a href="{{ path('friends') }}" class="flex items-center text-gray-800 hover:text-indigo-600 transition-colors duration-200">
                         <span class="material-icons text-indigo-500 mr-2">group</span>
                         Voir tous mes amis
                     </a>

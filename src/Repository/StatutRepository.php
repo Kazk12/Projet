@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\DTO\AnnounceFilter;
 use App\Entity\Statut;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,23 @@ class StatutRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Statut::class);
+    }
+
+
+   /**
+     * @return array
+     */
+    public function findFriendsByUser(AnnounceFilter $filter): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s', 'u.pseudo')
+            ->leftJoin('s.otherUser', 'u')
+            ->where('s.user = :userId')
+            ->andWhere('s.statut = :friend')
+            ->setParameter('userId', $filter->getUserId())
+            ->setParameter('friend', 'Friend')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

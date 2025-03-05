@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\DTO\AnnounceFilter;
 use App\Entity\Statut;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,6 +46,22 @@ final class StatutController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+    #[Route('/friends', name: 'friends', methods: ['GET'])]
+    public function friends(EntityManagerInterface $entityManager): Response
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $filter = new AnnounceFilter($user ? $user->getId() : null);
+        $friends = $entityManager->getRepository(Statut::class)->findFriendsByUser($filter);
+
+        return $this->render('friends/friends.html.twig', [
+            'friends' => $friends,
+        ]);
+    }
+    
 
 
     
