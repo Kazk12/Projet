@@ -1,45 +1,127 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Update Profile{% endblock %}
+{% block title %}Modifier votre profil{% endblock %}
 
 {% block body %}
-    <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
-            <div>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    Update your profile
-                </h2>
-                {% for message in app.flashes('success') %}
-                    <div class="mt-2 text-center text-sm text-green-600">
-                        {{ message }}
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto">
+        {# En-tête #}
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+            <div class="bg-indigo-600 p-6">
+                <div class="flex flex-col items-center sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center mb-4 sm:mb-0">
+                        <div class="h-16 w-16 rounded-full bg-white/30 backdrop-blur-sm flex items-center justify-center text-white text-2xl font-bold mr-4">
+                            {{ app.user.pseudo|slice(0, 1)|upper }}
+                        </div>
+                        <h1 class="text-xl sm:text-2xl font-bold text-white">
+                            {{ app.user.pseudo }}
+                        </h1>
                     </div>
-                {% endfor %}
+                </div>
             </div>
-            {{ form_start(updateForm, {'attr': {'class': 'mt-8 space-y-6'}}) }}
-                <div class="rounded-md shadow-sm -space-y-px">
-                    <div>
-                        {{ form_label(updateForm.email, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(updateForm.email, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Email address', 'value': app.user.email}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(updateForm.pseudo, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(updateForm.pseudo, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Pseudo', 'value': app.user.pseudo}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(updateForm.plainPassword.first, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(updateForm.plainPassword.first, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Password'}}) }}
-                    </div>
-                    <div>
-                        {{ form_label(updateForm.plainPassword.second, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(updateForm.plainPassword.second, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Repeat Password'}}) }}
-                    </div>
-                </div>
-                <div>
-                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        Update
-                    </button>
-                </div>
-            {{ form_end(updateForm) }}
         </div>
+
+        {{ form_start(updateForm, {'attr': {'class': 'space-y-8'}}) }}
+            {# Section profil #}
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h2 class="text-lg font-medium text-gray-900">Informations du profil</h2>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Modifiez vos informations personnelles
+                    </p>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                            Adresse email
+                        </label>
+                        {{ form_widget(updateForm.email, {
+                            'attr': {
+                                'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                'placeholder': 'Email',
+                                'value': app.user.email
+                            }
+                        }) }}
+                        {{ form_errors(updateForm.email, {'attr': {'class': 'text-xs text-red-500 mt-1'}}) }}
+                    </div>
+
+                    <div>
+                        <label for="pseudo" class="block text-sm font-medium text-gray-700 mb-1">
+                            Pseudo
+                        </label>
+                        {{ form_widget(updateForm.pseudo, {
+                            'attr': {
+                                'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                'placeholder': 'Pseudo',
+                                'value': app.user.pseudo
+                            }
+                        }) }}
+                        {{ form_errors(updateForm.pseudo, {'attr': {'class': 'text-xs text-red-500 mt-1'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            {# Section mot de passe #}
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h2 class="text-lg font-medium text-gray-900">Modification du mot de passe</h2>
+                    <p class="mt-1 text-sm text-gray-500">
+                        Pour changer votre mot de passe, veuillez confirmer votre email et saisir un nouveau mot de passe
+                    </p>
+                </div>
+
+                <div class="p-6 space-y-4">
+                    <div>
+                        <label for="emailPassword" class="block text-sm font-medium text-gray-700 mb-1">
+                            Confirmation de votre email
+                        </label>
+                        {{ form_widget(updateForm.emailPassword, {
+                            'attr': {
+                                'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                'placeholder': 'Entrez votre email pour confirmer'
+                            }
+                        }) }}
+                        {{ form_errors(updateForm.emailPassword, {'attr': {'class': 'text-xs text-red-500 mt-1'}}) }}
+                    </div>
+
+                    <div>
+                        <label for="newPassword_first" class="block text-sm font-medium text-gray-700 mb-1">
+                            Nouveau mot de passe
+                        </label>
+                        {{ form_widget(updateForm.newPassword.first, {
+                            'attr': {
+                                'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                'placeholder': 'Nouveau mot de passe'
+                            }
+                        }) }}
+                        {{ form_errors(updateForm.newPassword.first, {'attr': {'class': 'text-xs text-red-500 mt-1'}}) }}
+                    </div>
+
+                    <div>
+                        <label for="newPassword_second" class="block text-sm font-medium text-gray-700 mb-1">
+                            Confirmation du nouveau mot de passe
+                        </label>
+                        {{ form_widget(updateForm.newPassword.second, {
+                            'attr': {
+                                'class': 'block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm',
+                                'placeholder': 'Confirmer le nouveau mot de passe'
+                            }
+                        }) }}
+                        {{ form_errors(updateForm.newPassword.second, {'attr': {'class': 'text-xs text-red-500 mt-1'}}) }}
+                    </div>
+                </div>
+            </div>
+
+            {# Bouton de soumission #}
+            <div class="flex justify-end">
+                <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="material-icons text-sm mr-2">save</span>
+                    Mettre à jour le profil
+                </button>
+            </div>
+        {{ form_end(updateForm) }}
     </div>
+</div>
 {% endblock %}

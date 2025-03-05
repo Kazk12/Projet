@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class UpdateUserType extends AbstractType
 {
@@ -24,19 +25,41 @@ class UpdateUserType extends AbstractType
                 'label' => 'Email',
                 'attr' => ['class' => 'form-control'],
             ])
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'first_options' => [
-                    'label' => 'Password',
-                    'attr' => ['class' => 'form-control'],
+            ->add('emailPassword', EmailType::class, [
+                'required' => false,
+                'mapped' => false,
+                'label' => 'Email',
+                'attr' => [
+                    'id' => 'email',
+                    'class' => 'form-control',
                 ],
-                'second_options' => [
-                    'label' => 'Repeat Password',
-                    'attr' => ['class' => 'form-control'],
-                ],
-                'invalid_message' => 'The password fields must match.',
+            ])
+            ->add('newPassword', RepeatedType::class, [
                 'mapped' => false,
                 'required' => false,
+                'type' => PasswordType::class,
+                'first_options' => [
+                    'label' => 'New Password',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'id' => 'password',
+                    ],
+                ],
+                'second_options' => [
+                    'label' => 'Confirm New Password',
+                    'attr' => [
+                        'class' => 'form-control',
+                        'id' => 'password_repeat',
+                    ],
+                ],
+                'invalid_message' => 'The password fields must match.',
+                'constraints' => [
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'max' => 4096,
+                    ]),
+                ],
             ]);
     }
 

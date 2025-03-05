@@ -18,15 +18,12 @@ class UpdateProfil implements UpdateProfilInterface
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function updateProfil(User $user, string $pseudo, string $email, string $plainPassword): void
+    public function updateProfil(User $user, string $pseudo, string $email): void
     {
         $user->setPseudo($pseudo);
         $user->setEmail($email);
 
-        if (!empty($plainPassword)) {
-            $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
-            $user->setPassword($hashedPassword);
-        }
+       
 
         $this->entityManager->flush();
     }

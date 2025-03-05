@@ -80,6 +80,7 @@ final class HomeController extends AbstractController
     #[Route('/update', name: 'app_user_update')]
     public function update(
         EntityManagerInterface $entityManager,
+        PasswordUpdaterInterface $passwordUpdater,
         UpdateProfilInterface $updateProfilService,
         Request $request
 
@@ -95,10 +96,26 @@ final class HomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $pseudo = $form->get('pseudo')->getData();
-            $plainPassword = $form->get('plainPassword')->getData(); 
             $email = $form->get('email')->getData();
+
+
             
-            $updateProfilService->updateProfil($user, $pseudo, $email, $plainPassword);
+
+            $emailPassword = $form->get('emailPassword')->getData();
+            $newPassword = $form->get('newPassword')->getData();
+
+
+
+          
+
+            if ($emailPassword && $newPassword) {
+                $passwordUpdater->updatePassword($user, $emailPassword, $newPassword);
+            } elseif ($emailPassword || $newPassword) {
+                $this->addFlash('danger', 'Email and password must be filled together to change password.');
+            }
+
+
+            $updateProfilService->updateProfil($user, $pseudo, $email);
             $this->addFlash('success', 'User updated successfully.');
             
             return $this->redirectToRoute('app_user_update');
