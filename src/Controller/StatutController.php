@@ -57,8 +57,23 @@ final class StatutController extends AbstractController
         $filter = new AnnounceFilter($user ? $user->getId() : null);
         $friends = $entityManager->getRepository(Statut::class)->findFriendsByUser($filter);
 
-        return $this->render('friends/friends.html.twig', [
+        return $this->render('statut/friends.html.twig', [
             'friends' => $friends,
+        ]);
+    }
+
+    #[Route('/blocked', name: 'blocked', methods: ['GET'])]
+    public function blocked(EntityManagerInterface $entityManager): Response
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        $filter = new AnnounceFilter($user ? $user->getId() : null);
+        $blocked = $entityManager->getRepository(Statut::class)->findBlockedByUser($filter);
+
+        return $this->render('statut/blocked.html.twig', [
+            'blocked' => $blocked,
         ]);
     }
     

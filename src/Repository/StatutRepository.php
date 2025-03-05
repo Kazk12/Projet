@@ -18,8 +18,11 @@ class StatutRepository extends ServiceEntityRepository
     }
 
 
-   /**
-     * @return array
+  /**
+     * Récupère les utilisateurs amis de l'utilisateur courant
+     * 
+     * @param AnnounceFilter 
+     * @return array 
      */
     public function findFriendsByUser(AnnounceFilter $filter): array
     {
@@ -30,6 +33,25 @@ class StatutRepository extends ServiceEntityRepository
             ->andWhere('s.statut = :friend')
             ->setParameter('userId', $filter->getUserId())
             ->setParameter('friend', 'Friend')
+            ->getQuery()
+            ->getResult();
+    }
+    
+    /**
+     * Récupère les utilisateurs bloqués par l'utilisateur courant
+     * 
+     * @param AnnounceFilter 
+     * @return array 
+     */
+    public function findBlockedByUser(AnnounceFilter $filter): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s', 'u.pseudo')
+            ->leftJoin('s.otherUser', 'u')
+            ->where('s.user = :userId')
+            ->andWhere('s.statut = :blocked')
+            ->setParameter('userId', $filter->getUserId())
+            ->setParameter('blocked', 'Blocked')
             ->getQuery()
             ->getResult();
     }
