@@ -55,8 +55,10 @@
                                         <span class="material-icons text-sm mr-1">block</span>
                                         Bloquer
                                     </a>
-                                    {# href="{{ path('app_message_send', {id: friend.id}) }}" #}
-                                    <a  class="inline-flex items-center text-xs text-gray-800 hover:text-indigo-600">
+                                    
+
+                                    
+                                    <a href="{{ path('conversation.show', { 'recipient': friend.id }) }}"    class="inline-flex items-center text-xs text-gray-800 hover:text-indigo-600">
                                         <span class="material-icons text-sm mr-1">chat</span>
                                         Message
                                     </a>

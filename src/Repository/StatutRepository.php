@@ -27,7 +27,7 @@ class StatutRepository extends ServiceEntityRepository
     public function findFriendsByUser(AnnounceFilter $filter): array
     {
         return $this->createQueryBuilder('s')
-            ->select('s', 'u.pseudo')
+            ->select( 'u.pseudo', 'u.id')
             ->leftJoin('s.otherUser', 'u')
             ->where('s.user = :userId')
             ->andWhere('s.statut = :friend')

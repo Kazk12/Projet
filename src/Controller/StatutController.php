@@ -56,6 +56,7 @@ final class StatutController extends AbstractController
         $user = $this->getUser();
         $filter = new AnnounceFilter($user ? $user->getId() : null);
         $friends = $entityManager->getRepository(Statut::class)->findFriendsByUser($filter);
+        
 
         return $this->render('statut/friends.html.twig', [
             'friends' => $friends,
