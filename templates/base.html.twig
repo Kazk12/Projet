@@ -1,153 +1,155 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
-        
-        {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('styles/app.css') }}" />
-            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-        {% endblock %}
-        {% block style %}
-        {% endblock %}
-         <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js" integrity="sha384-fw+eTlCc7suMV/1w/7fr2/PmwElUIt5i82bi+qTiLXvjRXZ2/FkiTNA/w0MhXnGI" crossorigin="anonymous"></script>
-    </head>
-    <body>
-        <header id="header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
-            <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-                <a class="brand logo-brand text-indigo-600 text-2xl font-bold" href="/">MyApp</a>
-                <div class="flex items-center space-x-4">
-                    <nav class="hidden md:flex space-x-6">
-                        <ul class="flex items-center space-x-2 md:space-x-4">
-                            <li>
-                                <a href="{{ path('app_home') }}" class="px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200 font-medium flex items-center">
-                                    <span class="material-icons text-sm mr-1">home</span>
-                                    <span>Accueil</span>
-                                </a>
-                            </li>
-                            {% if not app.user %}
-                                <li>
-                                    <a href="{{ path('app_login') }}" class="px-3 py-2 border border-transparent rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200 font-medium flex items-center">
-                                        <span class="material-icons text-sm mr-1">login</span>
-                                        <span>Connexion</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('app_register') }}" class="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200 font-medium flex items-center shadow-sm">
-                                        <span class="material-icons text-sm mr-1">person_add</span>
-                                        <span>Inscription</span>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a href="{{ path('app_profil') }}" class="px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200 font-medium flex items-center">
-                                        <span class="material-icons text-sm mr-1">account_circle</span>
-                                        <span>Profil</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('app_logout') }}" class="px-3 py-2 border border-gray-300 rounded-md text-gray-700 hover:text-indigo-600 hover:border-indigo-600 transition-all duration-200 font-medium flex items-center">
-                                        <span class="material-icons text-sm mr-1">logout</span>
-                                        <span>Déconnexion</span>
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                    <div class="md:hidden">
-                        <button id="mobile-menu-button" class="text-gray-700 hover:text-indigo-600 focus:outline-none p-2 rounded-md hover:bg-gray-50 transition-all duration-200">
-                            <span class="material-icons">menu</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <nav id="mobile-menu" class="hidden md:hidden px-4 pt-4 pb-6 space-y-2 border-t border-gray-100">
-                <ul class="space-y-2">
-                    <li>
-                        <a href="{{ path('app_home') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
-                            <span class="material-icons mr-3">home</span>
-                            <span>Accueil</span>
-                        </a>
-                    </li>
-                    {% if not app.user %}
-                        <li>
-                            <a href="{{ path('app_login') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
-                                <span class="material-icons mr-3">login</span>
-                                <span>Connexion</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('app_register') }}" class="flex items-center p-2 mt-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200">
-                                <span class="material-icons mr-3">person_add</span>
-                                <span>Inscription</span>
-                            </a>
-                        </li>
-                    {% else %}
-                        <li>
-                            <a href="{{ path('app_profil') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
-                                <span class="material-icons mr-3">account_circle</span>
-                                <span>Profil</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ path('app_logout') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
-                                <span class="material-icons mr-3">logout</span>
-                                <span>Déconnexion</span>
-                            </a>
-                        </li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </header>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>
+			{% block title %}Welcome!
+			{% endblock %}
+		</title>
+		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
 
-        <div class="base">
-            <!-- Page -->
-            {% include "partials/flash.html.twig" %}
-            <div class="page">
-                {% block body %}{% endblock %}
-            </div>
-        </div>
+		{% block stylesheets %}
+			<link rel="stylesheet" href="{{ asset('styles/app.css') }}"/>
+			<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+		{% endblock %}
+		{% block style %}{% endblock %}
+		<script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+		<script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js" integrity="sha384-fw+eTlCc7suMV/1w/7fr2/PmwElUIt5i82bi+qTiLXvjRXZ2/FkiTNA/w0MhXnGI" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<header id="header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+			<div class="container mx-auto px-4 py-4 flex justify-between items-center">
+				<a class="brand logo-brand text-indigo-600 text-2xl font-bold" href="/">MyApp</a>
+				<div class="flex items-center space-x-4">
+					<nav class="hidden md:flex space-x-6">
+						<ul class="flex items-center space-x-2 md:space-x-4">
+							<li>
+								<a href="{{ path('app_home') }}" class="px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200 font-medium flex items-center">
+									<span class="material-icons text-sm mr-1">home</span>
+									<span>Accueil</span>
+								</a>
+							</li>
+							<li>
+								<a href="{{ path('app_search') }}" class="inline-flex items-center px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200 font-medium">
+									<span class="material-icons text-sm mr-1">search</span>
+									<span>Recherche avancée</span>
+								</a>
+							</li>
+							{% if not app.user %}
+								<li>
+									<a href="{{ path('app_login') }}" class="px-3 py-2 border border-transparent rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200 font-medium flex items-center">
+										<span class="material-icons text-sm mr-1">login</span>
+										<span>Connexion</span>
+									</a>
+								</li>
+								<li>
+									<a href="{{ path('app_register') }}" class="px-4 py-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200 font-medium flex items-center shadow-sm">
+										<span class="material-icons text-sm mr-1">person_add</span>
+										<span>Inscription</span>
+									</a>
+								</li>
+							{% else %}
+								<li>
+									<a href="{{ path('app_profil') }}" class="px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200 font-medium flex items-center">
+										<span class="material-icons text-sm mr-1">account_circle</span>
+										<span>Profil</span>
+									</a>
+								</li>
+								<li>
+									<a href="{{ path('app_logout') }}" class="px-3 py-2 border border-gray-300 rounded-md text-gray-700 hover:text-indigo-600 hover:border-indigo-600 transition-all duration-200 font-medium flex items-center">
+										<span class="material-icons text-sm mr-1">logout</span>
+										<span>Déconnexion</span>
+									</a>
+								</li>
+							{% endif %}
+						</ul>
+					</nav>
+					<div class="md:hidden">
+						<button id="mobile-menu-button" class="text-gray-700 hover:text-indigo-600 focus:outline-none p-2 rounded-md hover:bg-gray-50 transition-all duration-200">
+							<span class="material-icons">menu</span>
+						</button>
+					</div>
+				</div>
+			</div>
+			<nav id="mobile-menu" class="hidden md:hidden px-4 pt-4 pb-6 space-y-2 border-t border-gray-100">
+				<ul class="space-y-2">
+					<li>
+						<a href="{{ path('app_home') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
+							<span class="material-icons mr-3">home</span>
+							<span>Accueil</span>
+						</a>
+					</li>
+					{% if not app.user %}
+						<li>
+							<a href="{{ path('app_login') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
+								<span class="material-icons mr-3">login</span>
+								<span>Connexion</span>
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('app_register') }}" class="flex items-center p-2 mt-2 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200">
+								<span class="material-icons mr-3">person_add</span>
+								<span>Inscription</span>
+							</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="{{ path('app_profil') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
+								<span class="material-icons mr-3">account_circle</span>
+								<span>Profil</span>
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('app_logout') }}" class="flex items-center p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-50 transition-all duration-200">
+								<span class="material-icons mr-3">logout</span>
+								<span>Déconnexion</span>
+							</a>
+						</li>
+					{% endif %}
+				</ul>
+			</nav>
+		</header>
 
-        {% block js %}
-        <script>
-            // Toggle mobile menu
-            document.getElementById('mobile-menu-button').addEventListener('click', function() {
-                const menu = document.getElementById('mobile-menu');
-                menu.classList.toggle('hidden');
-            });
+		<div
+			class="base">
+			<!-- Page -->
+			{% include "partials/flash.html.twig" %}
+			<div class="page"> {% block body %}{% endblock %}
+				</div>
+			</div>
 
-            // Header scroll effect
-            const header = document.getElementById('header');
-            let lastScrollTop = 0;
-            
-            window.addEventListener('scroll', function() {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                if (scrollTop > 50) {
-                    // Scrolling down past threshold
-                    header.classList.add('bg-white/80', 'backdrop-blur-sm');
-                    header.classList.remove('bg-white');
-                    
-                    if (scrollTop > lastScrollTop) {
-                        // Scrolling down
-                        header.classList.add('py-2');
-                        header.classList.remove('py-4');
-                    } else {
-                        // Scrolling up
-                        header.classList.add('shadow-md');
-                    }
-                } else {
-                    // At the top
-                    header.classList.add('bg-white', 'py-4', 'shadow-md');
-                    header.classList.remove('bg-white/80', 'backdrop-blur-sm', 'py-2');
-                }
-                
-                lastScrollTop = scrollTop;
-            });
-        </script>
-        {% endblock %}
-    </body>
-</html>
+			{% block js %}
+				<script>
+					// Toggle mobile menu
+document.getElementById('mobile-menu-button').addEventListener('click', function () {
+const menu = document.getElementById('mobile-menu');
+menu.classList.toggle('hidden');
+});
+
+// Header scroll effect
+const header = document.getElementById('header');
+let lastScrollTop = 0;
+
+window.addEventListener('scroll', function () {
+const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+if (scrollTop > 50) { // Scrolling down past threshold
+header.classList.add('bg-white/80', 'backdrop-blur-sm');
+header.classList.remove('bg-white');
+
+if (scrollTop > lastScrollTop) { // Scrolling down
+header.classList.add('py-2');
+header.classList.remove('py-4');
+} else { // Scrolling up
+header.classList.add('shadow-md');
+}
+} else { // At the top
+header.classList.add('bg-white', 'py-4', 'shadow-md');
+header.classList.remove('bg-white/80', 'backdrop-blur-sm', 'py-2');
+} lastScrollTop = scrollTop;
+});
+				</script>
+			{% endblock %}
+		</body>
+	</html>

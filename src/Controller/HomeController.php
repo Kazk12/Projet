@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\AnnounceFilter;
+use App\DTO\SearchCriteria;
 use App\Entity\Comment;
 use App\Form\UpdateUserType;
 use App\Interfaces\PasswordUpdaterInterface;
@@ -11,6 +12,7 @@ use App\Form\CommentType;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Interfaces\CommentFormServiceInterface;
+use App\Interfaces\SearchServiceInterface;
 use App\Interfaces\UpdateProfilInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -133,4 +135,52 @@ final class HomeController extends AbstractController
         return $this->render('profil/profil.html.twig');
     }
 
+    
+  
+  
+    
+    #[Route('/search', name: 'app_search')]
+    public function search(
+        Request $request,
+        PaginatorInterface $paginator,
+        SearchServiceInterface $searchService,
+        CommentFormServiceInterface $commentFormService
+    ): Response {
+        /** @var User $user */
+        $user = $this->getUser();
+        
+        // Création du DTO pour les critères de recherche
+        $searchCriteria = new SearchCriteria(
+            $request->query->get('query'),
+            $request->query->get('genre'),
+            $user ? $user->getId() : null
+        );
+        
+        // Utilisation du service pour obtenir le queryBuilder
+        $queryBuilder = $searchService->getSearchQueryBuilder($searchCriteria);
+        
+        // Pagination des résultats
+        $pagination = $paginator->paginate(
+            $queryBuilder,
+            $request->query->getInt('page', 1),
+            6
+        );
+        
+        // Génération des formulaires de commentaire
+        $commentForms = [];
+        foreach ($pagination as $announce) {
+            $commentForms[$announce->getId()] = $commentFormService->createCommentForm($announce)->createView();
+        }
+        
+        // Récupération des genres pour le filtre
+        $genres = $searchService->getAllGenres();
+        
+        return $this->render('home/search.html.twig', [
+            'pagination' => $pagination,
+            'comment_forms' => $commentForms,
+            'query' => $searchCriteria->getQuery(),
+            'selected_genre' => $searchCriteria->getGenre(),
+            'genres' => $genres,
+        ]);
+    }
 }
