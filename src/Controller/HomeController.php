@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\AnnounceFilter;
 use App\DTO\SearchCriteria;
+use App\Entity\Announce;
 use App\Entity\Comment;
 use App\Form\UpdateUserType;
 use App\Interfaces\PasswordUpdaterInterface;
@@ -37,11 +38,9 @@ final class HomeController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-        $filter = new AnnounceFilter($user ? $user->getId() : null);
-        $queryBuilder = $announceRepository->findByUserStatus($filter);
+        
+        $queryBuilder = $announceRepository->findByUserStatus();
       
-        // dd($queryBuilder);
-
         $pagination = $paginator->paginate(
             $queryBuilder, 
             $request->query->getInt('page', 1), 
@@ -129,11 +128,7 @@ final class HomeController extends AbstractController
     }
 
 
-    #[Route('/profil', name: 'app_profil')]
-    public function profil(): Response
-    {
-        return $this->render('profil/profil.html.twig');
-    }
+    
 
     
   

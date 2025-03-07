@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Services;
 
 use App\DTO\SearchCriteria;
@@ -23,7 +22,7 @@ class SearchService implements SearchServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Récupère un QueryBuilder pour la recherche selon les critères
      */
     public function getSearchQueryBuilder(SearchCriteria $criteria): QueryBuilder
     {
@@ -35,7 +34,7 @@ class SearchService implements SearchServiceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Récupère tous les genres pour le filtre
      */
     public function getAllGenres(): array
     {

@@ -1,216 +1,208 @@
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Découvrez les dernières critiques{% endblock %}
+{% block title %}Découvrez les dernières critiques
+{% endblock %}
 
 {% block body %}
-<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span class="block">Découvrez les dernières</span>
-                <span class="block text-indigo-600">Critiques Littéraires</span>
-            </h1>
-            
-            <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                Explorez les avis de notre communauté sur leurs lectures préférées
-            </p>
-        </div>
+	<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+		<div class="max-w-7xl mx-auto">
+			<div class="text-center mb-12">
+				<h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
+					<span class="block">Découvrez les dernières</span>
+					<span class="block text-indigo-600">Critiques Littéraires</span>
+				</h1>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for announce in pagination %}
-                <article class="bg-white shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col">
-                    {# Image Container #}
-                    <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100">
-                        {% if vich_uploader_asset(announce, 'thumbnailFile') %}
-                            <img 
-                                src="{{ vich_uploader_asset(announce, 'thumbnailFile') }}" 
-                                alt="Couverture du livre {{ announce.book.title }}" 
-                                class="w-full h-full object-cover"
-                                loading="lazy"
-                            >
-                        {% else %}
-                            <div class="w-full h-full flex items-center justify-center">
-                                <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
-                            </div>
-                        {% endif %}
-                        
-                        {# Ajout des trois points avec menu déroulant #}
-                        <div class="absolute top-3 right-3">
-                            <div class="relative">
-                                <button onclick="toggleDropdown({{ announce.id }})" class="bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-sm hover:bg-white transition-all duration-200 text-gray-700 hover:text-indigo-600">
-                                    <span class="material-icons text-base">more_vert</span>
-                                </button>
-                                
-                                {# Menu déroulant #}
-                                <div id="dropdown-{{ announce.id }}" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                                    <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Friend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <span class="material-icons text-gray-500 mr-2 text-sm">person_add</span>
-                                        <span>Add friend</span>
-                                    </a>
-                                    <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Blocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        <span class="material-icons text-gray-500 mr-2 text-sm">block</span>
-                                        <span>Block</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+				<p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
+					Explorez les avis de notre communauté sur leurs lectures préférées
+				</p>
+			</div>
 
-                    <div class="p-6 flex flex-col flex-grow">
-                        {# Book Title & Rating #}
-                        <div class="flex items-start justify-between mb-4">
-                            <h2 class="text-xl font-bold text-gray-900 line-clamp-2">{{ announce.book.title }}</h2>
-                            <div class="flex items-center space-x-1 ml-4">
-                                {% for i in 1..5 %}
-                                    {% if i <= announce.rate %}
-                                        <svg class="w-5 h-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
-                                        </svg>
-                                    {% else %}
-                                        <svg class="w-5 h-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                        </svg>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+				{% for announce in pagination %}
+					<article
+						class="bg-white shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col">
+						{# Image Container #}
+						<div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100">
+							{% if vich_uploader_asset(announce, 'thumbnailFile') %}
+								<img src="{{ vich_uploader_asset(announce, 'thumbnailFile') }}" alt="Couverture du livre {{ announce.book.title }}" class="w-full h-full object-cover" loading="lazy">
+							{% else %}
+								<div class="w-full h-full flex items-center justify-center">
+									<svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+									</svg>
+								</div>
+							{% endif %}
 
-                        {# Review Content #}
-                        <p class="text-gray-600 line-clamp-3 mb-4">{{ announce.content }}</p>
+							{# Ajout des trois points avec menu déroulant #}
+							<div class="absolute top-3 right-3">
+								<div class="relative">
+									<button onclick="toggleDropdown({{ announce.id }})" class="bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-sm hover:bg-white transition-all duration-200 text-gray-700 hover:text-indigo-600">
+										<span class="material-icons text-base">more_vert</span>
+									</button>
 
-                        {# Comments Section #}
-                        <div class="mt-4 space-y-3">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-sm font-medium text-gray-900">Commentaires ({{ announce.comments|length }})</h3>
-                                <button onclick="toggleComments_{{ announce.id }}()" class="text-sm text-indigo-600 hover:text-indigo-900">
-                                    Voir les commentaires
-                                </button>
-                            </div>
+									{# Menu déroulant #}
+									<div id="dropdown-{{ announce.id }}" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
+										<a href="{{ path('app_statut', {id: announce.user.id, statut: 'Friend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+											<span class="material-icons text-gray-500 mr-2 text-sm">person_add</span>
+											<span>Add friend</span>
+										</a>
+										<a href="{{ path('app_statut', {id: announce.user.id, statut: 'Blocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+											<span class="material-icons text-gray-500 mr-2 text-sm">block</span>
+											<span>Block</span>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
 
-                            
-                            <div id="comments_{{ announce.id }}" class="hidden space-y-3">
-                                {% if announce.comments|length > 0 %}
-                                    {% for comment in announce.comments|slice(0, 3) %}
-                                        <div class="bg-gray-50 rounded-lg p-3">
-                                            <div class="flex items-start space-x-3">
-                                                <div class="flex-shrink-0">
-                                                    <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100">
-                                                        <span class="text-xs font-medium leading-none text-indigo-700">
-                                                            {{ comment.user.pseudo|slice(0, 1)|upper }}
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                                <div class="min-w-0 flex-1">
-                                                    <div class="flex items-center justify-between">
-                                                        <p class="text-sm font-medium text-gray-900">
-                                                            {{ comment.user.pseudo }}
-                                                        </p>
-                                                        <p class="text-xs text-gray-500">
-                                                            {{ comment.createdAt ? comment.createdAt|date('d/m/Y H:i') : '' }}
-                                                        </p>
-                                                    </div>
-                                                    <p class="text-sm text-gray-600 mt-1">
-                                                        {{ comment.content }}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    {% endfor %}
-                                    
-                                    {% if announce.comments|length > 3 %}
-                                        <a href="{{ path('app_announce_show', {'id': announce.id}) }}" 
-                                           class="text-sm text-center block text-indigo-600 hover:text-indigo-900">
-                                            Voir tous les commentaires ({{ announce.comments|length }})
-                                        </a>
-                                    {% endif %}
-                                {% else %}
-                                    <p class="text-sm text-gray-500 text-center">
-                                        Aucun commentaire pour le moment
-                                    </p>
-                                {% endif %}
-                            </div>
-                        </div>
+						<div
+							class="p-6 flex flex-col flex-grow">
+							{# Book Title & Rating #}
+							<div class="flex items-start justify-between mb-4">
+								<h2 class="text-xl font-bold text-gray-900 line-clamp-2">{{ announce.book.title }}</h2>
+								<div class="flex items-center space-x-1 ml-4">
+									{% for i in 1..5 %}
+										{% if i <= announce.rate %}
+											<svg class="w-5 h-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 24 24" fill="currentColor">
+												<path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd"/>
+											</svg>
+										{% else %}
+											<svg class="w-5 h-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+												<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+											</svg>
+										{% endif %}
+									{% endfor %}
+								</div>
+							</div>
 
-                        {# Comment Form #}
-                        <div class="mt-4">
-                            {{ form_start(comment_forms[announce.id]) }}
-                            {{ form_widget(comment_forms[announce.id]) }}
-                            <button type="submit" class="mt-2 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Ajouter un commentaire
-                            </button>
-                            {{ form_end(comment_forms[announce.id]) }}
-                        </div>
+							{# Review Content #}
+							<p class="text-gray-600 line-clamp-3 mb-4">{{ announce.content }}</p>
 
-                        {# User Info & Action #}
-                        <div class="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
-                                        <span class="text-sm font-medium leading-none text-indigo-700">
-                                            {{ announce.user.pseudo|slice(0, 1)|upper }}
-                                        </span>
-                                    </span>
-                                </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-900">{{ announce.user.pseudo }}</p>
-                                </div>
-                            </div>
-                            <a href="{{ path('app_announce_show', {'id': announce.id}) }}" 
-                               class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Lire plus
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
+							{# Comments Section #}
+							<div class="mt-4 space-y-3">
+								<div class="flex items-center justify-between">
+									<h3 class="text-sm font-medium text-gray-900">Commentaires ({{ announce.comments|length }})</h3>
+									<button onclick="toggleComments_{{ announce.id }}()" class="text-sm text-indigo-600 hover:text-indigo-900">
+										Voir les commentaires
+									</button>
+								</div>
 
-        <div class="mt-12">
-            {{ knp_pagination_render(pagination, 'pagination/custom_pagination.html.twig') }}
-        </div>
-    </div>
-</div>
 
-{% block javascripts %}
+								<div id="comments_{{ announce.id }}" class="hidden space-y-3">
+									{% if announce.comments|length > 0 %}
+										{% for comment in announce.comments|slice(0, 3) %}
+											<div class="bg-gray-50 rounded-lg p-3">
+												<div class="flex items-start space-x-3">
+													<div class="flex-shrink-0">
+														<span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100">
+															<span class="text-xs font-medium leading-none text-indigo-700">
+																{{ comment.user.pseudo|slice(0, 1)|upper }}
+															</span>
+														</span>
+													</div>
+													<div class="min-w-0 flex-1">
+														<div class="flex items-center justify-between">
+															<p class="text-sm font-medium text-gray-900">
+																{{ comment.user.pseudo }}
+															</p>
+															<p class="text-xs text-gray-500">
+																{{ comment.createdAt ? comment.createdAt|date('d/m/Y H:i') : '' }}
+															</p>
+														</div>
+														<p class="text-sm text-gray-600 mt-1">
+															{{ comment.content }}
+														</p>
+													</div>
+												</div>
+											</div>
+										{% endfor %}
+
+										{% if announce.comments|length > 3 %}
+											<a href="{{ path('app_announce_show', {'id': announce.id}) }}" class="text-sm text-center block text-indigo-600 hover:text-indigo-900">
+												Voir tous les commentaires ({{ announce.comments|length }})
+											</a>
+										{% endif %}
+									{% else %}
+										<p class="text-sm text-gray-500 text-center">
+											Aucun commentaire pour le moment
+										</p>
+									{% endif %}
+								</div>
+							</div>
+
+							{# Comment Form #}
+							<div class="mt-4">
+								{{ form_start(comment_forms[announce.id]) }}
+								{{ form_widget(comment_forms[announce.id]) }}
+								<button type="submit" class="mt-2 inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+									Ajouter un commentaire
+								</button>
+								{{ form_end(comment_forms[announce.id]) }}
+							</div>
+
+							{# User Info & Action #}
+							<div class="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
+								<div class="flex items-center">
+									<div class="flex-shrink-0">
+										<span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
+											<span class="text-sm font-medium leading-none text-indigo-700">
+												{{ announce.user.pseudo|slice(0, 1)|upper }}
+											</span>
+										</span>
+									</div>
+									<div class="ml-3">
+										<p class="text-sm font-medium text-gray-900">{{ announce.user.pseudo }}</p>
+									</div>
+								</div>
+								<div
+									class="flex space-x-2">
+									{# Like button #}
+									<a href="{{ path('app_announce_like', {'id': announce.id, 'page': app.request.query.get('page', 1)}) }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-700 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+										<span class="material-icons text-sm mr-1">thumb_up</span>
+										{{ announce.likes|default(0) }}
+									</a>
+									<a href="{{ path('app_announce_show', {'id': announce.id}) }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+										Lire plus
+									</a>
+								</div>
+							</div>
+						</article>
+					{% endfor %}
+				</div>
+
+				<div class="mt-12">
+					{{ knp_pagination_render(pagination, 'pagination/custom_pagination.html.twig') }}
+				</div>
+			</div>
+		</div>
+
+		{% block javascripts %}
 <script>
     {% for announce in pagination %}
-
     // Fonction pour ouvrir et fermer 'voir les commentaires'
-
-        function toggleComments_{{ announce.id }}() {
-            const commentsDiv = document.getElementById('comments_{{ announce.id }}');
-            if (commentsDiv.classList.contains('hidden')) {
-                commentsDiv.classList.remove('hidden');
-            } else {
-                commentsDiv.classList.add('hidden');
-            }
+    function toggleComments_{{ announce.id }}() {
+        const commentsDiv = document.getElementById('comments_{{ announce.id }}');
+        if (commentsDiv.classList.contains('hidden')) {
+            commentsDiv.classList.remove('hidden');
+        } else {
+            commentsDiv.classList.add('hidden');
         }
+    }
     {% endfor %}
-    
-    
-    // fonction pour ouvrir et fermer le menu déroulant afin d'ajouter en amis ou bloquer les utilisateurs
 
+    // Fonction pour ouvrir et fermer le menu déroulant afin d'ajouter en amis ou bloquer les utilisateurs
     function toggleDropdown(announceId) {
-       
         document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
             if (dropdown.id !== `dropdown-${announceId}`) {
                 dropdown.classList.add('hidden');
             }
         });
-        
-        
+
         const dropdown = document.getElementById(`dropdown-${announceId}`);
         dropdown.classList.toggle('hidden');
     }
-    
 
-    
     // Fermer le menu déroulant lorsqu'on clique en dehors de celui-ci
-
-    
     document.addEventListener('click', function(event) {
         if (!event.target.closest('button[onclick^="toggleDropdown"]')) {
             document.querySelectorAll('[id^="dropdown-"]').forEach(dropdown => {
@@ -220,4 +212,4 @@
     });
 </script>
 {% endblock %}
-{% endblock %}
+	{% endblock %}

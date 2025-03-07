@@ -6,13 +6,14 @@ use App\DTO\AnnounceFilter;
 use App\Entity\Statut;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Statut>
  */
 class StatutRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private Security $security)
     {
         parent::__construct($registry, Statut::class);
     }
@@ -24,14 +25,18 @@ class StatutRepository extends ServiceEntityRepository
      * @param AnnounceFilter 
      * @return array 
      */
-    public function findFriendsByUser(AnnounceFilter $filter): array
+    public function findFriendsByUser(): array
     {
+        /**
+         * @var User $user
+         */
+        $user = $this->security->getUser();
         return $this->createQueryBuilder('s')
             ->select( 'u.pseudo', 'u.id')
             ->leftJoin('s.otherUser', 'u')
             ->where('s.user = :userId')
             ->andWhere('s.statut = :friend')
-            ->setParameter('userId', $filter->getUserId())
+            ->setParameter('userId', $user->getId())
             ->setParameter('friend', 'Friend')
             ->getQuery()
             ->getResult();
@@ -43,14 +48,18 @@ class StatutRepository extends ServiceEntityRepository
      * @param AnnounceFilter 
      * @return array 
      */
-    public function findBlockedByUser(AnnounceFilter $filter): array
+    public function findBlockedByUser(): array
     {
+        /**
+         * @var User $user
+         */
+        $user = $this->security->getUser();
         return $this->createQueryBuilder('s')
             ->select('s', 'u.pseudo')
             ->leftJoin('s.otherUser', 'u')
             ->where('s.user = :userId')
             ->andWhere('s.statut = :blocked')
-            ->setParameter('userId', $filter->getUserId())
+            ->setParameter('userId', $user->getId())
             ->setParameter('blocked', 'Blocked')
             ->getQuery()
             ->getResult();

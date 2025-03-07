@@ -6,13 +6,14 @@ use App\DTO\AnnounceFilter;
 use App\Entity\Announce;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Announce>
  */
 class AnnounceRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private Security $security)
     {
         parent::__construct($registry, Announce::class);
     }
@@ -34,13 +35,14 @@ class AnnounceRepository extends ServiceEntityRepository
    /**
  * Récupère les annonces filtrées selon le statut de relation entre utilisateurs
  * 
- * @param AnnounceFilter $filter Critères de filtrage
+ 
  * @return array<Announce>
  */
-public function findByUserStatus(AnnounceFilter $filter): array
+public function findByUserStatus(): array
 {
-    // Vérifier que l'ID utilisateur est disponible
-    if (null === $filter->getUserId()) {
+    $user = $this->security->getUser();
+
+        if (null === $user) {
         // Sans ID utilisateur, retournons toutes les annonces
         return $this->createQueryBuilder('a')
             ->orderBy('a.createdAt', 'DESC')
@@ -53,15 +55,14 @@ public function findByUserStatus(AnnounceFilter $filter): array
             ->leftJoin('a.user', 'u')
             ->leftJoin('u.statutsOther', 'so', 'WITH', 'so.user = :userId')
             ->where('so.statut IS NULL OR so.statut != :blocked')
-            ->setParameter('userId', $filter->getUserId())
+            ->setParameter('userId', $user->getId())
             ->setParameter('blocked', 'Blocked')
             ->orderBy('so.statut', 'DESC')
             ->addOrderBy('a.createdAt', 'DESC');
         
         return $queryBuilder->getQuery()->getResult();
     } catch (\Exception $e) {
-        // Gestion des erreurs conforme aux bonnes pratiques
-        // Dans un contexte de production, on pourrait logger l'erreur
+        
         return [];
     }
 }
@@ -100,32 +101,19 @@ public function findByUserStatus(AnnounceFilter $filter): array
     }
     
     return $queryBuilder;
+
 }
 
-    
+    public function countByUserNumberOfAnnounces(int $userId): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->andWhere('a.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
-    //    /**
-    //     * @return Announce[] Returns an array of Announce objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('a.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
 
-    //    public function findOneBySomeField($value): ?Announce
-    //    {
-    //        return $this->createQueryBuilder('a')
-    //            ->andWhere('a.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+
 }

@@ -54,8 +54,7 @@ final class StatutController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-        $filter = new AnnounceFilter($user ? $user->getId() : null);
-        $friends = $entityManager->getRepository(Statut::class)->findFriendsByUser($filter);
+        $friends = $entityManager->getRepository(Statut::class)->findFriendsByUser();
         
 
         return $this->render('statut/friends.html.twig', [
@@ -70,8 +69,8 @@ final class StatutController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-        $filter = new AnnounceFilter($user ? $user->getId() : null);
-        $blocked = $entityManager->getRepository(Statut::class)->findBlockedByUser($filter);
+       
+        $blocked = $entityManager->getRepository(Statut::class)->findBlockedByUser();
 
         return $this->render('statut/blocked.html.twig', [
             'blocked' => $blocked,
