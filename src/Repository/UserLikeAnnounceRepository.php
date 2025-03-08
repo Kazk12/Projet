@@ -16,6 +16,40 @@ class UserLikeAnnounceRepository extends ServiceEntityRepository
         parent::__construct($registry, UserLikeAnnounce::class);
     }
 
+ /**
+     * Récupère les annonces likées par un utilisateur spécifique
+     *
+     * @param int $userId ID de l'utilisateur
+     * @return MyLikedAnnounce[] Tableau d'annonces likées sous forme de DTO
+     */
+    public function findLikedAnnouncesByUser(int $userId): array
+    {
+        try {
+            return $this->createQueryBuilder('ula')
+                ->select('NEW App\\DTO\\MyLikedAnnounce(
+                    a.id, 
+                    a.imageUrl, 
+                    b.title, 
+                    b.author, 
+                    a.content, 
+                    a.rate, 
+                    u.pseudo,
+                     a.id
+                )')
+                ->leftJoin('ula.announce', 'a')
+                ->leftJoin('a.book', 'b')
+                ->leftJoin('a.user', 'u')
+                ->where('ula.user = :userId')
+                ->setParameter('userId', $userId)
+                ->orderBy('a.createdAt', 'DESC')
+                ->getQuery()
+                ->getResult();
+        } catch (\Exception $e) {
+            // Gestion des erreurs
+            return [];
+        }
+    }
+
     //    /**
     //     * @return UserLikeAnnounce[] Returns an array of UserLikeAnnounce objects
     //     */

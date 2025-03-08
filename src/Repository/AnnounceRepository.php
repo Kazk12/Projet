@@ -53,9 +53,11 @@ public function findByUserStatus(): array
     try {
         $queryBuilder = $this->createQueryBuilder('a')
             ->leftJoin('a.user', 'u')
+            ->leftJoin('a.userLikeAnnounces', 'currentUserLike', 'WITH', 'currentUserLike.user = :currentUser')
             ->leftJoin('u.statutsOther', 'so', 'WITH', 'so.user = :userId')
             ->where('so.statut IS NULL OR so.statut != :blocked')
             ->setParameter('userId', $user->getId())
+            ->setParameter('currentUser', $user)
             ->setParameter('blocked', 'Blocked')
             ->orderBy('so.statut', 'DESC')
             ->addOrderBy('a.createdAt', 'DESC');

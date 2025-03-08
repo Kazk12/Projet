@@ -60,10 +60,13 @@ final class AnnounceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_announce_show', methods: ['GET'])]
-    public function show(Announce $announce): Response
+    public function show(Request $request, Announce $announce): Response
     {
+        $referer = $request->headers->get('referer') ?? $this->generateUrl('app_home');
+        
         return $this->render('announce/show.html.twig', [
             'announce' => $announce,
+            'referer' => $referer,
         ]);
     }
 

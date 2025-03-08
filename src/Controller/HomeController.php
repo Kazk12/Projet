@@ -32,18 +32,17 @@ final class HomeController extends AbstractController
         EntityManagerInterface $entityManager,
         CommentFormServiceInterface $commentFormService
 
-    ): Response
-    {
+    ): Response {
         /** 
          * @var User $user
          */
         $user = $this->getUser();
-        
+
         $queryBuilder = $announceRepository->findByUserStatus();
-      
+
         $pagination = $paginator->paginate(
-            $queryBuilder, 
-            $request->query->getInt('page', 1), 
+            $queryBuilder,
+            $request->query->getInt('page', 1),
             6
         );
 
@@ -68,7 +67,8 @@ final class HomeController extends AbstractController
                 $entityManager->persist($comment);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('app_home');
+
+                return $this->redirectToRefererOrHome($request);
             }
         }
 
@@ -85,8 +85,7 @@ final class HomeController extends AbstractController
         UpdateProfilInterface $updateProfilService,
         Request $request
 
-    ): Response
-    {
+    ): Response {
         /** 
          * @var User $user
          */
@@ -95,19 +94,19 @@ final class HomeController extends AbstractController
         $form = $this->createForm(UpdateUserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $pseudo = $form->get('pseudo')->getData();
             $email = $form->get('email')->getData();
 
 
-            
+
 
             $emailPassword = $form->get('emailPassword')->getData();
             $newPassword = $form->get('newPassword')->getData();
 
 
 
-          
+
 
             if ($emailPassword && $newPassword) {
                 $passwordUpdater->updatePassword($user, $emailPassword, $newPassword);
@@ -118,7 +117,7 @@ final class HomeController extends AbstractController
 
             $updateProfilService->updateProfil($user, $pseudo, $email);
             $this->addFlash('success', 'User updated successfully.');
-            
+
             return $this->redirectToRoute('app_user_update');
         }
 
@@ -128,12 +127,12 @@ final class HomeController extends AbstractController
     }
 
 
-    
 
-    
-  
-  
-    
+
+
+
+
+
     #[Route('/search', name: 'app_search')]
     public function search(
         Request $request,
@@ -143,33 +142,33 @@ final class HomeController extends AbstractController
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
-        
+
         // Création du DTO pour les critères de recherche
         $searchCriteria = new SearchCriteria(
             $request->query->get('query'),
             $request->query->get('genre'),
             $user ? $user->getId() : null
         );
-        
+
         // Utilisation du service pour obtenir le queryBuilder
         $queryBuilder = $searchService->getSearchQueryBuilder($searchCriteria);
-        
+
         // Pagination des résultats
         $pagination = $paginator->paginate(
             $queryBuilder,
             $request->query->getInt('page', 1),
             6
         );
-        
+
         // Génération des formulaires de commentaire
         $commentForms = [];
         foreach ($pagination as $announce) {
             $commentForms[$announce->getId()] = $commentFormService->createCommentForm($announce)->createView();
         }
-        
+
         // Récupération des genres pour le filtre
         $genres = $searchService->getAllGenres();
-        
+
         return $this->render('home/search.html.twig', [
             'pagination' => $pagination,
             'comment_forms' => $commentForms,
@@ -177,5 +176,17 @@ final class HomeController extends AbstractController
             'selected_genre' => $searchCriteria->getGenre(),
             'genres' => $genres,
         ]);
+    }
+
+
+    private function redirectToRefererOrHome(Request $request): Response
+    {
+        $referer = $request->headers->get('referer');
+
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+
+        return $this->redirectToRoute('app_home');
     }
 }
