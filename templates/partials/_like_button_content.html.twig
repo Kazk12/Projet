@@ -1,0 +1,12 @@
+<span id="like-container-{{ announce.id }}" 
+      hx-swap-oob="true"
+      class="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium
+      {% if liked %}
+          bg-indigo-100 text-indigo-700 hover:bg-indigo-200
+      {% else %}
+          bg-gray-100 text-gray-700 hover:bg-gray-200
+      {% endif %}
+      transition-colors">
+    {% if liked %}Unlike{% else %}Like{% endif %}
+    ({{ count }})
+</span>

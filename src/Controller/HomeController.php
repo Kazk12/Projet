@@ -13,6 +13,7 @@ use App\Form\CommentType;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Interfaces\CommentFormServiceInterface;
+use App\Interfaces\LikeServiceInterface;
 use App\Interfaces\SearchServiceInterface;
 use App\Interfaces\UpdateProfilInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -30,7 +31,8 @@ final class HomeController extends AbstractController
         PaginatorInterface $paginator,
         Request $request,
         EntityManagerInterface $entityManager,
-        CommentFormServiceInterface $commentFormService
+        CommentFormServiceInterface $commentFormService,
+        LikeServiceInterface $likeService
 
     ): Response {
         /** 
@@ -50,6 +52,9 @@ final class HomeController extends AbstractController
         foreach ($pagination as $announce) {
             $commentForms[$announce->getId()] = $commentFormService->createCommentForm($announce)->createView();
         }
+
+        // Récupération des informations de like en une seule requête
+        $likeInfo = $likeService->getLikeInfoForAnnounces($pagination->getItems(), $user);
 
         if ($request->isMethod('POST')) {
             $comment = new Comment();
@@ -75,6 +80,7 @@ final class HomeController extends AbstractController
         return $this->render('home/index.html.twig', [
             'pagination' => $pagination,
             'comment_forms' => $commentForms,
+            'like_info' => $likeInfo,
         ]);
     }
 
