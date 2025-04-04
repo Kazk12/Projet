@@ -1,0 +1,269 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des cookies - Narrama{% endblock %}
+
+{% block body %}
+<div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Politique de gestion des cookies</h1>
+    
+    <div class="prose prose-indigo max-w-none text-gray-700">
+        <p class="text-sm text-gray-500 mb-8">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>
+        
+        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">1. Qu'est-ce qu'un cookie ?</h2>
+        <p>
+            Un cookie est un petit fichier texte stocké par votre navigateur sur votre ordinateur, tablette ou smartphone 
+            lorsque vous visitez un site web. Les cookies permettent au site de reconnaître votre appareil et de mémoriser 
+            certaines informations vous concernant, comme vos préférences linguistiques ou vos informations de connexion, 
+            pour faciliter votre prochaine visite et rendre le site plus utile pour vous.
+        </p>
+        
+        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">2. Les cookies que nous utilisons</h2>
+        <p>Sur le site Narrama, nous utilisons différents types de cookies :</p>
+        
+        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">2.1 Cookies essentiels</h3>
+        <p>
+            Ces cookies sont nécessaires au fonctionnement du site. Ils vous permettent d'utiliser les fonctionnalités de base 
+            comme la connexion à votre compte. Ces cookies sont généralement installés en réponse à des actions que vous effectuez 
+            et qui correspondent à une demande de services, comme définir vos préférences de confidentialité, vous connecter ou 
+            remplir des formulaires. Vous pouvez configurer votre navigateur pour qu'il bloque ces cookies, mais certaines parties 
+            du site ne fonctionneront plus.
+        </p>
+        <div class="bg-gray-50 p-4 rounded-md mt-4">
+            <h4 class="font-medium">Exemples de cookies essentiels :</h4>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Cookie de session</li>
+                <li>Cookie d'authentification</li>
+                <li>Cookie CSRF (Cross-Site Request Forgery)</li>
+            </ul>
+        </div>
+        
+        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">2.2 Cookies de préférences</h3>
+        <p>
+            Ces cookies permettent à notre site de se souvenir des choix que vous avez faits (comme votre nom d'utilisateur, 
+            votre langue ou la région où vous vous trouvez) et de fournir des fonctionnalités améliorées et plus personnelles. 
+            Ces cookies peuvent également être utilisés pour mémoriser les changements que vous avez apportés à la taille du texte, 
+            aux polices et à d'autres parties des pages web que vous pouvez personnaliser.
+        </p>
+        <div class="bg-gray-50 p-4 rounded-md mt-4">
+            <h4 class="font-medium">Exemples de cookies de préférences :</h4>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Cookie de langue</li>
+                <li>Cookie de thème (mode clair/sombre)</li>
+                <li>Cookie de paramètres d'affichage</li>
+            </ul>
+        </div>
+        
+        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">2.3 Cookies analytiques</h3>
+        <p>
+            Ces cookies nous permettent de compter les visites et les sources de trafic afin de mesurer et d'améliorer 
+            les performances de notre site. Ils nous aident à savoir quelles pages sont les plus et les moins populaires 
+            et à voir comment les visiteurs se déplacent sur le site. Toutes les informations recueillies par ces cookies 
+            sont agrégées et donc anonymisées.
+        </p>
+        <div class="bg-gray-50 p-4 rounded-md mt-4">
+            <h4 class="font-medium">Exemples de cookies analytiques :</h4>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Google Analytics</li>
+                <li>Matomo (anciennement Piwik)</li>
+                <li>Cookies de mesure d'audience</li>
+            </ul>
+        </div>
+        
+        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">3. Comment gérer vos cookies</h2>
+        <p>
+            Vous pouvez contrôler et/ou supprimer les cookies comme vous le souhaitez. Vous pouvez supprimer tous les cookies 
+            déjà présents sur votre ordinateur et vous pouvez configurer la plupart des navigateurs pour les empêcher d'en installer. 
+            Toutefois, si vous faites cela, vous devrez peut-être ajuster manuellement certaines préférences chaque fois que vous 
+            visiterez un site, et certaines fonctionnalités et services pourraient ne pas fonctionner.
+        </p>
+        
+        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">3.1 Via notre outil de gestion des cookies</h3>
+        <p>
+            Vous pouvez à tout moment revoir et modifier vos choix concernant les cookies en cliquant sur le bouton 
+            "Gérer mes préférences de cookies" ci-dessous.
+        </p>
+        <div class="mt-6">
+            <button id="manage-cookies" class="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Gérer mes préférences de cookies
+            </button>
+        </div>
+        
+        <h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">3.2 Via votre navigateur</h3>
+        <p>
+            La plupart des navigateurs web permettent un certain contrôle de la plupart des cookies via les paramètres du navigateur. 
+            Pour en savoir plus sur la façon de gérer les cookies avec les navigateurs spécifiques, consultez les liens suivants :
+        </p>
+        <ul class="list-disc pl-5 mt-4 space-y-2">
+            <li><a href="https://support.google.com/chrome/answer/95647" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">Google Chrome</a></li>
+            <li><a href="https://support.mozilla.org/fr/kb/cookies-informations-sites-enregistrent" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">Mozilla Firefox</a></li>
+            <li><a href="https://support.apple.com/fr-fr/guide/safari/sfri11471/mac" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">Safari</a></li>
+            <li><a href="https://support.microsoft.com/fr-fr/help/17442/windows-internet-explorer-delete-manage-cookies" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">Internet Explorer</a></li>
+            <li><a href="https://support.microsoft.com/fr-fr/microsoft-edge/supprimer-les-cookies-dans-microsoft-edge-63947406-40ac-c3b8-57b9-2a946a29ae09" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">Microsoft Edge</a></li>
+            <li><a href="https://help.opera.com/en/latest/web-preferences/#cookies" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">Opera</a></li>
+        </ul>
+        
+        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">4. Plus d'informations sur les cookies</h2>
+        <p>
+            Pour en savoir plus sur les cookies, y compris comment voir quels cookies ont été installés et comment les gérer et les supprimer, 
+            consultez <a href="https://www.cnil.fr/fr/cookies-et-autres-traceurs" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">www.cnil.fr/fr/cookies-et-autres-traceurs</a> 
+            ou <a href="https://www.allaboutcookies.org" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:underline">www.allaboutcookies.org</a>.
+        </p>
+        
+        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">5. Modifications de notre politique de cookies</h2>
+        <p>
+            Nous pouvons mettre à jour notre politique de cookies de temps à autre. Toute modification sera publiée sur cette page 
+            avec une date de révision mise à jour. Nous vous encourageons à consulter régulièrement cette politique pour rester informé 
+            des cookies que nous utilisons et de la façon dont nous les utilisons.
+        </p>
+        
+        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">6. Contact</h2>
+        <p>
+            Si vous avez des questions concernant notre utilisation des cookies, veuillez nous contacter à :
+        </p>
+        <p class="mt-4">
+            <strong>Email</strong> : <a href="mailto:contact@narrama.com" class="text-indigo-600 hover:underline">contact@narrama.com</a>
+        </p>
+    </div>
+</div>
+
+<div id="cookie-preferences" class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center hidden">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-900">Préférences de cookies</h2>
+                <button id="close-preferences" class="text-gray-400 hover:text-gray-500">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            
+            <div class="space-y-6">
+                <div class="flex items-center justify-between py-4 border-b border-gray-200">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Cookies essentiels</h3>
+                        <p class="text-sm text-gray-500 mt-1">Ces cookies sont nécessaires au fonctionnement du site.</p>
+                    </div>
+                    <div class="ml-4 flex-shrink-0">
+                        <span class="text-sm text-gray-500">Toujours actifs</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between py-4 border-b border-gray-200">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Cookies de préférences</h3>
+                        <p class="text-sm text-gray-500 mt-1">Ces cookies permettent de personnaliser votre expérience.</p>
+                    </div>
+                    <div class="ml-4 flex-shrink-0">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="preference-cookies" class="sr-only peer">
+                            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between py-4">
+                    <div>
+                        <h3 class="text-lg font-medium text-gray-900">Cookies analytiques</h3>
+                        <p class="text-sm text-gray-500 mt-1">Ces cookies nous aident à améliorer notre site.</p>
+                    </div>
+                    <div class="ml-4 flex-shrink-0">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="analytics-cookies" class="sr-only peer">
+                            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end space-x-4">
+                <button id="reject-all" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors duration-200">
+                    Tout refuser
+                </button>
+                <button id="accept-all" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-200">
+                    Tout accepter
+                </button>
+                <button id="save-preferences" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors duration-200">
+                    Enregistrer mes choix
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const manageButton = document.getElementById('manage-cookies');
+        const preferences = document.getElementById('cookie-preferences');
+        const closeButton = document.getElementById('close-preferences');
+        const acceptAllButton = document.getElementById('accept-all');
+        const rejectAllButton = document.getElementById('reject-all');
+        const saveButton = document.getElementById('save-preferences');
+        const preferenceCheckbox = document.getElementById('preference-cookies');
+        const analyticsCheckbox = document.getElementById('analytics-cookies');
+        
+        // Charger les préférences existantes
+        const loadPreferences = function() {
+            const preferences = JSON.parse(localStorage.getItem('cookiePreferences') || '{}');
+            preferenceCheckbox.checked = preferences.preferences === true;
+            analyticsCheckbox.checked = preferences.analytics === true;
+        };
+        
+        // Afficher la modal
+        manageButton.addEventListener('click', function() {
+            loadPreferences();
+            preferences.classList.remove('hidden');
+        });
+        
+        // Fermer la modal
+        closeButton.addEventListener('click', function() {
+            preferences.classList.add('hidden');
+        });
+        
+        // Accepter tous les cookies
+        acceptAllButton.addEventListener('click', function() {
+            preferenceCheckbox.checked = true;
+            analyticsCheckbox.checked = true;
+            savePreferences();
+            preferences.classList.add('hidden');
+        });
+        
+        // Refuser tous les cookies
+        rejectAllButton.addEventListener('click', function() {
+            preferenceCheckbox.checked = false;
+            analyticsCheckbox.checked = false;
+            savePreferences();
+            preferences.classList.add('hidden');
+        });
+        
+        // Enregistrer les préférences
+        saveButton.addEventListener('click', function() {
+            savePreferences();
+            preferences.classList.add('hidden');
+        });
+        
+        // Fonction d'enregistrement des préférences
+        const savePreferences = function() {
+            const preferences = {
+                essential: true, // Toujours actifs
+                preferences: preferenceCheckbox.checked,
+                analytics: analyticsCheckbox.checked,
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('cookiePreferences', JSON.stringify(preferences));
+            localStorage.setItem('cookieConsent', 'custom');
+            
+            // Ici, vous pouvez ajouter du code pour activer/désactiver les cookies en fonction des préférences
+        };
+        
+        // Clic en dehors de la modal pour fermer
+        preferences.addEventListener('click', function(e) {
+            if (e.target === preferences) {
+                preferences.classList.add('hidden');
+            }
+        });
+        
+        // Charger les préférences au chargement de la page
+        loadPreferences();
+    });
+</script>
+{% endblock %}

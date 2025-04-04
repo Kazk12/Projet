@@ -1,167 +1,196 @@
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Recherche avancée{% endblock %}
+{% block title %}Explorez nos critiques littéraires{% endblock %}
 
 {% block body %}
-<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-6 sm:py-10 px-4 sm:px-6 lg:px-8">
     <div class="max-w-7xl mx-auto">
-        <div class="text-center mb-12">
-            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-                <span class="block text-indigo-600">Recherche avancée</span>
-            </h1>
-            <p class="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                Trouvez des critiques par titre, auteur ou genre
-            </p>
-        </div>
-
-        {# Formulaire de recherche #}
-        <div class="bg-white shadow-lg rounded-lg p-6 mb-10 max-w-3xl mx-auto">
-            <form method="GET" action="{{ path('app_search') }}" class="space-y-6">
-                <div>
-                    <label for="query" class="block text-sm font-medium text-gray-700 mb-2">Recherche par titre ou auteur</label>
-                    <input type="text" name="query" id="query" value="{{ query }}" placeholder="Ex: My Hero Academia, Kohei Horikoshi..." 
-                           class="w-full px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        <!-- En-tête et formulaire de recherche côte à côte en desktop -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10 items-start">
+            <!-- En-tête -->
+            <div class="lg:pr-8">
+                <h1 class="text-3xl sm:text-4xl font-bold text-gray-900">
+                    <span class="block text-indigo-600">Recherche avancée</span>
+                </h1>
+                <p class="mt-3 text-lg text-gray-600">
+                    Trouvez des critiques par titre, auteur ou genre littéraire
+                </p>
+                <div class="hidden lg:block mt-6">
+                    <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" 
+                         alt="Livres" 
+                         class="rounded-lg shadow-md w-full max-w-md"
+                         loading="lazy">
                 </div>
+            </div>
 
-                <div>
-                    <label for="genre" class="block text-sm font-medium text-gray-700 mb-2">Filtrer par genre</label>
-                    <select name="genre" id="genre" 
-                            class="w-full px-4 py-2 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                        <option value="">Tous les genres</option>
-                        {% for genre in genres %}
-                            <option value="{{ genre.name }}" {% if selected_genre == genre.name %}selected{% endif %}>
-                                {{ genre.name }}
-                            </option>
-                        {% endfor %}
-                    </select>
-                </div>
+            <!-- Formulaire de recherche -->
+            <div class="bg-white shadow-lg rounded-xl p-6 border border-gray-100">
+                <form method="GET" action="{{ path('app_search') }}" class="space-y-6">
+                    <div>
+                        <label for="query" class="block text-base font-medium text-gray-700 mb-2">
+                            <span class="inline-flex items-center">
+                                <span class="material-icons text-indigo-600 mr-2">search</span>
+                                Titre ou auteur
+                            </span>
+                        </label>
+                        <input type="text" name="query" id="query" value="{{ query }}" 
+                               placeholder="Ex: My Hero Academia, Kohei Horikoshi..." 
+                               class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-700">
+                    </div>
 
-                <div class="flex justify-end">
-                    <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                        <span class="material-icons mr-2">search</span>
-                        Rechercher
-                    </button>
-                </div>
-            </form>
+                    <div>
+                        <label for="genre" class="block text-base font-medium text-gray-700 mb-2">
+                            <span class="inline-flex items-center">
+                                <span class="material-icons text-indigo-600 mr-2">category</span>
+                                Genre littéraire
+                            </span>
+                        </label>
+                        <div class="relative">
+                            <select name="genre" id="genre" 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 appearance-none text-gray-700 bg-white">
+                                <option value="">Tous les genres</option>
+                                {% for genre in genres %}
+                                    <option value="{{ genre.name }}" {% if selected_genre == genre.name %}selected{% endif %}>
+                                        {{ genre.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <span class="material-icons">expand_more</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" class="w-full flex justify-center items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                            <span class="material-icons mr-2">search</span>
+                            Rechercher
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
 
         {# Résultats de recherche #}
-        <div class="mb-6">
-            <h2 class="text-2xl font-bold text-gray-900 mb-4">
-                {% if query or selected_genre %}
-                    Résultats de recherche 
-                    {% if query %}pour "{{ query }}"{% endif %}
-                    {% if selected_genre %}dans le genre "{{ selected_genre }}"{% endif %}
-                {% else %}
-                    Toutes les critiques
-                {% endif %}
-            </h2>
-        </div>
-
-        {# Liste des annonces #}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for announce in pagination %}
-                <article class="bg-white shadow-lg rounded-2xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col">
-                    {# Image Container #}
-                    <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100">
-                        {% if vich_uploader_asset(announce, 'thumbnailFile') %}
-                            <img 
-                                src="{{ vich_uploader_asset(announce, 'thumbnailFile') }}" 
-                                alt="Couverture du livre {{ announce.book.title }}" 
-                                class="w-full h-full object-cover"
-                                loading="lazy"
-                            >
-                        {% else %}
-                            <div class="w-full h-full flex items-center justify-center">
-                                <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                </svg>
-                            </div>
-                        {% endif %}
-                        
-                        {# Badge du genre #}
-                       {# filepath: /c:/Users/Dev404/Desktop/Symfony/Projet/templates/home/search.html.twig #}
-{# Badge du genre #}
-{% if announce.book.typeBooks is defined and announce.book.typeBooks|length > 0 %}
-    {% set displayed = false %}
-    {% for typeBook in announce.book.typeBooks %}
-        {% if not displayed %}
-            <div class="absolute top-2 right-2 px-2 py-1 bg-indigo-600 text-white text-xs rounded-full">
-                {{ typeBook.genre.name }}
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl sm:text-2xl font-bold text-gray-900">
+                    {% if query or selected_genre %}
+                        Résultats de recherche 
+                        {% if query %}<span class="text-indigo-600">"{{ query }}"</span>{% endif %}
+                        {% if selected_genre %}dans le genre <span class="text-indigo-600">"{{ selected_genre }}"</span>{% endif %}
+                    {% else %}
+                        Toutes les critiques
+                    {% endif %}
+                </h2>
+                
+                <span class="text-sm text-gray-500">{{ pagination.getTotalItemCount }} résultat(s)</span>
             </div>
-            {% set displayed = true %}
-        {% endif %}
-    {% endfor %}
-{% endif %}
-                    </div>
 
-                    <div class="p-6 flex flex-col flex-grow">
-                        {# Livre et Note #}
-                        <div class="flex items-start justify-between mb-4">
-                            <div>
-                                <h2 class="text-xl font-bold text-gray-900 line-clamp-2">{{ announce.book.title }}</h2>
-                                <p class="text-sm text-gray-500">par {{ announce.book.author }}</p>
-                            </div>
-                            <div class="flex items-center space-x-1 ml-4">
-                                {% for i in 1..5 %}
-                                    {% if i <= announce.rate %}
-                                        <svg class="w-5 h-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
-                                        </svg>
-                                    {% else %}
-                                        <svg class="w-5 h-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                                        </svg>
+            {# Liste des annonces #}
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {% for announce in pagination %}
+                    <article class="bg-white border border-gray-200 rounded-xl overflow-hidden transform transition duration-300 hover:shadow-xl flex flex-col h-full">
+                        {# Image Container #}
+                        <div class="relative aspect-[16/9] overflow-hidden bg-gradient-to-r from-gray-50 to-gray-100">
+                            {% if vich_uploader_asset(announce, 'thumbnailFile') %}
+                                <img 
+                                    src="{{ vich_uploader_asset(announce, 'thumbnailFile') }}" 
+                                    alt="Couverture du livre {{ announce.book.title }}" 
+                                    class="w-full h-full object-cover"
+                                    loading="lazy"
+                                >
+                            {% else %}
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                    </svg>
+                                </div>
+                            {% endif %}
+                            
+                            {# Badge du genre #}
+                            {% if announce.book.typeBooks is defined and announce.book.typeBooks|length > 0 %}
+                                {% set displayed = false %}
+                                {% for typeBook in announce.book.typeBooks %}
+                                    {% if not displayed %}
+                                        <div class="absolute top-2 left-2 px-3 py-1 bg-indigo-600 text-white text-xs font-medium rounded-full shadow-sm">
+                                            {{ typeBook.genre.name }}
+                                        </div>
+                                        {% set displayed = true %}
                                     {% endif %}
                                 {% endfor %}
-                            </div>
+                            {% endif %}
                         </div>
 
-                        {# Contenu de la critique #}
-                        <p class="text-gray-600 line-clamp-3 mb-4">{{ announce.content }}</p>
-
-                        {# Commentaires #}
-                        <div class="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
-                                        <span class="text-sm font-medium leading-none text-indigo-700">
-                                            {{ announce.user.pseudo|slice(0, 1)|upper }}
-                                        </span>
-                                    </span>
+                        <div class="p-5 flex flex-col flex-grow">
+                            {# Livre et Note #}
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-bold text-gray-900 line-clamp-2">{{ announce.book.title }}</h3>
+                                    <p class="text-sm text-gray-600">par {{ announce.book.author }}</p>
                                 </div>
-                                <div class="ml-3">
-                                    <p class="text-sm font-medium text-gray-900">{{ announce.user.pseudo }}</p>
+                                <div class="flex items-center space-x-1 ml-4 flex-shrink-0">
+                                    {% for i in 1..5 %}
+                                        {% if i <= announce.rate %}
+                                            <svg class="w-5 h-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z" clip-rule="evenodd" />
+                                            </svg>
+                                        {% else %}
+                                            <svg class="w-5 h-5 text-gray-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                                            </svg>
+                                        {% endif %}
+                                    {% endfor %}
                                 </div>
                             </div>
-                            <a href="{{ path('app_announce_show', {'id': announce.id}) }}" 
-                               class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Voir plus
+
+                            {# Contenu de la critique #}
+                            <p class="text-gray-600 text-sm line-clamp-3 mb-4">{{ announce.content }}</p>
+
+                            {# Footer avec auteur et bouton #}
+                            <div class="mt-auto pt-4 flex items-center justify-between border-t border-gray-100">
+                                <div class="flex items-center">
+                                    <div class="flex-shrink-0">
+                                        <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
+                                            <span class="text-sm font-medium leading-none text-indigo-700">
+                                                {{ announce.user.pseudo|slice(0, 1)|upper }}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="ml-2">
+                                        <p class="text-sm font-medium text-gray-700">{{ announce.user.pseudo }}</p>
+                                    </div>
+                                </div>
+                                <a href="{{ path('app_announce_show', {'id': announce.id}) }}" 
+                                class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-lg text-indigo-700 bg-indigo-50 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                                    <span class="material-icons text-sm mr-1">visibility</span>
+                                    Détails
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                {% else %}
+                    <div class="col-span-1 sm:col-span-2 lg:col-span-3 bg-gray-50 rounded-lg border border-gray-200 p-8 text-center">
+                        <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 class="mt-4 text-xl font-medium text-gray-900">Aucun résultat trouvé</h3>
+                        <p class="mt-2 text-base text-gray-600">
+                            Essayez avec d'autres critères de recherche ou consultez toutes nos critiques.
+                        </p>
+                        <div class="mt-6">
+                            <a href="{{ path('app_home') }}" class="inline-flex items-center px-5 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                                <span class="material-icons text-sm mr-2">home</span>
+                                Retour à l'accueil
                             </a>
                         </div>
                     </div>
-                </article>
-            {% else %}
-                <div class="col-span-3 bg-white rounded-lg shadow p-10 text-center">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <h3 class="mt-2 text-lg font-medium text-gray-900">Aucun résultat trouvé</h3>
-                    <p class="mt-1 text-sm text-gray-500">
-                        Essayez avec d'autres critères de recherche ou consultez toutes nos critiques.
-                    </p>
-                    <div class="mt-6">
-                        <a href="{{ path('app_home') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Retour à l'accueil
-                        </a>
-                    </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
 
         {# Pagination #}
-        <div class="mt-12">
+        <div class="mt-8 flex justify-center">
             {{ knp_pagination_render(pagination, 'pagination/custom_pagination.html.twig') }}
         </div>
     </div>

@@ -1,0 +1,240 @@
+<header id="header" class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex flex-wrap items-center">
+        <!-- Logo -->
+        <a class="brand logo-brand text-indigo-600 text-2xl font-bold flex items-center" href="/">
+            <svg class="h-6 w-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            Narrama
+        </a>
+        
+        <!-- Barre de recherche (desktop) -->
+        <div class="hidden md:flex flex-1 max-w-sm px-4 mx-auto">
+            <div class="relative w-full">
+                <form action="{{ path('app_search') }}" method="GET">
+                    <input 
+                        type="text" 
+                        name="query" 
+                        placeholder="Rechercher un livre ou un auteur..." 
+                        class="w-full px-4 py-2 pr-10 rounded-full border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 bg-gray-50"
+                    >
+                    <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                        <span class="material-icons">search</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Navigation et boutons (desktop) -->
+        <nav class="hidden md:flex ml-auto items-center">
+            <ul class="flex items-center space-x-4">
+                <li>
+                    <a href="{{ path('app_home') }}" class="px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium flex items-center">
+                        <span class="material-icons text-sm mr-1">home</span>
+                        <span>Accueil</span>
+                    </a>
+                </li>
+                
+                {% if app.user %}
+                    <li class="relative">
+                        <button id="user-menu-button" class="flex items-center px-3 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
+                            <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100 mr-2 border-2 border-transparent hover:border-indigo-200">
+                                <span class="text-sm font-bold leading-none text-indigo-700">
+                                    {{ app.user.pseudo|slice(0, 1)|upper }}
+                                </span>
+                            </span>
+                            <span>{{ app.user.pseudo }}</span>
+                            <span class="material-icons text-sm ml-1 transition-transform duration-200">expand_more</span>
+                        </button>
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-52 bg-white rounded-lg shadow-lg py-2 z-10 border border-gray-100">
+                            <a href="{{ path('app_profil') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700">
+                                <span class="material-icons text-indigo-500 mr-3 text-sm">person</span>
+                                <span>Mon profil</span>
+                            </a>
+                            <a href="{{ path('user_likes') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700">
+                                <span class="material-icons text-indigo-500 mr-3 text-sm">favorite</span>
+                                <span>Mes likes</span>
+                            </a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="{{ path('app_logout') }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600">
+                                <span class="material-icons text-gray-500 mr-3 text-sm">logout</span>
+                                <span>Déconnexion</span>
+                            </a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ path('app_login') }}" class="px-4 py-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium flex items-center">
+                            <span class="material-icons text-sm mr-1">login</span>
+                            <span>Connexion</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_register') }}" class="px-5 py-2 rounded-full bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200 font-medium shadow-sm hover:shadow">
+                            <span>Inscription</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+        
+        <!-- Bouton menu mobile -->
+        <div class="ml-auto md:hidden">
+            <button id="mobile-menu-button" class="text-gray-700 hover:text-indigo-600 focus:outline-none p-2 rounded-full hover:bg-indigo-50 transition-all duration-200 flex items-center justify-center shadow-sm hover:shadow">
+                <span class="material-icons transform transition-transform duration-300">menu</span>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Barre de recherche (mobile) -->
+    <div class="md:hidden px-4 pb-3">
+        <div class="relative w-full">
+            <form action="{{ path('app_search') }}" method="GET">
+                <input 
+                    type="text" 
+                    name="query" 
+                    placeholder="Rechercher..." 
+                    class="w-full px-4 py-2 pr-10 rounded-full border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-700 bg-gray-50"
+                >
+                <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                    <span class="material-icons text-sm">search</span>
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Menu mobile -->
+    <nav id="mobile-menu" class="hidden md:hidden px-4 pt-1 pb-4 space-y-1 border-t border-gray-100 bg-gray-50">
+        <ul class="space-y-1">
+            <li>
+                <a href="{{ path('app_home') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
+                    <span class="material-icons text-indigo-500 mr-3">home</span>
+                    <span>Accueil</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('app_search') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
+                    <span class="material-icons text-indigo-500 mr-3">tune</span>
+                    <span>Recherche avancée</span>
+                </a>
+            </li>
+            {% if app.user %}
+                <li>
+                    <a href="{{ path('app_profil') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
+                        <span class="material-icons text-indigo-500 mr-3">person</span>
+                        <span>Mon profil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('user_likes') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
+                        <span class="material-icons text-indigo-500 mr-3">favorite</span>
+                        <span>Mes likes</span>
+                    </a>
+                </li>
+                <div class="border-t border-gray-200 my-2"></div>
+                <li>
+                    <a href="{{ path('app_logout') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 font-medium">
+                        <span class="material-icons text-gray-500 mr-3">logout</span>
+                        <span>Déconnexion</span>
+                    </a>
+                </li>
+            {% else %}
+                <div class="border-t border-gray-200 my-2"></div>
+                <li>
+                    <a href="{{ path('app_login') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
+                        <span class="material-icons text-indigo-500 mr-3">login</span>
+                        <span>Connexion</span>
+                    </a>
+                </li>
+                <li class="mt-2">
+                    <a href="{{ path('app_register') }}" class="flex items-center justify-center py-3 px-4 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-200 font-medium shadow-sm">
+                        <span class="material-icons text-sm mr-2">person_add</span>
+                        <span>Inscription</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animation du menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', function () {
+                const menu = document.getElementById('mobile-menu');
+                const menuIcon = this.querySelector('.material-icons');
+                
+                menu.classList.toggle('hidden');
+                
+                // Animation plus fluide
+                if (!menu.classList.contains('hidden')) {
+                    menuIcon.textContent = 'close';
+                    menuIcon.style.transform = 'rotate(90deg)';
+                    menu.style.maxHeight = '0';
+                    setTimeout(() => {
+                        menu.style.maxHeight = menu.scrollHeight + 'px';
+                    }, 10);
+                } else {
+                    menuIcon.textContent = 'menu';
+                    menuIcon.style.transform = 'rotate(0)';
+                    menu.style.maxHeight = null;
+                }
+            });
+        }
+
+        // User dropdown toggle avec effet visuel
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userDropdown = document.getElementById('user-dropdown');
+        
+        if (userMenuButton && userDropdown) {
+            userMenuButton.addEventListener('click', function() {
+                userDropdown.classList.toggle('hidden');
+                
+                // Effet de rotation sur la flèche
+                const arrow = userMenuButton.querySelector('.material-icons');
+                arrow.style.transform = userDropdown.classList.contains('hidden') ? 
+                    'rotate(0deg)' : 'rotate(180deg)';
+            });
+            
+            document.addEventListener('click', function(event) {
+                if (!userMenuButton.contains(event.target) && !userDropdown.contains(event.target)) {
+                    userDropdown.classList.add('hidden');
+                    // Réinitialiser la rotation
+                    const arrow = userMenuButton.querySelector('.material-icons');
+                    if (arrow) {
+                        arrow.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+        }
+
+        // Header scroll effect amélioré
+        const header = document.getElementById('header');
+        let lastScrollTop = 0;
+
+        window.addEventListener('scroll', function () {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollTop > 50) { // Scrolling down past threshold
+                header.classList.add('bg-white/90', 'backdrop-blur-sm');
+                header.classList.remove('bg-white');
+
+                if (scrollTop > lastScrollTop && scrollTop > 150) { // Scrolling down after threshold
+                    header.style.transform = 'translateY(-100%)';
+                } else { // Scrolling up
+                    header.style.transform = 'translateY(0)';
+                    header.classList.add('shadow-md');
+                }
+            } else { // At the top
+                header.classList.add('bg-white', 'shadow-md');
+                header.classList.remove('bg-white/90', 'backdrop-blur-sm');
+                header.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+    });
+</script>
