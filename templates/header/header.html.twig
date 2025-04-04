@@ -112,12 +112,7 @@
                     <span>Accueil</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ path('app_search') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
-                    <span class="material-icons text-indigo-500 mr-3">tune</span>
-                    <span>Recherche avancée</span>
-                </a>
-            </li>
+            
             {% if app.user %}
                 <li>
                     <a href="{{ path('app_profil') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium">
