@@ -46,14 +46,38 @@
 
                                     {# Menu déroulant #}
                                     <div id="dropdown-{{ announce.id }}" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                                        <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Friend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            <span class="material-icons text-gray-500 mr-2 text-sm">person_add</span>
-                                            <span>Add friend</span>
-                                        </a>
-                                        <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Blocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            <span class="material-icons text-gray-500 mr-2 text-sm">block</span>
-                                            <span>Block</span>
-                                        </a>
+                                        {% if app.user.id != announce.user.id %}
+                                            {% set statut = user_statuses[announce.user.id] ?? null %}
+                                            
+                                            {% if statut is null or statut != 'Friend' %}
+                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Friend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    <span class="material-icons text-gray-500 mr-2 text-sm">person_add</span>
+                                                    <span>Ajouter en amis</span>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Unfriend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    <span class="material-icons text-gray-500 mr-2 text-sm">person_remove</span>
+                                                    <span>Retirer des amis</span>
+                                                </a>
+                                            {% endif %}
+                                            
+                                            {% if statut is null or statut != 'Blocked' %}
+                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Blocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    <span class="material-icons text-gray-500 mr-2 text-sm">block</span>
+                                                    <span>Bloquer</span>
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Unblocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                    <span class="material-icons text-gray-500 mr-2 text-sm">restart_alt</span>
+                                                    <span>Débloquer</span>
+                                                </a>
+                                            {% endif %}
+                                            
+                                            {# <a href="{{ path('app_conversation_new', {'recipientId': announce.user.id}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <span class="material-icons text-gray-500 mr-2 text-sm">chat</span>
+                                                <span>Envoyer un message</span>
+                                            </a> #}
+                                        {% endif %}
                                     </div>
                                 </div>
                                 {% endif %}

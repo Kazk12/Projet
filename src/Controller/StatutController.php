@@ -16,8 +16,6 @@ final class StatutController extends AbstractController
     public function index(int $id, string $statut, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
-
         
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
@@ -29,27 +27,41 @@ final class StatutController extends AbstractController
             throw $this->createNotFoundException('User not found');
         }
 
-        
         $statutRepository = $entityManager->getRepository(Statut::class);
         $existingStatut = $statutRepository->findOneBy([
             'user' => $user,
             'otherUser' => $otherUser
         ]);
 
-        if ($existingStatut) {
-            // Mettre à jour le statut existant
-            $existingStatut->setStatut($statut);
+        if ($statut === 'Unfriend') {
+            if ($existingStatut) {
+                $entityManager->remove($existingStatut);
+                $entityManager->flush();
+                $this->addFlash('success', 'Utilisateur retiré de vos amis.');
+            }
         } else {
-            // Créer une nouvelle entité Statut
-            $statutEntity = new Statut();
-            $statutEntity->setOtherUser($otherUser);
-            $statutEntity->setStatut($statut);
-            $statutEntity->setUser($user);
+            if ($existingStatut) {
+                // Mettre à jour le statut existant
+                $existingStatut->setStatut($statut);
+            } else {
+                // Créer une nouvelle entité Statut
+                $statutEntity = new Statut();
+                $statutEntity->setOtherUser($otherUser);
+                $statutEntity->setStatut($statut);
+                $statutEntity->setUser($user);
 
-            $entityManager->persist($statutEntity);
+                $entityManager->persist($statutEntity);
+            }
+            $entityManager->flush();
+            
+            if ($statut === 'Friend') {
+                $this->addFlash('success', 'Utilisateur ajouté à vos amis.');
+            } elseif ($statut === 'Blocked') {
+                $this->addFlash('success', 'Utilisateur bloqué avec succès.');
+            } elseif ($statut === 'Unblocked') {
+                $this->addFlash('success', 'Utilisateur débloqué avec succès.');
+            }
         }
-
-        $entityManager->flush();
 
         return $this->redirectToRoute('app_home');
     }
@@ -83,8 +95,4 @@ final class StatutController extends AbstractController
             'blocked' => $blocked,
         ]);
     }
-    
-
-
-    
 }

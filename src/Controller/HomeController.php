@@ -55,6 +55,26 @@ final class HomeController extends AbstractController
 
         // Récupération des informations de like en une seule requête
         $likeInfo = $likeService->getLikeInfoForAnnounces($pagination->getItems(), $user);
+        
+        // Récupération des statuts de relation entre l'utilisateur connecté et les auteurs des annonces
+        $userStatuses = [];
+        if ($user) {
+            $announceAuthors = [];
+            foreach ($pagination as $announce) {
+                $announceAuthors[] = $announce->getUser()->getId();
+            }
+            
+            if (!empty($announceAuthors)) {
+                $statuts = $entityManager->getRepository(\App\Entity\Statut::class)->findBy([
+                    'user' => $user,
+                    'otherUser' => $announceAuthors
+                ]);
+                
+                foreach ($statuts as $statut) {
+                    $userStatuses[$statut->getOtherUser()->getId()] = $statut->getStatut();
+                }
+            }
+        }
 
         if ($request->isMethod('POST')) {
             $comment = new Comment();
@@ -81,6 +101,7 @@ final class HomeController extends AbstractController
             'pagination' => $pagination,
             'comment_forms' => $commentForms,
             'like_info' => $likeInfo,
+            'user_statuses' => $userStatuses,
         ]);
     }
 
@@ -132,19 +153,14 @@ final class HomeController extends AbstractController
         ]);
     }
 
-
-
-
-
-
-
-
     #[Route('/search', name: 'app_search')]
     public function search(
         Request $request,
         PaginatorInterface $paginator,
         SearchServiceInterface $searchService,
-        CommentFormServiceInterface $commentFormService
+        CommentFormServiceInterface $commentFormService,
+        EntityManagerInterface $entityManager,
+        LikeServiceInterface $likeService
     ): Response {
         /** @var User $user */
         $user = $this->getUser();
@@ -171,6 +187,29 @@ final class HomeController extends AbstractController
         foreach ($pagination as $announce) {
             $commentForms[$announce->getId()] = $commentFormService->createCommentForm($announce)->createView();
         }
+        
+        // Récupération des informations de like en une seule requête
+        $likeInfo = $likeService->getLikeInfoForAnnounces($pagination->getItems(), $user);
+        
+        // Récupération des statuts de relation entre l'utilisateur connecté et les auteurs des annonces
+        $userStatuses = [];
+        if ($user) {
+            $announceAuthors = [];
+            foreach ($pagination as $announce) {
+                $announceAuthors[] = $announce->getUser()->getId();
+            }
+            
+            if (!empty($announceAuthors)) {
+                $statuts = $entityManager->getRepository(\App\Entity\Statut::class)->findBy([
+                    'user' => $user,
+                    'otherUser' => $announceAuthors
+                ]);
+                
+                foreach ($statuts as $statut) {
+                    $userStatuses[$statut->getOtherUser()->getId()] = $statut->getStatut();
+                }
+            }
+        }
 
         // Récupération des genres pour le filtre
         $genres = $searchService->getAllGenres();
@@ -181,9 +220,10 @@ final class HomeController extends AbstractController
             'query' => $searchCriteria->getQuery(),
             'selected_genre' => $searchCriteria->getGenre(),
             'genres' => $genres,
+            'like_info' => $likeInfo,
+            'user_statuses' => $userStatuses,
         ]);
     }
-
 
     private function redirectToRefererOrHome(Request $request): Response
     {
