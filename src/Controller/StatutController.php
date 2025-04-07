@@ -16,6 +16,13 @@ final class StatutController extends AbstractController
     public function index(int $id, string $statut, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
+
+
+        
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
+            return $this->redirectToRoute('app_login');
+        }
         $otherUser = $entityManager->getRepository(User::class)->find($id);
 
         if (!$otherUser) {

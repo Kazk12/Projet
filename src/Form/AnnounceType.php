@@ -10,13 +10,43 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AnnounceType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        // Détermine si c'est un formulaire de création ou de modification
+        $isEdit = $builder->getData() && $builder->getData()->getId();
+        
+        $fileConstraints = [
+            new File([
+                'maxSize' => '2M',
+                'mimeTypes' => [
+                    'image/jpeg',
+                    'image/png',
+                    'image/gif',
+                ],
+                'mimeTypesMessage' => 'Veuillez télécharger une image valide (JPG, PNG ou GIF)',
+            ])
+        ];
+        
+        // Ajout de la contrainte NotBlank seulement pour la création
+        if (!$isEdit) {
+            $fileConstraints[] = new NotBlank([
+                'message' => 'Veuillez télécharger une image',
+            ]);
+        }
+
         $builder
-        ->add('thumbnailFile', FileType::class)
+            ->add('thumbnailFile', FileType::class, [
+                'label' => 'Image',
+                'required' => !$isEdit, // Obligatoire en création, facultatif en édition
+                'mapped' => true,
+                'constraints' => $fileConstraints,
+                'help' => $isEdit ? 'Laissez vide pour conserver l\'image actuelle' : 'Formats acceptés : JPG, PNG, GIF (max 2Mo)',
+            ])
             ->add('rate', ChoiceType::class, [
                 'choices' => [
                     '1' => 1,
@@ -27,12 +57,13 @@ class AnnounceType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => false,
-                'label' => 'Rate',
+                'label' => 'Note',
                 'attr' => ['class' => 'star-rating'],
             ])
             ->add('content')
             ->add('book', EntityType::class, [
                 'class' => Book::class,
+                'label' => 'Livre',
             ])
         ;
     }

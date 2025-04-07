@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Announce{% endblock %}
+{% block title %}Modifier l'annonce{% endblock %}
 
 {% block style %}
 <link rel="stylesheet" href="{{ asset('styles/announce.css') }}" />
@@ -10,11 +10,27 @@
 <div class="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md mx-auto bg-white shadow-md rounded-lg overflow-hidden">
         <div class="p-6">
-            <h2 class="text-2xl font-extrabold text-gray-900 mb-6">Edit Announce</h2>
+            <h2 class="text-2xl font-extrabold text-gray-900 mb-6">Modifier l'annonce</h2>
+            
+           
+            
             {{ form_start(form) }}
             <div class="mb-4">
                 {{ form_label(form.thumbnailFile, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
                 {{ form_widget(form.thumbnailFile, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                
+                {# Affichage des erreurs spécifiques au champ thumbnailFile #}
+                
+                
+                {% if form.thumbnailFile.vars.help is defined %}
+                    <p class="mt-1 text-sm text-gray-500">{{ form.thumbnailFile.vars.help }}</p>
+                {% endif %}
+                {% if announce.imageUrl %}
+                    <div class="mt-2">
+                        <p class="text-sm text-gray-500">Image actuelle :</p>
+                        <img src="{{ vich_uploader_asset(announce, 'thumbnailFile') }}" alt="Image actuelle" class="mt-1 h-24 w-auto object-cover rounded-md">
+                    </div>
+                {% endif %}
             </div>
             <div class="mb-4">
                 {{ form_label(form.rate, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
@@ -26,27 +42,51 @@
                         </label>
                     {% endfor %}
                 </div>
+                {# Affichage des erreurs pour le champ rate #}
+                {% if form.rate.vars.errors|length > 0 %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {% for error in form.rate.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="mb-4">
-                {{ form_label(form.content, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+                {{ form_label(form.content, 'Votre avis', {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
                 {{ form_widget(form.content, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {# Affichage des erreurs pour le champ content #}
+                {% if form.content.vars.errors|length > 0 %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {% for error in form.content.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div class="mb-4">
                 {{ form_label(form.book, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
                 {{ form_widget(form.book, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+                {# Affichage des erreurs pour le champ book #}
+                {% if form.book.vars.errors|length > 0 %}
+                    <div class="mt-1 text-sm text-red-600">
+                        {% for error in form.book.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
             </div>
             <div>
                 <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Save
+                    Enregistrer
                 </button>
             </div>
             {{ form_end(form) }}
-          
         </div>
     </div>
 </div>
 
 <script>
+    // Script existant inchangé
     document.addEventListener('DOMContentLoaded', function () {
         const stars = document.querySelectorAll('.star-rating label');
         stars.forEach(star => {
