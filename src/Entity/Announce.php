@@ -25,7 +25,16 @@ class Announce
     private ?string $imageUrl = null;
 
     #[Vich\UploadableField(mapping: 'announces', fileNameProperty: 'imageUrl')]
-    #[Assert\Image()]
+    #[Assert\Image(
+        maxSize: '16M',
+        maxSizeMessage: 'Le fichier est trop volumineux. La taille maximale autorisée est de 2 Mo.',
+        mimeTypes: [
+            'image/jpeg',
+            'image/png',
+            'image/gif',
+        ],
+        mimeTypesMessage: 'Veuillez télécharger une image valide (JPG, PNG ou GIF)',
+    )]
     private ?File $thumbnailFile = null;
 
 

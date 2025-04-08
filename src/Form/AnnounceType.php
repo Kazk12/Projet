@@ -22,7 +22,8 @@ class AnnounceType extends AbstractType
         
         $fileConstraints = [
             new File([
-                'maxSize' => '2M',
+                'maxSize' => '16M',
+                'maxSizeMessage' => 'Le fichier est trop volumineux. La taille maximale autorisée est de 2 Mo.',
                 'mimeTypes' => [
                     'image/jpeg',
                     'image/png',
