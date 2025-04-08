@@ -7,13 +7,14 @@ use App\Entity\Statut;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class StatutController extends AbstractController
 {
     #[Route('/statut/{id}/{statut}', name: 'app_statut', methods: ['GET'])]
-    public function index(int $id, string $statut, EntityManagerInterface $entityManager): Response
+    public function index(int $id, string $statut, EntityManagerInterface $entityManager, request $request): Response
     {
         $user = $this->getUser();
         
@@ -32,6 +33,14 @@ final class StatutController extends AbstractController
             'user' => $user,
             'otherUser' => $otherUser
         ]);
+
+        if($statut === 'Débloquer') {
+            if($existingStatut){
+                $entityManager->remove($existingStatut);
+                $entityManager->flush();
+                $this->addFlash('success', 'Utilisateur débloqué avec succès.');
+            }
+        }
 
         if ($statut === 'Unfriend') {
             if ($existingStatut) {
@@ -63,7 +72,7 @@ final class StatutController extends AbstractController
             }
         }
 
-        return $this->redirectToRoute('app_home');
+        return $this->redirectToRefererOrHome($request);
     }
 
     #[Route('/friends', name: 'friends', methods: ['GET'])]
@@ -91,8 +100,22 @@ final class StatutController extends AbstractController
        
         $blocked = $entityManager->getRepository(Statut::class)->findBlockedByUser();
 
+        // dd($blocked);
+
         return $this->render('statut/blocked.html.twig', [
             'blocked' => $blocked,
         ]);
+    }
+
+
+    private function redirectToRefererOrHome(Request $request): Response
+    {
+        $referer = $request->headers->get('referer');
+
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+
+        return $this->redirectToRoute('app_home');
     }
 }

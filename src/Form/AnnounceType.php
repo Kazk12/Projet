@@ -46,7 +46,7 @@ class AnnounceType extends AbstractType
                 'required' => !$isEdit, // Obligatoire en création, facultatif en édition
                 'mapped' => true,
                 'constraints' => $fileConstraints,
-                'help' => $isEdit ? 'Laissez vide pour conserver l\'image actuelle' : 'Formats acceptés : JPG, PNG, GIF (max 2Mo)',
+                'help' => $isEdit ? 'Laissez vide pour conserver l\'image actuelle' : 'Formats acceptés : JPG, PNG, GIF (max 16Mo)',
             ])
             ->add('rate', ChoiceType::class, [
                 'choices' => [

@@ -2,15 +2,12 @@
 
 namespace App\Controller;
 
-use App\DTO\AnnounceFilter;
 use App\DTO\SearchCriteria;
-use App\Entity\Announce;
 use App\Entity\Comment;
 use App\Form\UpdateUserType;
 use App\Interfaces\PasswordUpdaterInterface;
 use App\Repository\AnnounceRepository;
 use App\Form\CommentType;
-use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Interfaces\CommentFormServiceInterface;
 use App\Interfaces\LikeServiceInterface;
