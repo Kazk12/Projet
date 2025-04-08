@@ -4,7 +4,7 @@
 
 {% block body %}
 <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-8 text-gray-800">Genres littéraires</h1>
+    <h1 class="text-3xl font-bold mb-8 text-gray-800 text-center">Genres littéraires</h1>
 
     {% for label, messages in app.flashes %}
         {% for message in messages %}
@@ -14,32 +14,58 @@
         {% endfor %}
     {% endfor %}
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {% for genre in genres %}
-            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                <div class="p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ genre.name }}</h2>
-                    <p class="text-gray-600 mb-4">{{ genre.description }}</p>
-                    
-                    <div class="flex justify-end">
-                        {% if app.user %}
-                            <form action="{{ path('app_genre_toggle_like', {'id': genre.id}) }}" method="post">
-                                <button type="submit" class="inline-flex items-center px-4 py-2 {% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}bg-indigo-600 text-white{% else %}border border-indigo-600 text-indigo-600{% endif %} rounded-md hover:{% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}bg-indigo-700{% else %}bg-indigo-50{% endif %} transition-colors duration-300">
-                                    <span class="material-icons text-sm mr-1">{% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}favorite{% else %}favorite_border{% endif %}</span>
-                                    <span>{% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}Aimé{% else %}Aimer{% endif %}</span>
-                                </button>
-                            </form>
-                        {% else %}
-                            <a href="{{ path('app_login') }}" class="inline-flex items-center px-4 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 transition-colors duration-300">
-                                <span class="material-icons text-sm mr-1">favorite_border</span>
-                                <span>Connectez-vous pour aimer</span>
-                            </a>
-                        {% endif %}
+            <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transform hover:-translate-y-1 transition duration-300 flex flex-col h-full border border-gray-200">
+                <div class="flex-1 flex">
+                    {% if genre.image %}
+                        <div class="w-1/3 flex-shrink-0 flex items-stretch overflow-hidden bg-gray-50">
+                            <img src="{{ asset('images/genres/' ~ genre.image) }}" alt="Image de {{ genre.name }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300">
+                        </div>
+                    {% endif %}
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-800 mb-2 hover:text-indigo-600 transition-colors duration-200">{{ genre.name }}</h2>
+                            <p class="text-gray-600 mb-4 line-clamp-3 text-sm">{{ genre.description }}</p>
+                        </div>
+                        <div class="flex justify-end">
+                            {% if app.user %}
+                                <form action="{{ path('app_genre_toggle_like', {'id': genre.id}) }}" method="post" class="relative">
+                                    <button type="submit" class="group relative inline-flex items-center px-4 py-2 overflow-hidden {% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}bg-indigo-600 text-white{% else %}bg-white text-indigo-600 border border-indigo-600{% endif %} rounded-md hover:bg-indigo-700 hover:text-white transition-all duration-300 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                                        <span class="material-icons text-sm mr-2 {% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}animate-pulse{% endif %}">
+                                            {% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}favorite{% else %}favorite_border{% endif %}
+                                        </span>
+                                        <span>{% if userGenreLikes[genre.id] is defined and userGenreLikes[genre.id] %}Aimé{% else %}Aimer{% endif %}</span>
+                                        <span class="absolute inset-0 w-0 bg-indigo-800 group-hover:w-full transition-all duration-300 ease-out opacity-20"></span>
+                                    </button>
+                                </form>
+                            {% else %}
+                                <a href="{{ path('app_login') }}" class="group relative inline-flex items-center px-4 py-2 overflow-hidden bg-white text-indigo-600 border border-indigo-600 rounded-md hover:bg-indigo-50 transition-colors duration-300 focus:ring-2 focus:ring-indigo-400 focus:outline-none">
+                                    <span class="material-icons text-sm mr-2">favorite_border</span>
+                                    <span>Connectez-vous</span>
+                                    <span class="absolute inset-0 w-0 bg-indigo-100 group-hover:w-full transition-all duration-300 ease-out"></span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-6 py-3 flex justify-between items-center border-t border-gray-200">
+                    <div class="text-xs text-gray-500">
+                        <span class="inline-flex items-center">
+                            <span class="material-icons text-xs mr-1">local_library</span>
+                            
+                        </span>
+                    </div>
+                    <div>
+                        <a href="{{ path('app_search', {'genre': genre.name}) }}" class="text-xs text-indigo-600 hover:text-indigo-800 transition-colors duration-200 inline-flex items-center">
+                            <span>Explorer</span>
+                            <span class="material-icons text-xs ml-1">arrow_forward</span>
+                        </a>
                     </div>
                 </div>
             </div>
         {% else %}
-            <div class="col-span-3 text-center py-10 text-gray-500">
+            <div class="col-span-full text-center py-10 text-gray-500">
                 <p>Aucun genre littéraire n'a été trouvé.</p>
             </div>
         {% endfor %}

@@ -25,6 +25,15 @@ class TypeBookFixtures extends Fixture implements DependentFixtureInterface
         ['book' => 'book_10', 'genre' => 'genre_2'], // Death Note - Seinen
         ['book' => 'book_11', 'genre' => 'genre_2'], // Berserk - Seinen
         ['book' => 'book_12', 'genre' => 'genre_0'], // Black Clover - Shonen
+        ['book' => 'book_13', 'genre' => 'genre_1'], // Boys Over Flowers - Shojo
+        ['book' => 'book_14', 'genre' => 'genre_3'], // Emma - Josei
+        ['book' => 'book_15', 'genre' => 'genre_5'], // Sword Art Online - Isekai
+        ['book' => 'book_16', 'genre' => 'genre_1'], // Fushigi Yugi - Shojo
+        ['book' => 'book_17', 'genre' => 'genre_4'], // Chobits - Kodomo
+        ['book' => 'book_18', 'genre' => 'genre_6'], // Fairy Tail - Fantasy
+        ['book' => 'book_19', 'genre' => 'genre_9'], // Uzumaki - Horror
+        ['book' => 'book_20', 'genre' => 'genre_10'], // Slam Dunk - Sports
+        ['book' => 'book_21', 'genre' => 'genre_14'], // Vinland Saga - Historical
     ];
 
     public function load(ObjectManager $manager): void

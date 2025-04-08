@@ -87,6 +87,60 @@ class BookFixtures extends Fixture
             'createdAt' => '2015-02-16',
             'img' => 'black_clover.jpg',
         ],
+        [
+            'author' => 'Yoko Kamio',
+            'title' => 'Boys Over Flowers',
+            'createdAt' => '1992-10-01',
+            'img' => 'boys_over_flowers.jpg',
+        ],
+        [
+            'author' => 'Kaoru Mori',
+            'title' => 'Emma',
+            'createdAt' => '2002-08-30',
+            'img' => 'emma.jpg',
+        ],
+        [
+            'author' => 'Reki Kawahara',
+            'title' => 'Sword Art Online',
+            'createdAt' => '2009-04-10',
+            'img' => 'sword_art_online.jpg',
+        ],
+        [
+            'author' => 'Yuu Watase',
+            'title' => 'Fushigi Yugi',
+            'createdAt' => '1992-05-18',
+            'img' => 'fushigi_yugi.jpg',
+        ],
+        [
+            'author' => 'Clamp',
+            'title' => 'Chobits',
+            'createdAt' => '2000-09-01',
+            'img' => 'chobits.jpg',
+        ],
+        [
+            'author' => 'Hiro Mashima',
+            'title' => 'Fairy Tail',
+            'createdAt' => '2006-08-02',
+            'img' => 'fairy_tail.jpg',
+        ],
+        [
+            'author' => 'Junji Ito',
+            'title' => 'Uzumaki',
+            'createdAt' => '1998-01-12',
+            'img' => 'uzumaki.jpg',
+        ],
+        [
+            'author' => 'Takehiko Inoue',
+            'title' => 'Slam Dunk',
+            'createdAt' => '1990-10-01',
+            'img' => 'slam_dunk.jpg',
+        ],
+        [
+            'author' => 'Makoto Yukimura',
+            'title' => 'Vinland Saga',
+            'createdAt' => '2005-04-13',
+            'img' => 'vinland_saga.jpg',
+        ],
     ];
 
     public function load(ObjectManager $manager): void
