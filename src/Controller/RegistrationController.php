@@ -45,7 +45,7 @@ class RegistrationController extends AbstractController
                     ->from(new Address('ProjetFinal@projet.com', 'Projet Final'))
                     ->to((string) $user->getEmail())
                     ->subject('Veuillez confirmer votre adresse e-mail')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('emails/verificationEmail.html.twig')
             );
 
             $this->addFlash('success', 'Votre compte a été créé. Veuillez vérifier votre e-mail pour un lien de vérification.');

@@ -40,7 +40,7 @@ class PasswordUpdater implements PasswordUpdaterInterface
         $flashBag = $session->getFlashBag();
 
         if ($user->getEmail() !== $email) {
-            $flashBag->add('danger', 'The email you entered does not match the email associated with your account.');
+            $flashBag->add('danger', 'L\'adresse e-mail saisie ne correspond pas à celle associée à votre compte.');
             return;
         }
 
@@ -48,16 +48,22 @@ class PasswordUpdater implements PasswordUpdaterInterface
         $user->setPassword($hashedPassword);
 
         try {
+            
             $mail = (new TemplatedEmail())
                 ->from('support@luxury-services.com')
                 ->to($user->getEmail())
-                ->subject('Change of password')
-                ->htmlTemplate('emails/change-password.html.twig');
+                ->subject('Changement de mot de passe')
+                ->htmlTemplate('emails/motPasse.html.twig')
+                ->context([
+                    'user' => $user,
+                    'date' => new \DateTime()
+                ]);
+
 
             $this->mailer->send($mail);
-            $flashBag->add('success', 'Your password has been changed successfully!');
+            $flashBag->add('success', 'Votre mot de passe a été modifié avec succès !');
         } catch (\Exception $e) {
-            $flashBag->add('danger', 'An error occurred while sending the message: ' . $e->getMessage());
+            $flashBag->add('danger', 'Une erreur est survenue lors de l\'envoi du message : ' . $e->getMessage());
         }
     }
 }

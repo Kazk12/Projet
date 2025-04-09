@@ -19,7 +19,21 @@
                     Découvrez les livres qui font vibrer notre communauté et partagez vos impressions
                 </p>
                 
-
+                {% if app.user %}
+                    <div class="mt-6">
+                        <a href="{{ path('app_announce_new') }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                            <span class="material-icons mr-2">add_circle</span>
+                            Créer une annonce
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="mt-6">
+                        <a href="{{ path('app_login') }}" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
+                            <span class="material-icons mr-2">login</span>
+                            Se connecter pour participer
+                        </a>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -57,7 +71,7 @@
                         {% endif %}
                         
                         <!-- Menu d'actions -->
-                        {% if app.user %}
+                        {% if app.user and app.user.id != announce.user.id %}
                             <div class="absolute top-3 right-3 z-10">
                                 <div class="relative">
                                     <button onclick="toggleDropdown({{ announce.id }})" class="bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-sm hover:bg-white transition-all duration-200 text-gray-700 hover:text-indigo-600">
@@ -66,32 +80,30 @@
 
                                     <!-- Menu déroulant -->
                                     <div id="dropdown-{{ announce.id }}" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
-                                        {% if app.user.id != announce.user.id %}
-                                            {% set statut = user_statuses[announce.user.id] ?? null %}
-                                            
-                                            {% if statut is null or statut != 'Friend' %}
-                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Friend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    <span class="material-icons text-gray-500 mr-2 text-sm">person_add</span>
-                                                    <span>Ajouter en amis</span>
-                                                </a>
-                                            {% else %}
-                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Unfriend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    <span class="material-icons text-gray-500 mr-2 text-sm">person_remove</span>
-                                                    <span>Retirer des amis</span>
-                                                </a>
-                                            {% endif %}
-                                            
-                                            {% if statut is null or statut != 'Blocked' %}
-                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Blocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    <span class="material-icons text-gray-500 mr-2 text-sm">block</span>
-                                                    <span>Bloquer</span>
-                                                </a>
-                                            {% else %}
-                                                <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Unblocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                                    <span class="material-icons text-gray-500 mr-2 text-sm">restart_alt</span>
-                                                    <span>Débloquer</span>
-                                                </a>
-                                            {% endif %}
+                                        {% set statut = user_statuses[announce.user.id] ?? null %}
+                                        
+                                        {% if statut is null or statut != 'Friend' %}
+                                            <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Friend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <span class="material-icons text-gray-500 mr-2 text-sm">person_add</span>
+                                                <span>Ajouter en amis</span>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Unfriend'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <span class="material-icons text-gray-500 mr-2 text-sm">person_remove</span>
+                                                <span>Retirer des amis</span>
+                                            </a>
+                                        {% endif %}
+                                        
+                                        {% if statut is null or statut != 'Blocked' %}
+                                            <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Blocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <span class="material-icons text-gray-500 mr-2 text-sm">block</span>
+                                                <span>Bloquer</span>
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ path('app_statut', {id: announce.user.id, statut: 'Unblocked'}) }}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <span class="material-icons text-gray-500 mr-2 text-sm">restart_alt</span>
+                                                <span>Débloquer</span>
+                                            </a>
                                         {% endif %}
                                     </div>
                                 </div>

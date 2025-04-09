@@ -60,6 +60,11 @@ class AnnounceType extends AbstractType
                 'multiple' => false,
                 'label' => 'Note',
                 'attr' => ['class' => 'star-rating'],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez sélectionner une note',
+                    ]),
+                ],
             ])
             ->add('content')
             ->add('book', EntityType::class, [

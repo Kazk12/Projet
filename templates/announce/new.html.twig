@@ -99,6 +99,10 @@
     </div>
 </div>
 
+
+  {% block js %}
+
+  
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const stars = document.querySelectorAll('.star-rating label');
@@ -117,4 +121,6 @@
         });
     });
 </script>
+
+{% endblock %}
 {% endblock %}

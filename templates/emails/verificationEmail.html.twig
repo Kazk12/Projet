@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmation de votre adresse email</title>
+</head>
+<body style="font-family: ui-sans-serif, system-ui, sans-serif; background-color: #f3f3f7; color: #374151; margin: 0; padding: 24px;">
+    <div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+        <!-- En-tête -->
+        <div style="background-color: #5a4fcf; padding: 24px; text-align: center;">
+            <h1 style="margin: 0; color: white; font-size: 24px; font-weight: 600;">Bonjour ! Veuillez confirmer votre adresse e-mail !</h1>
+        </div>
+        
+        <!-- Contenu principal -->
+        <div style="padding: 32px; background-color: white;">
+            <p style="margin-bottom: 16px; font-size: 16px; line-height: 1.5; color: #4b5563;">Veuillez confirmer votre adresse e-mail en cliquant sur le bouton ci-dessous :</p>
+            
+            <div style="text-align: center; margin: 32px 0;">
+                <a href="{{ signedUrl|raw }}" style="display: inline-block; background-color: #5a4fcf; color: white; font-weight: 600; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-size: 16px;">Confirmer mon adresse e-mail</a>
+            </div>
+            
+            <p style="margin-bottom: 16px; font-size: 16px; line-height: 1.5; color: #4b5563;">Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.</p>
+            
+            <div style="background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 16px; margin: 24px 0; border-radius: 0 4px 4px 0;">
+                <p style="margin: 0; color: #166534; font-size: 16px; line-height: 1.5;">
+                    Si vous n'avez pas créé de compte, vous pouvez ignorer cet email.
+                </p>
+            </div>
+            
+            <p style="margin-bottom: 8px; font-size: 16px; line-height: 1.5; color: #4b5563;">Cordialement !</p>
+            <p style="font-size: 16px; line-height: 1.5; font-weight: 600; color: #4b5563;">L'équipe de Support</p>
+        </div>
+        
+        <!-- Pied de page -->
+        <div style="padding: 16px; background-color: #f9fafb; text-align: center; border-top: 1px solid #e5e7eb;">
+            <p style="margin: 0; font-size: 14px; color: #6b7280;">© 2025 Votre Société. Tous droits réservés.</p>
+        </div>
+    </div>
+</body>
+</html>

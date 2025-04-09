@@ -83,13 +83,18 @@ final class AnnounceController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         if($announce->getUser()->getId() !== $user->getId()){
+            $this->addFlash('warning', 'Vous n\'êtes pas autorisé à modifier cette annonce.');
             return $this->redirectToRoute('app_announce_mine', [], Response::HTTP_SEE_OTHER);
         }
         $form = $this->createForm(AnnounceType::class, $announce);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            $announce->setUpdatedAt(new \DateTimeImmutable());
+            
             $entityManager->flush();
+            $this->addFlash('success', 'L\'annonce a été mise à jour avec succès.');
 
             return $this->redirectToRoute('app_announce_mine', [], Response::HTTP_SEE_OTHER);
         }
@@ -121,6 +126,7 @@ final class AnnounceController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$announce->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($announce);
             $entityManager->flush();
+            $this->addFlash('success', 'L\'annonce a été supprimée avec succès.');
         }
 
         return $this->redirectToRoute('app_announce_mine', [], Response::HTTP_SEE_OTHER);
