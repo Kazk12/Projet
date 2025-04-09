@@ -12,7 +12,7 @@ class StatutFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $statuts = ['ami', 'bloquer'];
+        $statuts = ['Friend', 'Blocked'];
 
         foreach (UserFixtures::USERS as $key1 => $userData1) {
             foreach (UserFixtures::USERS as $key2 => $userData2) {

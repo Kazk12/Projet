@@ -73,6 +73,18 @@ final class AnnounceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_announce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Announce $announce, EntityManagerInterface $entityManager): Response
     {
+
+
+        /**
+         *  @var User $user
+         */
+        $user = $this->getUser();
+        if(!$user){
+            return $this->redirectToRoute('app_login');
+        }
+        if($announce->getUser()->getId() !== $user->getId()){
+            return $this->redirectToRoute('app_announce_mine', [], Response::HTTP_SEE_OTHER);
+        }
         $form = $this->createForm(AnnounceType::class, $announce);
         $form->handleRequest($request);
 
@@ -91,6 +103,21 @@ final class AnnounceController extends AbstractController
     #[Route('/{id}', name: 'app_announce_delete', methods: ['POST'])]
     public function delete(Request $request, Announce $announce, EntityManagerInterface $entityManager): Response
     {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+        
+        // Vérifier que l'utilisateur est le propriétaire de l'annonce
+        if ($announce->getUser()->getId() !== $user->getId()) {
+            $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer cette annonce.');
+            return $this->redirectToRoute('app_home');
+        }
+        
         if ($this->isCsrfTokenValid('delete'.$announce->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($announce);
             $entityManager->flush();
