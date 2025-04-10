@@ -2,17 +2,13 @@
 
 namespace App\Controller;
 
-use App\DTO\SearchCriteria;
+
 use App\Entity\Comment;
-use App\Form\UpdateUserType;
-use App\Interfaces\PasswordUpdaterInterface;
 use App\Repository\AnnounceRepository;
 use App\Form\CommentType;
 use App\Entity\User;
 use App\Interfaces\CommentFormServiceInterface;
 use App\Interfaces\LikeServiceInterface;
-use App\Interfaces\SearchServiceInterface;
-use App\Interfaces\UpdateProfilInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -94,7 +90,7 @@ final class HomeController extends AbstractController
             }
         }
 
-        // dd($pagination);
+       
 
         return $this->render('home/index.html.twig', [
             'pagination' => $pagination,

@@ -213,13 +213,17 @@
                                 
                                 {% if announce.comments|length > 0 %}
                                     <div class="space-y-3 max-h-60 overflow-y-auto pr-2">
-                                        {% for comment in announce.comments|slice(0, 3) %}
+                                        {% for comment in announce.comments %}
                                             <div class="bg-gray-50 rounded-lg p-3">
                                                 <div class="flex items-start space-x-3">
                                                     <div class="flex-shrink-0">
                                                         <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100">
                                                             <span class="text-xs font-medium leading-none text-indigo-700">
-                                                                {{ comment.user.pseudo|slice(0, 1)|upper }}
+                                                                {% if comment.user.profilePicture %}
+                                                                    <img src="{{ vich_uploader_asset(comment.user, 'photoFile') }}" alt="Photo de profil" class="h-full w-full object-cover">
+                                                                {% else %}
+                                                                    {{ comment.user.pseudo|slice(0, 1)|upper }}
+                                                                {% endif %}
                                                             </span>
                                                         </span>
                                                     </div>
