@@ -106,6 +106,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    /**
+     * @var Collection<int, Warning>
+     */
+    #[ORM\OneToMany(targetEntity: Warning::class, mappedBy: 'createdBy')]
+    private Collection $warnings;
+
+    /**
+     * @var Collection<int, Warning>
+     */
+    #[ORM\OneToMany(targetEntity: Warning::class, mappedBy: 'user')]
+    private Collection $userWarnings;
+
 
     public function __construct()
     {
@@ -118,6 +133,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->conversations = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->warnings = new ArrayCollection();
+        $this->userWarnings = new ArrayCollection();
     }
 
     public function __serialize(): array
@@ -518,5 +535,77 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
        
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Warning>
+     */
+    public function getWarnings(): Collection
+    {
+        return $this->warnings;
+    }
+
+    public function addWarning(Warning $warning): static
+    {
+        if (!$this->warnings->contains($warning)) {
+            $this->warnings->add($warning);
+            $warning->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWarning(Warning $warning): static
+    {
+        if ($this->warnings->removeElement($warning)) {
+            // set the owning side to null (unless already changed)
+            if ($warning->getCreatedBy() === $this) {
+                $warning->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Warning>
+     */
+    public function getUserWarnings(): Collection
+    {
+        return $this->userWarnings;
+    }
+
+    public function addUserWarning(Warning $userWarning): static
+    {
+        if (!$this->userWarnings->contains($userWarning)) {
+            $this->userWarnings->add($userWarning);
+            $userWarning->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserWarning(Warning $userWarning): static
+    {
+        if ($this->userWarnings->removeElement($userWarning)) {
+            // set the owning side to null (unless already changed)
+            if ($userWarning->getUser() === $this) {
+                $userWarning->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

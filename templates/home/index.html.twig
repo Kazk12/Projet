@@ -153,7 +153,7 @@
                                     <div class="flex-shrink-0">
                                         <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
                                             {% if announce.user.profilePicture %}
-                                    <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-full w-full object-cover">
+                                    {# <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-full w-full object-cover"> #}
                                 {% else %}
                                     <span class="text-sm font-bold leading-none text-white">
                                         {{ announce.user.pseudo|slice(0, 1)|upper }}
@@ -219,11 +219,7 @@
                                                     <div class="flex-shrink-0">
                                                         <span class="inline-flex items-center justify-center h-6 w-6 rounded-full bg-indigo-100">
                                                             <span class="text-xs font-medium leading-none text-indigo-700">
-                                                                {% if comment.user.profilePicture %}
-                                                                    <img src="{{ vich_uploader_asset(comment.user, 'photoFile') }}" alt="Photo de profil" class="h-full w-full object-cover">
-                                                                {% else %}
-                                                                    {{ comment.user.pseudo|slice(0, 1)|upper }}
-                                                                {% endif %}
+                                                                {{ comment.user.pseudo|slice(0, 1)|upper }}
                                                             </span>
                                                         </span>
                                                     </div>

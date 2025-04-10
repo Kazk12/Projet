@@ -56,7 +56,7 @@ class Announce
     /**
      * @var Collection<int, UserLikeAnnounce>
      */
-    #[ORM\OneToMany(targetEntity: UserLikeAnnounce::class, mappedBy: 'announce')]
+    #[ORM\OneToMany(targetEntity: UserLikeAnnounce::class, mappedBy: 'announce', orphanRemoval: true)]
     private Collection $userLikeAnnounces;
 
     #[ORM\ManyToOne(inversedBy: 'announces')]
@@ -65,7 +65,8 @@ class Announce
     /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'announce')]
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'announce', orphanRemoval: true)]
+    
     private Collection $comments;
 
     public function __construct()
