@@ -8,7 +8,6 @@
             <div>
                 <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
                     Créez votre compte
-
                 </h2>
                 {% for flash_error in app.flashes('verify_email_error') %}
                     <div class="mt-2 text-center text-sm text-red-600">
@@ -16,7 +15,7 @@
                     </div>
                 {% endfor %}
             </div>
-            {{ form_start(registrationForm, {'attr': {'class': 'mt-8 space-y-6'}}) }}
+            {{ form_start(registrationForm, {'attr': {'class': 'mt-8 space-y-6', 'enctype': 'multipart/form-data'}}) }}
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
                         {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'sr-only'}}) }}
@@ -35,13 +34,23 @@
                         {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Confirmation du mot de passe'}}) }}
                     </div>
                 </div>
-                <div class="flex items-center justify-between">
+                
+                <div class="mt-4">
+                    <label for="{{ registrationForm.photoFile.vars.id }}" class="block text-sm font-medium text-gray-700">Photo de profil</label>
+                    <div class="mt-1 flex items-center">
+                        {{ form_widget(registrationForm.photoFile, {'attr': {'class': 'mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100'}}) }}
+                    </div>
+                    <div class="text-xs text-gray-500 mt-1">Formats acceptés : JPG, PNG, GIF (max 2Mo)</div>
+                </div>
+                
+                <div class="flex items-center mt-4">
                     <div class="flex items-center">
-                        {{ form_widget(registrationForm.agreeTerms) }}
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'}}) }}
                         {{ form_label(registrationForm.agreeTerms, 'J\'accepte les termes et conditions', {'label_attr': {'class': 'ml-2 block text-sm text-gray-900'}}) }}
                     </div>
                 </div>
-                <div>
+                
+                <div class="mt-6">
                     <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                         S'inscrire
                     </button>

@@ -152,9 +152,13 @@
                                 <div class="flex items-center">
                                     <div class="flex-shrink-0">
                                         <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-indigo-100">
-                                            <span class="text-sm font-medium text-indigo-700">
-                                                {{ announce.user.pseudo|slice(0, 1)|upper }}
-                                            </span>
+                                            {% if announce.user.profilePicture %}
+                                    <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-full w-full object-cover">
+                                {% else %}
+                                    <span class="text-sm font-bold leading-none text-white">
+                                        {{ announce.user.pseudo|slice(0, 1)|upper }}
+                                    </span>
+                                {% endif %}
                                         </span>
                                     </div>
                                     <div class="ml-3">

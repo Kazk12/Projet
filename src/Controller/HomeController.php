@@ -94,6 +94,8 @@ final class HomeController extends AbstractController
             }
         }
 
+        // dd($pagination);
+
         return $this->render('home/index.html.twig', [
             'pagination' => $pagination,
             'comment_forms' => $commentForms,

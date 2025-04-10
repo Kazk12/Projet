@@ -50,6 +50,7 @@ final class ProfilController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $pseudo = $form->get('pseudo')->getData();
             $email = $form->get('email')->getData();
+            $photoFile = $form->get('photoFile')->getData();
             $emailPassword = $form->get('emailPassword')->getData();
             $newPassword = $form->get('newPassword')->getData();
 
@@ -59,7 +60,8 @@ final class ProfilController extends AbstractController
                 $this->addFlash('danger', 'L\'email et le mot de passe doivent être remplis ensemble pour changer le mot de passe.');
             }
 
-            $updateProfilService->updateProfil($user, $pseudo, $email);
+            $updateProfilService->updateProfil($user, $pseudo, $email, $photoFile);
+           
             $this->addFlash('success', 'Vos informations ont bien été mises à jour.');
 
             return $this->redirectToRoute('app_profil_update');
@@ -69,4 +71,6 @@ final class ProfilController extends AbstractController
             'updateForm' => $form->createView(),
         ]);
     }
+
+    
 }
