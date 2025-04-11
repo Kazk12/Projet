@@ -2,9 +2,9 @@
       hx-swap-oob="true"
       class="flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium
       {% if liked %}
-          bg-indigo-100 text-indigo-700 hover:bg-indigo-200
+          bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 hover:bg-indigo-200 dark:hover:bg-indigo-800/50
       {% else %}
-          bg-gray-100 text-gray-700 hover:bg-gray-200
+          bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600
       {% endif %}
       transition-colors">
     {% if liked %}Unlike{% else %}Like{% endif %}

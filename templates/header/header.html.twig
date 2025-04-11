@@ -1,20 +1,20 @@
-<header id="header" class="bg-white/95 backdrop-blur-sm shadow-lg sticky top-0 z-50 transition-all duration-300">
+<header id="header" class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-sm shadow-lg dark:shadow-dark-lg sticky top-0 z-50 transition-all duration-300">
     <div
         class="container mx-auto px-4 py-3 flex flex-wrap items-center">
         <!-- Logo avec animation avancée -->
-        <a class="brand logo-brand text-indigo-600 text-2xl font-bold flex items-center group transition-all duration-300 hover:scale-105" href="/">
+        <a class="brand logo-brand text-indigo-600 dark:text-indigo-400 text-2xl font-bold flex items-center group transition-all duration-300 hover:scale-105" href="/">
             <div class="relative overflow-hidden h-8 w-8 mr-2 flex items-center justify-center">
-                <svg class="h-7 w-7 text-indigo-600 transform transition-all duration-500 group-hover:scale-0 group-hover:rotate-180 absolute" fill="currentColor" viewbox="0 0 24 24">
+                <svg class="h-7 w-7 text-indigo-600 dark:text-indigo-400 transform transition-all duration-500 group-hover:scale-0 group-hover:rotate-180 absolute" fill="currentColor" viewbox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                 </svg>
-                <svg class="h-7 w-7 text-indigo-500 transform transition-all duration-500 scale-0 group-hover:scale-110 absolute" fill="currentColor" viewbox="0 0 24 24">
+                <svg class="h-7 w-7 text-indigo-500 dark:text-indigo-300 transform transition-all duration-500 scale-0 group-hover:scale-110 absolute" fill="currentColor" viewbox="0 0 24 24">
                     <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                 </svg>
             </div>
-            <span class="relative overflow-hidden group-hover:text-indigo-700 transition-colors duration-300">
+            <span class="relative overflow-hidden group-hover:text-indigo-700 dark:group-hover:text-indigo-300 transition-colors duration-300">
                 <span class="block transition-transform duration-300 group-hover:-translate-y-full">Narrama</span>
-                <span class="absolute top-0 left-0 transform translate-y-full transition-transform duration-300 group-hover:translate-y-0 text-indigo-700">Narrama</span>
-                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-400 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100 origin-left"></span>
+                <span class="absolute top-0 left-0 transform translate-y-full transition-transform duration-300 group-hover:translate-y-0 text-indigo-700 dark:text-indigo-300">Narrama</span>
+                <span class="absolute bottom-0 left-0 w-full h-0.5 bg-indigo-400 dark:bg-indigo-500 transform scale-x-0 transition-transform duration-500 group-hover:scale-x-100 origin-left"></span>
             </span>
         </a>
 
@@ -22,12 +22,13 @@
         <div class="hidden md:flex flex-1 max-w-xl px-4 mx-auto">
             <div class="relative w-full transition-all duration-300 hover:scale-[1.02] group">
                 <form action="{{ path('app_search') }}" method="GET" class="flex items-center">
-                    <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full transform scale-[1.03] blur-sm transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
-                    <input type="text" name="query" placeholder="Rechercher un livre, un auteur ou un sujet..." class="w-full px-6 py-3 pr-14 rounded-full border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-gray-700 bg-white shadow-md transition-all duration-300 group-hover:shadow-xl">
-<button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-600 hover:text-indigo-800 transition-all duration-300 group-hover:scale-110 flex items-center justify-center">
-    <span class="material-icons text-xl transition-all duration-200">search</span>
-    <span class="absolute inset-0 rounded-full bg-indigo-100 transform scale-0 opacity-0 transition-all duration-300 group-hover:scale-[2] group-hover:opacity-70"></span>
-</button>
+                    <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/5 dark:to-purple-500/5 rounded-full transform scale-[1.03] blur-sm transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+                    <input type="text" name="query" placeholder="Rechercher un livre, un auteur ou un sujet..." 
+                        class="w-full px-6 py-3 pr-14 rounded-full border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 shadow-md dark:shadow-dark-md transition-all duration-300 group-hover:shadow-xl dark:group-hover:shadow-dark-lg">
+                    <button type="submit" class="absolute right-4 top-1/2 -translate-y-1/2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-all duration-300 group-hover:scale-110 flex items-center justify-center">
+                        <span class="material-icons text-xl transition-all duration-200">search</span>
+                        <span class="absolute inset-0 rounded-full bg-indigo-100 dark:bg-indigo-900/30 transform scale-0 opacity-0 transition-all duration-300 group-hover:scale-[2] group-hover:opacity-70"></span>
+                    </button>
                 </form>
             </div>
         </div>
@@ -35,32 +36,44 @@
         <!-- Navigation et boutons (desktop) avec animations avancées -->
         <nav class="hidden md:flex ml-auto items-center space-x-6">
             <ul class="flex items-center space-x-4">
+                <!-- Bouton Dark Mode -->
                 <li>
-                    <a href="{{ path('app_home') }}" class="px-4 py-2 rounded-md text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium flex items-center group relative overflow-hidden">
-                        <span class="absolute inset-0 bg-indigo-50 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
+                    <button class="dark-mode-toggle px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 font-medium flex items-center group relative overflow-hidden">
+                        <span class="absolute inset-0 bg-indigo-50 dark:bg-gray-700 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
+                        <span class="material-icons text-base mr-1 group-hover:scale-110 transition-transform duration-200 relative z-10">dark_mode</span>
+                        <span class="relative z-10 toggle-label">
+                            Mode sombre
+                            <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 dark:bg-indigo-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
+                        </span>
+                    </button>
+                </li>
+                
+                <li>
+                    <a href="{{ path('app_home') }}" class="px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 font-medium flex items-center group relative overflow-hidden">
+                        <span class="absolute inset-0 bg-indigo-50 dark:bg-gray-700 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
                         <span class="material-icons text-base mr-1 group-hover:scale-110 transition-transform duration-200 relative z-10">home</span>
                         <span class="relative z-10">
                             Accueil
-                            <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
+                            <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 dark:bg-indigo-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
                         </span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_genres_list') }}" class="px-4 py-2 rounded-md text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium flex items-center group relative overflow-hidden">
-                        <span class="absolute inset-0 bg-indigo-50 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
+                    <a href="{{ path('app_genres_list') }}" class="px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 font-medium flex items-center group relative overflow-hidden">
+                        <span class="absolute inset-0 bg-indigo-50 dark:bg-gray-700 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
                         <span class="material-icons text-base mr-1 group-hover:scale-110 transition-transform duration-200 relative z-10">category</span>
                         <span class="relative z-10">
                             Genres
-                            <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
+                            <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 dark:bg-indigo-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
                         </span>
                     </a>
                 </li>
 
                 {% if app.user %}
                     <li class="relative">
-                        <button id="user-menu-button" class="flex items-center px-4 py-2 rounded-md text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium group relative overflow-hidden">
-                            <span class="absolute inset-0 bg-indigo-50 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
-                            <span class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 mr-2 border-2 border-transparent group-hover:border-indigo-200 shadow-md transition-all duration-300 group-hover:shadow-indigo-200/50 relative z-10 overflow-hidden">
+                        <button id="user-menu-button" class="flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 font-medium group relative overflow-hidden">
+                            <span class="absolute inset-0 bg-indigo-50 dark:bg-gray-700 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
+                            <span class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 mr-2 border-2 border-transparent group-hover:border-indigo-200 dark:group-hover:border-indigo-700 shadow-md transition-all duration-300 group-hover:shadow-indigo-200/50 dark:group-hover:shadow-indigo-700/30 relative z-10 overflow-hidden">
                                 {% if app.user.profilePicture %}
                                     <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-full w-full object-cover">
                                 {% else %}
@@ -68,46 +81,46 @@
                                         {{ app.user.pseudo|slice(0, 1)|upper }}
                                     </span>
                                 {% endif %}
-                                <span class="absolute inset-0 rounded-full bg-indigo-600 transform scale-0 opacity-0 transition-transform duration-500 group-hover:scale-100 group-hover:opacity-100 animate-pulse"></span>
+                                <span class="absolute inset-0 rounded-full bg-indigo-600 dark:bg-indigo-500 transform scale-0 opacity-0 transition-transform duration-500 group-hover:scale-100 group-hover:opacity-100 animate-pulse"></span>
                             </span>
                             <span class="relative z-10">
                                 {{ app.user.pseudo }}
-                                <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
+                                <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 dark:bg-indigo-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
                             </span>
                             <span class="material-icons text-base ml-1 transition-transform duration-300 group-hover:rotate-180 relative z-10">expand_more</span>
                         </button>
-                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl py-2 z-10 border border-gray-100 transform origin-top scale-95 opacity-0 transition-all duration-300">
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-xl dark:shadow-dark-xl py-2 z-10 border border-gray-100 dark:border-gray-700 transform origin-top scale-95 opacity-0 transition-all duration-300">
                             <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-t-lg"></div>
                             <div class="pt-2">
                                 {% if app.user.profilePicture %}
                                     <div class="px-4 py-2 flex items-center">
-                                        <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-10 w-10 rounded-full object-cover border border-indigo-200">
+                                        <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-10 w-10 rounded-full object-cover border border-indigo-200 dark:border-indigo-700">
                                         <div class="ml-3">
-                                            <p class="text-sm font-medium text-gray-700">{{ app.user.pseudo }}</p>
-                                            <p class="text-xs text-gray-500 truncate">{{ app.user.email }}</p>
+                                            <p class="text-sm font-medium text-gray-700 dark:text-gray-200">{{ app.user.pseudo }}</p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ app.user.email }}</p>
                                         </div>
                                     </div>
-                                    <div class="border-t border-gray-100 my-1"></div>
+                                    <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
                                 {% endif %}
-                                <a href="{{ path('app_profil') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group transition-colors duration-200">
-                                    <span class="material-icons text-indigo-500 mr-3 text-base group-hover:scale-110 transition-transform duration-200">person</span>
+                                <a href="{{ path('app_profil') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-700 dark:hover:text-indigo-400 group transition-colors duration-200">
+                                    <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 text-base group-hover:scale-110 transition-transform duration-200">person</span>
                                     <span>Mon profil</span>
-                                    <span class="absolute right-4 text-indigo-500 opacity-0 transform translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                                    <span class="absolute right-4 text-indigo-500 dark:text-indigo-400 opacity-0 transform translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                                         <span class="material-icons text-sm">arrow_forward</span>
                                     </span>
                                 </a>
-                                <a href="{{ path('user_likes') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 group transition-colors duration-200">
-                                    <span class="material-icons text-indigo-500 mr-3 text-base group-hover:scale-110 transition-transform duration-200">favorite</span>
+                                <a href="{{ path('user_likes') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-700 dark:hover:text-indigo-400 group transition-colors duration-200">
+                                    <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 text-base group-hover:scale-110 transition-transform duration-200">favorite</span>
                                     <span>Mes likes</span>
-                                    <span class="absolute right-4 text-indigo-500 opacity-0 transform translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                                    <span class="absolute right-4 text-indigo-500 dark:text-indigo-400 opacity-0 transform translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                                         <span class="material-icons text-sm">arrow_forward</span>
                                     </span>
                                 </a>
-                                <div class="border-t border-gray-100 my-1"></div>
-                                <a href="{{ path('app_logout') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-red-50 hover:text-red-600 group transition-colors duration-200">
-                                    <span class="material-icons text-gray-500 mr-3 text-base group-hover:scale-110 transition-transform duration-200 group-hover:text-red-500">logout</span>
+                                <div class="border-t border-gray-100 dark:border-gray-700 my-1"></div>
+                                <a href="{{ path('app_logout') }}" class="flex items-center px-4 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 group transition-colors duration-200">
+                                    <span class="material-icons text-gray-500 dark:text-gray-400 mr-3 text-base group-hover:scale-110 transition-transform duration-200 group-hover:text-red-500 dark:group-hover:text-red-400">logout</span>
                                     <span>Déconnexion</span>
-                                    <span class="absolute right-4 text-red-500 opacity-0 transform translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
+                                    <span class="absolute right-4 text-red-500 dark:text-red-400 opacity-0 transform translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
                                         <span class="material-icons text-sm">arrow_forward</span>
                                     </span>
                                 </a>
@@ -116,17 +129,17 @@
                     </li>
                 {% else %}
                     <li>
-                        <a href="{{ path('app_login') }}" class="px-4 py-2 rounded-md text-gray-700 hover:text-indigo-600 transition-all duration-300 font-medium flex items-center group relative overflow-hidden">
-                            <span class="absolute inset-0 bg-indigo-50 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
+                        <a href="{{ path('app_login') }}" class="px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 font-medium flex items-center group relative overflow-hidden">
+                            <span class="absolute inset-0 bg-indigo-50 dark:bg-gray-700 transform scale-x-0 origin-left transition-transform duration-300 group-hover:scale-x-100 -z-10"></span>
                             <span class="material-icons text-base mr-1 group-hover:scale-110 transition-transform duration-200 relative z-10">login</span>
                             <span class="relative z-10">
                                 Connexion
-                                <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
+                                <span class="absolute -bottom-0.5 left-0 w-full h-0.5 bg-indigo-400 dark:bg-indigo-500 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100 origin-left"></span>
                             </span>
                         </a>
                     </li>
                     <li class="relative group">
-                        <a href="{{ path('app_register') }}" class="relative inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-indigo-600 text-white font-medium shadow-md hover:shadow-xl hover:bg-indigo-700 transition-all duration-300 transform hover:scale-105">
+                        <a href="{{ path('app_register') }}" class="relative inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-indigo-600 dark:bg-indigo-500 text-white font-medium shadow-md dark:shadow-dark-md hover:shadow-xl dark:hover:shadow-dark-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all duration-300 transform hover:scale-105">
                             <span class="material-icons text-sm mr-1">person_add</span>
                             <span>Inscription</span>
                         </a>
@@ -137,8 +150,8 @@
 
         <!-- Bouton menu mobile avec animation -->
         <div class="ml-auto md:hidden">
-            <button id="mobile-menu-button" class="text-gray-700 hover:text-indigo-600 focus:outline-none p-2 rounded-full hover:bg-indigo-50 transition-all duration-300 flex items-center justify-center shadow-sm hover:shadow relative group">
-                <span class="absolute inset-0 rounded-full bg-indigo-50 transform scale-0 transition-transform duration-300 group-hover:scale-100"></span>
+            <button id="mobile-menu-button" class="text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 focus:outline-none p-2 rounded-full hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-300 flex items-center justify-center shadow-sm dark:shadow-dark-sm hover:shadow dark:hover:shadow-dark-md relative group">
+                <span class="absolute inset-0 rounded-full bg-indigo-50 dark:bg-gray-700 transform scale-0 transition-transform duration-300 group-hover:scale-100"></span>
                 <span class="material-icons transform transition-transform duration-300 z-10 relative">menu</span>
             </button>
         </div>
@@ -148,68 +161,76 @@
     <div class="md:hidden px-4 pb-6">
         <div class="relative w-full group">
             <form action="{{ path('app_search') }}" method="GET" class="flex items-center">
-                <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-full transform scale-[1.03] blur-sm transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
-                <input type="text" name="query" placeholder="Rechercher..." class="w-full px-4 py-2 pr-10 rounded-full border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm text-gray-700 bg-white shadow-sm transition-all duration-200 group-hover:shadow">
-<button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-600 hover:text-indigo-800 transition-all duration-300 group-hover:scale-110 flex items-center justify-center">
-    <span class="material-icons text-sm">search</span>
-</button>
+                <div class="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 dark:from-indigo-500/5 dark:to-purple-500/5 rounded-full transform scale-[1.03] blur-sm transition-opacity duration-300 opacity-0 group-hover:opacity-100"></div>
+                <input type="text" name="query" placeholder="Rechercher..." class="w-full px-4 py-2 pr-10 rounded-full border border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-600 focus:border-indigo-500 dark:focus:border-indigo-600 text-sm text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 shadow-sm dark:shadow-dark-sm transition-all duration-200 group-hover:shadow dark:group-hover:shadow-dark-md">
+                <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-all duration-300 group-hover:scale-110 flex items-center justify-center">
+                    <span class="material-icons text-sm">search</span>
+                </button>
             </form>
         </div>
     </div>
 
     
-    <nav id="mobile-menu" class="hidden md:hidden px-4 pt-1 pb-4 space-y-1 border-t border-gray-100 bg-gray-50/90 backdrop-blur-sm transition-all duration-300" style="max-height: 0; overflow: hidden;">
+    <nav id="mobile-menu" class="hidden md:hidden px-4 pt-1 pb-4 space-y-1 border-t border-gray-100 dark:border-gray-700 bg-gray-50/90 dark:bg-gray-800/90 backdrop-blur-sm transition-all duration-300" style="max-height: 0; overflow: hidden;">
         <div class="relative">
             <div class="absolute -left-4 top-0 bottom-3 w-1 bg-gradient-to-b from-indigo-500 to-purple-600 transform scale-y-0 origin-top transition-transform duration-500" id="mobile-menu-indicator"></div>
             <ul class="space-y-1">
+                <!-- Bouton Dark Mode pour mobile -->
                 <li>
-                    <a href="{{ path('app_home') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium group">
-                        <span class="material-icons text-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-200">home</span>
+                    <button class="dark-mode-toggle flex w-full items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-200 font-medium group">
+                        <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 group-hover:scale-110 transition-transform duration-200">dark_mode</span>
+                        <span class="toggle-label">Mode sombre</span>
+                    </button>
+                </li>
+                
+                <li>
+                    <a href="{{ path('app_home') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-200 font-medium group">
+                        <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 group-hover:scale-110 transition-transform duration-200">home</span>
                         <span>Accueil</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ path('app_genres_list') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium group">
-                        <span class="material-icons text-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-200">category</span>
+                    <a href="{{ path('app_genres_list') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-200 font-medium group">
+                        <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 group-hover:scale-110 transition-transform duration-200">category</span>
                         <span>Genres</span>
                     </a>
                 </li>
 
                 {% if app.user %}
                     <li>
-                        <a href="{{ path('app_profil') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium group">
-                            <span class="material-icons text-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-200">person</span>
+                        <a href="{{ path('app_profil') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-200 font-medium group">
+                            <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 group-hover:scale-110 transition-transform duration-200">person</span>
                             <span>Mon profil</span>
                             {% if app.user.profilePicture %}
                                 <span class="ml-auto">
-                                    <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-6 w-6 rounded-full object-cover border border-indigo-200">
+                                    <img src="{{ vich_uploader_asset(app.user, 'photoFile') }}" alt="Photo de profil" class="h-6 w-6 rounded-full object-cover border border-indigo-200 dark:border-indigo-700">
                                 </span>
                             {% endif %}
                         </a>
                     </li>
                     <li>
-                        <a href="{{ path('user_likes') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium group">
-                            <span class="material-icons text-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-200">favorite</span>
+                        <a href="{{ path('user_likes') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-200 font-medium group">
+                            <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 group-hover:scale-110 transition-transform duration-200">favorite</span>
                             <span>Mes likes</span>
                         </a>
                     </li>
-                    <div class="border-t border-gray-200 my-2"></div>
+                    <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                     <li>
-                        <a href="{{ path('app_logout') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-red-600 hover:bg-red-50 transition-all duration-200 font-medium group">
-                            <span class="material-icons text-gray-500 mr-3 group-hover:scale-110 transition-transform duration-200 group-hover:text-red-500">logout</span>
+                        <a href="{{ path('app_logout') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-200 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all duration-200 font-medium group">
+                            <span class="material-icons text-gray-500 dark:text-gray-400 mr-3 group-hover:scale-110 transition-transform duration-200 group-hover:text-red-500 dark:group-hover:text-red-400">logout</span>
                             <span>Déconnexion</span>
                         </a>
                     </li>
                 {% else %}
-                    <div class="border-t border-gray-200 my-2"></div>
+                    <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
                     <li>
-                        <a href="{{ path('app_login') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-indigo-50 transition-all duration-200 font-medium group">
-                            <span class="material-icons text-indigo-500 mr-3 group-hover:scale-110 transition-transform duration-200">login</span>
+                        <a href="{{ path('app_login') }}" class="flex items-center px-4 py-3 rounded-md text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all duration-200 font-medium group">
+                            <span class="material-icons text-indigo-500 dark:text-indigo-400 mr-3 group-hover:scale-110 transition-transform duration-200">login</span>
                             <span>Connexion</span>
                         </a>
                     </li>
                     <li class="mt-3">
-                        <a href="{{ path('app_register') }}" class="flex items-center justify-center py-3 px-4 rounded-md bg-indigo-600 text-white hover:bg-indigo-700 transition-all duration-300 font-medium shadow-md hover:shadow-lg transform hover:scale-[1.02]">
+                        <a href="{{ path('app_register') }}" class="flex items-center justify-center py-3 px-4 rounded-md bg-indigo-600 dark:bg-indigo-500 text-white hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all duration-300 font-medium shadow-md dark:shadow-dark-md hover:shadow-lg dark:hover:shadow-dark-lg transform hover:scale-[1.02]">
                             <span class="material-icons text-sm mr-2">person_add</span>
                             <span class="whitespace-nowrap">Inscription</span>
                         </a>
@@ -237,133 +258,182 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () { // Animation du menu mobile
-const mobileMenuButton = document.getElementById('mobile-menu-button');
-const mobileMenu = document.getElementById('mobile-menu');
-const mobileMenuIndicator = document.getElementById('mobile-menu-indicator');
-const header = document.getElementById('header');
-let lastScrollTop = 0;
-let isMobileMenuOpen = false;
+    document.addEventListener('DOMContentLoaded', function () {
+        // Dark mode functionality
+        const darkModeToggles = document.querySelectorAll('.dark-mode-toggle');
+        const htmlElement = document.documentElement;
+        
+        // Check user preference from localStorage
+        const darkModePreference = localStorage.getItem('darkMode') === 'true';
+        
+        // Apply dark mode if it's the preference
+        if (darkModePreference) {
+            htmlElement.classList.add('dark');
+            updateDarkModeIcons(true);
+        } else {
+            updateDarkModeIcons(false);
+        }
+        
+        // Add event listeners for dark mode toggles
+        darkModeToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                // Toggle dark class on the HTML element
+                htmlElement.classList.toggle('dark');
+                
+                // Store preference in localStorage
+                const isDarkMode = htmlElement.classList.contains('dark');
+                localStorage.setItem('darkMode', isDarkMode);
+                
+                // Update icons
+                updateDarkModeIcons(isDarkMode);
+            });
+        });
+        
+        // Function to update dark mode icons
+        function updateDarkModeIcons(isDarkMode) {
+            darkModeToggles.forEach(toggle => {
+                const iconElement = toggle.querySelector('.material-icons');
+                const labelElement = toggle.querySelector('.toggle-label');
+                
+                if (iconElement) {
+                    iconElement.textContent = isDarkMode ? 'light_mode' : 'dark_mode';
+                }
+                
+                if (labelElement) {
+                    labelElement.textContent = isDarkMode ? 'Mode clair' : 'Mode sombre';
+                }
+            });
+        }
+    
+        // Animation du menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuIndicator = document.getElementById('mobile-menu-indicator');
+        const header = document.getElementById('header');
+        let lastScrollTop = 0;
+        let isMobileMenuOpen = false;
 
-if (mobileMenuButton) {
-mobileMenuButton.addEventListener('click', function () {
-const menuIcon = this.querySelector('.material-icons');
+        if (mobileMenuButton) {
+            mobileMenuButton.addEventListener('click', function () {
+                const menuIcon = this.querySelector('.material-icons');
 
-isMobileMenuOpen = ! isMobileMenuOpen;
+                isMobileMenuOpen = !isMobileMenuOpen;
 
-// Animation plus fluide
-if (isMobileMenuOpen) {
-menuIcon.textContent = 'close';
-menuIcon.style.transform = 'rotate(90deg)';
-mobileMenu.classList.remove('hidden');
-mobileMenu.style.maxHeight = '0';
+                // Animation plus fluide
+                if (isMobileMenuOpen) {
+                    menuIcon.textContent = 'close';
+                    menuIcon.style.transform = 'rotate(90deg)';
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.style.maxHeight = '0';
 
-// Rendre le header visible s'il était masqué
-header.style.transform = 'translateY(0)';
+                    // Rendre le header visible s'il était masqué
+                    header.style.transform = 'translateY(0)';
 
-// Animer l'ouverture du menu
-setTimeout(() => {
-mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
-if (mobileMenuIndicator) {
-mobileMenuIndicator.style.transform = 'scale-y-100';
-}
-}, 10);
-} else {
-menuIcon.textContent = 'menu';
-menuIcon.style.transform = 'rotate(0)';
-mobileMenu.style.maxHeight = '0';
+                    // Animer l'ouverture du menu
+                    setTimeout(() => {
+                        mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+                        if (mobileMenuIndicator) {
+                            mobileMenuIndicator.style.transform = 'scale-y-100';
+                        }
+                    }, 10);
+                } else {
+                    menuIcon.textContent = 'menu';
+                    menuIcon.style.transform = 'rotate(0)';
+                    mobileMenu.style.maxHeight = '0';
 
-if (mobileMenuIndicator) {
-mobileMenuIndicator.style.transform = 'scale-y-0';
-}
+                    if (mobileMenuIndicator) {
+                        mobileMenuIndicator.style.transform = 'scale-y-0';
+                    }
 
-// Cacher le menu après l'animation
-setTimeout(() => {
-mobileMenu.classList.add('hidden');
-}, 300); // Correspond à la durée de l'animation
-}
-});
-}
+                    // Cacher le menu après l'animation
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300); // Correspond à la durée de l'animation
+                }
+            });
+        }
 
-// User dropdown toggle avec effet visuel avancé
-const userMenuButton = document.getElementById('user-menu-button');
-const userDropdown = document.getElementById('user-dropdown');
+        // User dropdown toggle avec effet visuel avancé
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userDropdown = document.getElementById('user-dropdown');
 
-if (userMenuButton && userDropdown) {
-userMenuButton.addEventListener('click', function () {
-const isHidden = userDropdown.classList.contains('hidden');
+        if (userMenuButton && userDropdown) {
+            userMenuButton.addEventListener('click', function () {
+                const isHidden = userDropdown.classList.contains('hidden');
 
-// Animation pour l'apparition et la disparition
-if (isHidden) {
-userDropdown.classList.remove('hidden');
-// Déclencher l'animation après avoir rendu visible
-setTimeout(() => {
-userDropdown.classList.remove('scale-95', 'opacity-0');
-userDropdown.classList.add('scale-100', 'opacity-100');
-}, 10);
-} else {
-userDropdown.classList.remove('scale-100', 'opacity-100');
-userDropdown.classList.add('scale-95', 'opacity-0');
-// Cacher après l'animation
-setTimeout(() => {
-userDropdown.classList.add('hidden');
-}, 300);
-}
-});
+                // Animation pour l'apparition et la disparition
+                if (isHidden) {
+                    userDropdown.classList.remove('hidden');
+                    // Déclencher l'animation après avoir rendu visible
+                    setTimeout(() => {
+                        userDropdown.classList.remove('scale-95', 'opacity-0');
+                        userDropdown.classList.add('scale-100', 'opacity-100');
+                    }, 10);
+                } else {
+                    userDropdown.classList.remove('scale-100', 'opacity-100');
+                    userDropdown.classList.add('scale-95', 'opacity-0');
+                    // Cacher après l'animation
+                    setTimeout(() => {
+                        userDropdown.classList.add('hidden');
+                    }, 300);
+                }
+            });
 
-document.addEventListener('click', function (event) {
-if (! userMenuButton.contains(event.target) && ! userDropdown.contains(event.target) && ! userDropdown.classList.contains('hidden')) { // Animation de fermeture
-userDropdown.classList.remove('scale-100', 'opacity-100');
-userDropdown.classList.add('scale-95', 'opacity-0');
+            document.addEventListener('click', function (event) {
+                if (!userMenuButton.contains(event.target) && !userDropdown.contains(event.target) && !userDropdown.classList.contains('hidden')) {
+                    // Animation de fermeture
+                    userDropdown.classList.remove('scale-100', 'opacity-100');
+                    userDropdown.classList.add('scale-95', 'opacity-0');
 
-// Cacher après l'animation
-setTimeout(() => {
-userDropdown.classList.add('hidden');
-}, 300);
+                    // Cacher après l'animation
+                    setTimeout(() => {
+                        userDropdown.classList.add('hidden');
+                    }, 300);
 
-// Réinitialiser la rotation de la flèche
-const arrow = userMenuButton.querySelector('.material-icons:last-child');
-if (arrow) {
-arrow.style.transform = 'rotate(0deg)';
-}
-}
-});
-}
+                    // Réinitialiser la rotation de la flèche
+                    const arrow = userMenuButton.querySelector('.material-icons:last-child');
+                    if (arrow) {
+                        arrow.style.transform = 'rotate(0deg)';
+                    }
+                }
+            });
+        }
 
-// Header scroll effect avancé
-window.addEventListener('scroll', function () {
-const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        // Header scroll effect avancé
+        window.addEventListener('scroll', function () {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-// Ne pas cacher le header si le menu mobile est ouvert
-if (mobileMenu && isMobileMenuOpen) {
-header.style.transform = 'translateY(0)';
-return;
-}
+            // Ne pas cacher le header si le menu mobile est ouvert
+            if (mobileMenu && isMobileMenuOpen) {
+                header.style.transform = 'translateY(0)';
+                return;
+            }
 
-if (scrollTop > 50) { // Scrolling down past threshold
-header.classList.add('bg-white/90', 'backdrop-blur-md');
-header.classList.remove('bg-white/95', 'backdrop-blur-sm');
+            if (scrollTop > 50) { // Scrolling down past threshold
+                header.classList.add('bg-white/90', 'dark:bg-gray-800/90', 'backdrop-blur-md');
+                header.classList.remove('bg-white/95', 'dark:bg-gray-800/95', 'backdrop-blur-sm');
 
-// Effet de disparition/apparition avec un délai pour éviter les mouvements brusques
-if (scrollTop > lastScrollTop + 20 && scrollTop > 150 && window.innerWidth > 768) {
-header.style.transform = 'translateY(-100%)';
-} else if (lastScrollTop > scrollTop + 5) { // Scrolling up with a threshold
-header.style.transform = 'translateY(0)';
-header.classList.add('shadow-xl');
-}
-} else { // At the top
-header.classList.add('bg-white/95', 'backdrop-blur-sm');
-header.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-xl');
-header.style.transform = 'translateY(0)';
-} lastScrollTop = scrollTop;
-});
+                // Effet de disparition/apparition avec un délai pour éviter les mouvements brusques
+                if (scrollTop > lastScrollTop + 20 && scrollTop > 150 && window.innerWidth > 768) {
+                    header.style.transform = 'translateY(-100%)';
+                } else if (lastScrollTop > scrollTop + 5) { // Scrolling up with a threshold
+                    header.style.transform = 'translateY(0)';
+                    header.classList.add('shadow-xl', 'dark:shadow-dark-xl');
+                }
+            } else { // At the top
+                header.classList.add('bg-white/95', 'dark:bg-gray-800/95', 'backdrop-blur-sm');
+                header.classList.remove('bg-white/90', 'dark:bg-gray-800/90', 'backdrop-blur-md', 'shadow-xl', 'dark:shadow-dark-xl');
+                header.style.transform = 'translateY(0)';
+            }
+            lastScrollTop = scrollTop;
+        });
 
-// Effet de parallaxe avancé sur les éléments du header
-const logoBrand = document.querySelector('.logo-brand');
+        // Effet de parallaxe avancé sur les éléments du header
+        const logoBrand = document.querySelector('.logo-brand');
 
-if (logoBrand) {
-window.addEventListener('mousemove', function (e) {
-if (window.innerWidth<= 768) return; // Ne pas appliquer sur mobile
+        if (logoBrand) {
+            window.addEventListener('mousemove', function (e) {
+                if (window.innerWidth <= 768) return; // Ne pas appliquer sur mobile
                 
                 const moveX = (e.clientX / window.innerWidth - 0.5) * 8;
                 const moveY = (e.clientY / window.innerHeight - 0.5) * 4;
@@ -371,45 +441,36 @@ if (window.innerWidth<= 768) return; // Ne pas appliquer sur mobile
                 // Effet de profondeur différent selon les éléments
                 const logoElements = document.querySelectorAll('.logo-brand svg');
                 logoElements.forEach((logo, index) => {
-const depth = index === 0 ? 0.5 : 1.5;
-logo.style.transform = `translateX(${
-moveX * depth
-}px) translateY(${
-moveY * depth
-}px)`;
-}) 
+                    const depth = index === 0 ? 0.5 : 1.5;
+                    logo.style.transform = `translateX(${moveX * depth}px) translateY(${moveY * depth}px)`;
+                });
 
+                // Effet léger sur les liens de navigation
+                const navLinks = document.querySelectorAll('nav a, nav button');
+                navLinks.forEach((link, index) => {
+                    const depthFactor = 0.2;
+                    const uniqueFactor = (index % 3 + 1) * 0.1;
+                    link.style.transform = `translateX(${moveX * depthFactor * uniqueFactor}px) translateY(${moveY * depthFactor * uniqueFactor}px)`;
+                });
+            });
+        }
 
-// Effet léger sur les liens de navigation
-const navLinks = document.querySelectorAll('nav a, nav button');
-navLinks.forEach((link, index) => {
-const depthFactor = 0.2;
-const uniqueFactor = (index % 3 + 1) * 0.1;
-link.style.transform = `translateX(${
-moveX * depthFactor * uniqueFactor
-}px) translateY(${
-moveY * depthFactor * uniqueFactor
-}px)`;
-});
-});
-}
+        // Animation de révélation au chargement de la page
+        const revealHeader = () => {
+            const headerElements = document.querySelectorAll('#header > div > *, #header form, #header input, #header button');
+            headerElements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(-10px)';
+                el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
 
-// Animation de révélation au chargement de la page
-const revealHeader = () => {
-const headerElements = document.querySelectorAll('#header > div > *, #header form, #header input, #header button');
-headerElements.forEach((el, index) => {
-el.style.opacity = '0';
-el.style.transform = 'translateY(-10px)';
-el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 + (index * 50));
+            });
+        };
 
-setTimeout(() => {
-el.style.opacity = '1';
-el.style.transform = 'translateY(0)';
-}, 100 + (index * 50));
-});
-};
-
-// Exécuter l'animation après un court délai
-setTimeout(revealHeader, 300);
-});
+        // Exécuter l'animation après un court délai
+        setTimeout(revealHeader, 300);
+    });
 </script>

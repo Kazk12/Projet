@@ -19,13 +19,13 @@
         <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/htmx-ext-sse@2.2.2/sse.js" integrity="sha384-fw+eTlCc7suMV/1w/7fr2/PmwElUIt5i82bi+qTiLXvjRXZ2/FkiTNA/w0MhXnGI" crossorigin="anonymous"></script>
     </head>
-    <body>
+    <body class="flex flex-col min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
         {% include "header/header.html.twig" %}
 
-        <div class="base">
+        <div class="base flex-grow bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors duration-300">
             <!-- Page -->
             {% include "partials/flash.html.twig" %}
-            <div class="page">
+            <div class="page w-full max-w-7xl mx-auto p-4 md:p-6 lg:p-8">
                 {% block body %}{% endblock %}
             </div>
         </div>

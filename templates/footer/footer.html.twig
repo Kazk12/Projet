@@ -1,16 +1,16 @@
-<footer class="bg-gray-100 border-t border-gray-200 mt-12">
+<footer class="bg-gray-100 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Section principale -->
         <div class="py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Logo et description -->
             <div class="flex flex-col items-start">
                 <div class="flex items-center">
-                    <svg class="h-8 w-8 text-indigo-600 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-8 w-8 text-indigo-600 dark:text-indigo-400 mr-2" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                     </svg>
-                    <span class="text-xl font-bold text-gray-800">Narrama</span>
+                    <span class="text-xl font-bold text-gray-800 dark:text-gray-100">Narrama</span>
                 </div>
-                <p class="mt-4 text-sm leading-6 text-gray-600">
+                <p class="mt-4 text-sm leading-6 text-gray-600 dark:text-gray-300">
                     Narrama est une plateforme dédiée aux passionnés de littérature, permettant de découvrir et partager des critiques de livres.
                 </p>
                
@@ -18,25 +18,25 @@
             
             <!-- Liens utiles -->
             <div>
-                <h3 class="text-sm font-semibold text-gray-800 tracking-wider uppercase">Liens utiles</h3>
+                <h3 class="text-sm font-semibold text-gray-800 dark:text-gray-200 tracking-wider uppercase">Liens utiles</h3>
                 <ul class="mt-4 space-y-3">
                     <li>
-                        <a href="{{ path('app_home') }}" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="{{ path('app_home') }}" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             Accueil
                         </a>
                     </li>
                     <li>
-                        <a href="{{ path('app_search') }}" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="{{ path('app_search') }}" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             Recherche
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="#" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             À propos
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="#" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             Contact
                         </a>
                     </li>
@@ -45,25 +45,25 @@
             
             <!-- Mentions légales -->
             <div>
-                <h3 class="text-sm font-semibold text-gray-800 tracking-wider uppercase">Informations légales</h3>
+                <h3 class="text-sm font-semibold text-gray-800 dark:text-gray-200 tracking-wider uppercase">Informations légales</h3>
                 <ul class="mt-4 space-y-3">
                     <li>
-                        <a href="{{ path('app_politique') }}" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="{{ path('app_politique') }}" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             Politique de confidentialité
                         </a>
                     </li>
                     <li>
-                        <a href="{{ path('app_conditions') }}" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="{{ path('app_conditions') }}" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             Conditions d'utilisation
                         </a>
                     </li>
                     <li>
-                        <a href="{{ path('app_mentions') }}" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="{{ path('app_mentions') }}" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             Mentions légales
                         </a>
                     </li>
                     <li>
-                        <a href="{{ path('app_cookies') }}" class="text-base text-gray-600 hover:text-indigo-600 transition-colors duration-200">
+                        <a href="{{ path('app_cookies') }}" class="text-base text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200">
                             Gestion des cookies
                         </a>
                     </li>
@@ -72,37 +72,37 @@
         </div>
         
         <!-- Bandeau RGPD -->
-        <div class="py-4 border-t border-gray-200">
-            <p class="text-sm text-gray-600 leading-relaxed">
+        <div class="py-4 border-t border-gray-200 dark:border-gray-700">
+            <p class="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 <span class="font-medium">Protection des données (RGPD) :</span> Conformément au Règlement Général sur la Protection des Données (RGPD), 
                 vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données 
                 vous concernant. Pour en savoir plus sur la gestion de vos données et vos droits, consultez notre 
-                <a href="{{ path('app_politique') }}" class="text-indigo-600 hover:underline">politique de confidentialité</a>.
+                <a href="{{ path('app_politique') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">politique de confidentialité</a>.
             </p>
         </div>
         
         <!-- Copyright -->
-        <div class="py-4 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-sm text-gray-600">&copy; {{ "now"|date("Y") }} Narrama. Tous droits réservés.</p>
-            <p class="text-sm text-gray-500 mt-2 md:mt-0">
-                Développé par <a href="#" class="text-indigo-600 hover:underline">Narrama Team</a>
+        <div class="py-4 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-sm text-gray-600 dark:text-gray-300">&copy; {{ "now"|date("Y") }} Narrama. Tous droits réservés.</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-2 md:mt-0">
+                Développé par <a href="#" class="text-indigo-600 dark:text-indigo-400 hover:underline">Narrama Team</a>
             </p>
         </div>
     </div>
 </footer>
 
 <!-- Cookie Consent Banner -->
-<div id="cookie-consent" class="fixed bottom-0 left-0 right-0 bg-white shadow-lg border-t border-gray-200 p-4 z-50 hidden">
+<div id="cookie-consent" class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 shadow-lg dark:shadow-dark-lg border-t border-gray-200 dark:border-gray-700 p-4 z-50 hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between">
-        <div class="text-sm text-gray-600 mr-4 mb-2 md:mb-0">
+        <div class="text-sm text-gray-600 dark:text-gray-300 mr-4 mb-2 md:mb-0">
             Ce site utilise des cookies pour améliorer votre expérience. En continuant à naviguer, vous acceptez notre utilisation des cookies.
-            <a href="{{ path('app_cookies') }}" class="text-indigo-600 hover:underline ml-1">En savoir plus</a>
+            <a href="{{ path('app_cookies') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline ml-1">En savoir plus</a>
         </div>
         <div class="flex space-x-3">
-            <button id="cookie-accept" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-md hover:bg-indigo-700 transition-colors duration-200">
+            <button id="cookie-accept" class="px-4 py-2 bg-indigo-600 dark:bg-indigo-500 text-white text-sm rounded-md hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors duration-200">
                 Accepter
             </button>
-            <button id="cookie-decline" class="px-4 py-2 bg-gray-200 text-gray-700 text-sm rounded-md hover:bg-gray-300 transition-colors duration-200">
+            <button id="cookie-decline" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 text-sm rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200">
                 Refuser
             </button>
         </div>

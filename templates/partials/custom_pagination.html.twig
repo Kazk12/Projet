@@ -4,9 +4,9 @@
             {% if first is defined and current != first %}
                 <li>
                     <a href="{{ path(route, query|merge({(pageParameterName): first})) }}" 
-                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 hover:bg-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:outline-none"
                        aria-label="Première page">
-                        <i class="material-icons text-gray-700" aria-hidden="true">first_page</i>
+                        <i class="material-icons text-gray-700 dark:text-gray-200" aria-hidden="true">first_page</i>
                     </a>
                 </li>
             {% endif %}
@@ -14,9 +14,9 @@
             {% if previous is defined %}
                 <li>
                     <a href="{{ path(route, query|merge({(pageParameterName): previous})) }}" 
-                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 hover:bg-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:outline-none"
                        aria-label="Page précédente">
-                        <i class="material-icons text-gray-700" aria-hidden="true">chevron_left</i>
+                        <i class="material-icons text-gray-700 dark:text-gray-200" aria-hidden="true">chevron_left</i>
                     </a>
                 </li>
             {% endif %}
@@ -25,8 +25,8 @@
                 <li>
                     <a href="{{ path(route, query|merge({(pageParameterName): page})) }}" 
                        class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 {{ page == current 
-                            ? 'bg-indigo-600 text-white font-medium shadow-md hover:bg-indigo-700' 
-                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200' }} focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                            ? 'bg-indigo-600 dark:bg-indigo-500 text-white font-medium shadow-md dark:shadow-dark-md hover:bg-indigo-700 dark:hover:bg-indigo-600' 
+                            : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600' }} focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:outline-none"
                        {{ page == current ? 'aria-current="page"' : '' }}
                        aria-label="Page {{ page }}">
                         {{ page }}
@@ -37,9 +37,9 @@
             {% if next is defined %}
                 <li>
                     <a href="{{ path(route, query|merge({(pageParameterName): next})) }}" 
-                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 hover:bg-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:outline-none"
                        aria-label="Page suivante">
-                        <i class="material-icons text-gray-700" aria-hidden="true">chevron_right</i>
+                        <i class="material-icons text-gray-700 dark:text-gray-200" aria-hidden="true">chevron_right</i>
                     </a>
                 </li>
             {% endif %}
@@ -47,15 +47,15 @@
             {% if last is defined and current != last %}
                 <li>
                     <a href="{{ path(route, query|merge({(pageParameterName): last})) }}" 
-                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 hover:bg-gray-200 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+                       class="flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:outline-none"
                        aria-label="Dernière page">
-                        <i class="material-icons text-gray-700" aria-hidden="true">last_page</i>
+                        <i class="material-icons text-gray-700 dark:text-gray-200" aria-hidden="true">last_page</i>
                     </a>
                 </li>
             {% endif %}
         </ul>
         
-        <div class="text-center mt-3 text-sm text-gray-600">
+        <div class="text-center mt-3 text-sm text-gray-600 dark:text-gray-300">
             <span>Page {{ current }} sur {{ pageCount }}</span>
         </div>
     </nav>

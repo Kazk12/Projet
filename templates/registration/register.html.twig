@@ -3,55 +3,55 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <div class="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
         <div class="max-w-md w-full space-y-8">
             <div>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-gray-100">
                     Créez votre compte
                 </h2>
                 {% for flash_error in app.flashes('verify_email_error') %}
-                    <div class="mt-2 text-center text-sm text-red-600">
+                    <div class="mt-2 text-center text-sm text-red-600 dark:text-red-400">
                         {{ flash_error }}
                     </div>
                 {% endfor %}
             </div>
             {{ form_start(registrationForm, {'attr': {'class': 'mt-8 space-y-6', 'enctype': 'multipart/form-data'}}) }}
-                <div class="rounded-md shadow-sm -space-y-px">
+                <div class="rounded-md shadow-sm dark:shadow-dark-sm -space-y-px">
                     <div>
                         {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(registrationForm.email, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Votre email'}}) }}
+                        {{ form_widget(registrationForm.email, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 rounded-t-md bg-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:z-10 sm:text-sm', 'placeholder': 'Votre email'}}) }}
                     </div>
                     <div>
                         {{ form_label(registrationForm.pseudo, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Pseudo'}}) }}
+                        {{ form_widget(registrationForm.pseudo, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:z-10 sm:text-sm', 'placeholder': 'Pseudo'}}) }}
                     </div>
                     <div>
                         {{ form_label(registrationForm.plainPassword.first, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Votre mot de passe'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:z-10 sm:text-sm', 'placeholder': 'Votre mot de passe'}}) }}
                     </div>
                     <div>
                         {{ form_label(registrationForm.plainPassword.second, null, {'label_attr': {'class': 'sr-only'}}) }}
-                        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm', 'placeholder': 'Confirmation du mot de passe'}}) }}
+                        {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-gray-100 rounded-b-md bg-white dark:bg-gray-700 focus:outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 focus:z-10 sm:text-sm', 'placeholder': 'Confirmation du mot de passe'}}) }}
                     </div>
                 </div>
                 
                 <div class="mt-4">
-                    <label for="{{ registrationForm.photoFile.vars.id }}" class="block text-sm font-medium text-gray-700">Photo de profil</label>
+                    <label for="{{ registrationForm.photoFile.vars.id }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Photo de profil</label>
                     <div class="mt-1 flex items-center">
-                        {{ form_widget(registrationForm.photoFile, {'attr': {'class': 'mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100'}}) }}
+                        {{ form_widget(registrationForm.photoFile, {'attr': {'class': 'mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 dark:file:bg-indigo-900/30 file:text-indigo-700 dark:file:text-indigo-300 hover:file:bg-indigo-100 dark:hover:file:bg-indigo-800/40'}}) }}
                     </div>
-                    <div class="text-xs text-gray-500 mt-1">Formats acceptés : JPG, PNG, GIF (max 2Mo)</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Formats acceptés : JPG, PNG, GIF (max 2Mo)</div>
                 </div>
                 
                 <div class="flex items-center mt-4">
                     <div class="flex items-center">
-                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'}}) }}
-                        {{ form_label(registrationForm.agreeTerms, 'J\'accepte les termes et conditions', {'label_attr': {'class': 'ml-2 block text-sm text-gray-900'}}) }}
+                        {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-indigo-600 dark:text-indigo-500 focus:ring-indigo-500 dark:focus:ring-indigo-400 border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700'}}) }}
+                        {{ form_label(registrationForm.agreeTerms, 'J\'accepte les termes et conditions', {'label_attr': {'class': 'ml-2 block text-sm text-gray-900 dark:text-gray-100'}}) }}
                     </div>
                 </div>
                 
                 <div class="mt-6">
-                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
                         S'inscrire
                     </button>
                 </div>

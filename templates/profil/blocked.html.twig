@@ -3,11 +3,11 @@
 {% block title %}Personnes bloquées{% endblock %}
 
 {% block body %}
-<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
         {# En-tête de la page #}
-        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
-            <div class="bg-indigo-600 p-6">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-dark-md overflow-hidden mb-6">
+            <div class="bg-indigo-600 dark:bg-indigo-700 p-6">
                 <h1 class="text-2xl sm:text-3xl font-bold text-white flex items-center">
                     <span class="material-icons mr-3">block</span>
                     Utilisateurs bloqués
@@ -17,12 +17,12 @@
         </div>
 
         {# Liste des utilisateurs bloqués #}
-        <div class="bg-white rounded-xl shadow-md overflow-hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-dark-md overflow-hidden">
             {% if blocked is empty %}
                 <div class="p-10 text-center">
-                    <span class="material-icons text-4xl text-gray-300 mb-2">check_circle</span>
-                    <p class="text-gray-500">Vous n'avez bloqué aucun utilisateur pour le moment.</p>
-                    <a href="{{ path('app_home') }}" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <span class="material-icons text-4xl text-gray-300 dark:text-gray-600 mb-2">check_circle</span>
+                    <p class="text-gray-500 dark:text-gray-400">Vous n'avez bloqué aucun utilisateur pour le moment.</p>
+                    <a href="{{ path('app_home') }}" class="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm dark:shadow-dark-sm text-sm font-medium text-white bg-indigo-600 dark:bg-indigo-500 hover:bg-indigo-700 dark:hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400">
                         <span class="material-icons text-sm mr-1">home</span>
                         Retour à l'accueil
                     </a>
@@ -30,20 +30,20 @@
             {% else %}
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6">
                     {% for block in blocked %}
-                        <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
-                            <div class="bg-red-50 px-4 py-2">
+                        <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm dark:shadow-dark-sm overflow-hidden hover:shadow-md dark:hover:shadow-dark-md transition-shadow duration-200">
+                            <div class="bg-red-50 dark:bg-red-900/20 px-4 py-2">
                                 <div class="flex justify-between items-center">
-                                    <span class="text-xs text-red-600 font-medium">Bloqué</span>
+                                    <span class="text-xs text-red-600 dark:text-red-400 font-medium">Bloqué</span>
                                     
                                 </div>
                             </div>
                             <div class="p-5">
                                 <div class="flex items-center space-x-4">
-                                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-lg font-medium">
+                                    <div class="h-12 w-12 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-400 text-lg font-medium">
                                         {{ block.pseudo|slice(0, 1)|upper }}
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm font-medium text-gray-900 truncate">
+                                        <p class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
                                             {{ block.pseudo }}
                                         </p>
                                         
@@ -51,12 +51,12 @@
                                 </div>
                                 <div class="mt-4 flex justify-between">
                                     {# href="{{ path('app_user_profile', {id: block.id}) }}" #}
-                                    <a href="#" class="inline-flex items-center text-xs text-gray-800 hover:text-indigo-600">
+                                    <a href="#" class="inline-flex items-center text-xs text-gray-800 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400">
                                         <span class="material-icons text-sm mr-1">person</span>
                                         Profil
                                     </a>
                                     {# href="{{ path('app_statut', {id: block.id, statut: 'Unblocked'}) }}" #}
-                                    <a href="{{ path('app_statut', {id: block.id, statut: 'Débloquer'}) }}" class="inline-flex items-center text-xs text-gray-800 hover:text-green-600">
+                                    <a href="{{ path('app_statut', {id: block.id, statut: 'Débloquer'}) }}" class="inline-flex items-center text-xs text-gray-800 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400">
                                         <span class="material-icons text-sm mr-1">block</span>
                                         Débloquer
                                     </a>
