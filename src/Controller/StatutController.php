@@ -85,7 +85,7 @@ final class StatutController extends AbstractController
         $friends = $entityManager->getRepository(Statut::class)->findFriendsByUser();
         
 
-        return $this->render('statut/friends.html.twig', [
+        return $this->render('profil/friends.html.twig', [
             'friends' => $friends,
         ]);
     }
@@ -102,7 +102,7 @@ final class StatutController extends AbstractController
 
         // dd($blocked);
 
-        return $this->render('statut/blocked.html.twig', [
+        return $this->render('profil/blocked.html.twig', [
             'blocked' => $blocked,
         ]);
     }

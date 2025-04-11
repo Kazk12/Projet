@@ -67,7 +67,7 @@ final class ProfilController extends AbstractController
             return $this->redirectToRoute('app_profil_update');
         }
 
-        return $this->render('user/update.html.twig', [
+        return $this->render('profil/update.html.twig', [
             'updateForm' => $form->createView(),
         ]);
     }

@@ -53,7 +53,7 @@ class PasswordUpdater implements PasswordUpdaterInterface
                 ->from('support@luxury-services.com')
                 ->to($user->getEmail())
                 ->subject('Changement de mot de passe')
-                ->htmlTemplate('emails/motPasse.html.twig')
+                ->htmlTemplate('partials/motPasse.html.twig')
                 ->context([
                     'user' => $user,
                     'date' => new \DateTime()
