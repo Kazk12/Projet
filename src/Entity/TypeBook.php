@@ -19,6 +19,11 @@ class TypeBook
     #[ORM\ManyToOne(inversedBy: 'typeBooks')]
     private ?Genre $genre = null;
 
+    public function __toString(): string
+    {
+        return $this->genre ? $this->genre->getName() : 'Genre non défini';
+    }
+
     public function getId(): ?int
     {
         return $this->id;

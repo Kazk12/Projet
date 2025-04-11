@@ -37,16 +37,17 @@ class AnnounceCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
+            AssociationField::new('user', 'Utilisateur')
+            ->formatValue(function ($value, $entity) {
+                return $entity->getUser() ? $entity->getUser()->getPseudo() : '';
+            }),
             TextField::new('book.title', 'Livre')
                 ->onlyOnIndex(),
             TextareaField::new('content', 'Description'),
             ImageField::new('imageUrl', 'Image')
                 ->setBasePath('images/announces')
                 ->hideOnForm(),
-            AssociationField::new('user', 'Utilisateur')
-                ->formatValue(function ($value, $entity) {
-                    return $entity->getUser() ? $entity->getUser()->getPseudo() : '';
-                }),
+           
             AssociationField::new('book', 'Livre')
                 ->formatValue(function ($value, $entity) {
                     return $entity->getBook() ? $entity->getBook()->getTitle() : '';
