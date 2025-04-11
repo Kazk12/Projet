@@ -151,6 +151,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 }
     //    public function __unserialize(array $data): void
     // {
+    //     $this->id = $data['id'];
+    //     $this->email = $data['email'];
+    //     $this->password = $data['password'];
+    //     $this->pseudo = $data['pseudo'];
+    //     $this->roles = $data['roles'];
+    //     $this->isVerified = $data['isVerified'];
+    //     $this->updatedAt = $data['updatedAt'];
     // }
 
     public function getId(): ?int
