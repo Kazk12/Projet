@@ -4,12 +4,12 @@
 
 {% block body %}
 <div class="max-w-4xl mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-900 mb-8">Mentions légales</h1>
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">Mentions légales</h1>
     
-    <div class="prose prose-indigo max-w-none text-gray-700">
-        <p class="text-sm text-gray-500 mb-8">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>
+    <div class="prose prose-indigo dark:prose-dark max-w-none text-gray-700 dark:text-gray-300">
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-8">Dernière mise à jour : {{ "now"|date("d/m/Y") }}</p>
         
-        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">1. Éditeur du site</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-8 mb-4">1. Éditeur du site</h2>
         <p>
             Le site web Narrama est édité par la société Narrama SAS, société par actions simplifiée au capital de 10 000 euros, 
             immatriculée au Registre du Commerce et des Sociétés de Paris sous le numéro 123 456 789, 
@@ -22,11 +22,11 @@
         </p>
         <p class="mt-4">
             <strong>Directeur de la publication</strong> : Jean Dubois, en qualité de Président de Narrama SAS<br>
-            <strong>Contact</strong> : <a href="mailto:contact@narrama.com" class="text-indigo-600 hover:underline">contact@narrama.com</a><br>
+            <strong>Contact</strong> : <a href="mailto:contact@narrama.com" class="text-indigo-600 dark:text-indigo-400 hover:underline dark:hover:text-indigo-300">contact@narrama.com</a><br>
             <strong>Téléphone</strong> : 01 23 45 67 89
         </p>
         
-        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">2. Hébergement</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-8 mb-4">2. Hébergement</h2>
         <p>
             Le site Narrama est hébergé par la société OVH SAS, société par actions simplifiée au capital de 10 174 560 euros, 
             immatriculée au Registre du Commerce et des Sociétés de Lille Métropole sous le numéro 424 761 419, 
@@ -36,7 +36,7 @@
             <strong>Contact</strong> : +33 (0)8 99 70 17 61
         </p>
         
-        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">3. Propriété intellectuelle</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-8 mb-4">3. Propriété intellectuelle</h2>
         <p>
             Le site Narrama, son contenu et tous les éléments qui le composent (textes, images, logos, charte graphique, base de données, etc.) 
             sont la propriété exclusive de Narrama SAS ou font l'objet d'une autorisation d'utilisation. Toute reproduction, représentation, 
@@ -48,7 +48,7 @@
             d'une contrefaçon et poursuivie conformément aux dispositions des articles L.335-2 et suivants du Code de Propriété Intellectuelle.
         </p>
         
-        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">4. Responsabilité</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-8 mb-4">4. Responsabilité</h2>
         <p>
             Narrama s'efforce d'assurer au mieux de ses possibilités l'exactitude et la mise à jour des informations diffusées sur le site. 
             Toutefois, Narrama ne peut garantir l'exactitude, la précision ou l'exhaustivité des informations mises à disposition sur le site.
@@ -64,7 +64,7 @@
             de l'utilisation du site et/ou du crédit accordé à une quelconque information provenant directement ou indirectement de ce dernier.
         </p>
         
-        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">5. Liens hypertextes</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-8 mb-4">5. Liens hypertextes</h2>
         <p>
             Le site Narrama peut contenir des liens vers d'autres sites Internet. En cliquant sur ces liens, l'utilisateur quitte le site Narrama. 
             Ces sites tiers ne sont pas sous le contrôle de Narrama, et Narrama n'est pas responsable de leur contenu, 
@@ -75,21 +75,27 @@
             ne portent pas préjudice à l'image de Narrama, et que la mention du site Narrama comme source originale des informations soit clairement indiquée.
         </p>
         
-        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">6. Protection des données personnelles</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-8 mb-4">6. Protection des données personnelles</h2>
         <p>
             Narrama respecte la vie privée et s'engage à protéger les données personnelles des utilisateurs. Pour en savoir plus sur la manière dont 
             Narrama collecte, utilise et protège vos données, veuillez consulter notre 
-            <a href="{{ path('app_politique') }}" class="text-indigo-600 hover:underline">Politique de Confidentialité</a>.
+            <a href="{{ path('app_politique') }}" class="text-indigo-600 dark:text-indigo-400 hover:underline dark:hover:text-indigo-300">Politique de Confidentialité</a>.
         </p>
         
-        <h2 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">7. Droit applicable et juridiction compétente</h2>
+        <h2 class="text-2xl font-semibold text-gray-800 dark:text-gray-100 mt-8 mb-4">7. Droit applicable et juridiction compétente</h2>
         <p>
             Les présentes mentions légales sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents.
         </p>
         <p class="mt-4">
             Pour toute question relative à ces mentions légales, vous pouvez nous contacter à l'adresse suivante : 
-            <a href="mailto:contact@narrama.com" class="text-indigo-600 hover:underline">contact@narrama.com</a>
+            <a href="mailto:contact@narrama.com" class="text-indigo-600 dark:text-indigo-400 hover:underline dark:hover:text-indigo-300">contact@narrama.com</a>
         </p>
+        
+        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 text-center">
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+                © {{ "now"|date("Y") }} Narrama. Tous droits réservés.
+            </p>
+        </div>
     </div>
 </div>
 {% endblock %}

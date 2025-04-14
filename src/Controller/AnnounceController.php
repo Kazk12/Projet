@@ -22,7 +22,7 @@ final class AnnounceController extends AbstractController
          *  @var User $user
          */
         $user = $this->getUser();
-        return $this->render('announce/index.html.twig', [
+        return $this->render('announce/myAnnounces.html.twig', [
             'announces' => $announceRepository->findByUserId($user->getId()),
         ]);
     }
