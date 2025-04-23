@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\DTO\AnnounceFilter;
 use App\Entity\Announce;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -40,6 +41,7 @@ class AnnounceRepository extends ServiceEntityRepository
  */
 public function findByUserStatus(): array
 {
+    /** @var User $user */
     $user = $this->security->getUser();
 
         if (null === $user) {

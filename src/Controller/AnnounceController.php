@@ -40,6 +40,7 @@ final class AnnounceController extends AbstractController
         if(!$user){
             return $this->redirectToRoute('app_login');
         }
+
         $announce = new Announce();
         $form = $this->createForm(AnnounceType::class, $announce);
         $form->handleRequest($request);
@@ -82,7 +83,8 @@ final class AnnounceController extends AbstractController
         if(!$user){
             return $this->redirectToRoute('app_login');
         }
-        if($announce->getUser()->getId() !== $user->getId()){
+
+        if($announce->getUser() !== $user){
             $this->addFlash('warning', 'Vous n\'êtes pas autorisé à modifier cette annonce.');
             return $this->redirectToRoute('app_announce_mine', [], Response::HTTP_SEE_OTHER);
         }
@@ -118,7 +120,7 @@ final class AnnounceController extends AbstractController
         }
         
         // Vérifier que l'utilisateur est le propriétaire de l'annonce
-        if ($announce->getUser()->getId() !== $user->getId()) {
+        if ($announce->getUser() !== $user) {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer cette annonce.');
             return $this->redirectToRoute('app_home');
         }

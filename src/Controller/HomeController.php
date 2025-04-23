@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Entity\User;
 use App\Interfaces\CommentFormServiceInterface;
 use App\Interfaces\LikeServiceInterface;
+use App\Repository\StatutRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,7 @@ final class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(
         AnnounceRepository $announceRepository,
+        StatutRepository $statutRepository,
         PaginatorInterface $paginator,
         Request $request,
         EntityManagerInterface $entityManager,
@@ -58,7 +60,7 @@ final class HomeController extends AbstractController
             }
 
             if (!empty($announceAuthors)) {
-                $statuts = $entityManager->getRepository(\App\Entity\Statut::class)->findBy([
+                $statuts = $statutRepository->findBy([
                     'user' => $user,
                     'otherUser' => $announceAuthors
                 ]);
@@ -101,6 +103,7 @@ final class HomeController extends AbstractController
             'user_statuses' => $userStatuses,
         ]);
     }
+    
     private function redirectToRefererOrHome(Request $request): Response
     {
         $referer = $request->headers->get('referer');

@@ -14,23 +14,21 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class UserLikeGenreController extends AbstractController
 {
-#[Route('/profile/my-genres', name: 'app_profile_my_genres')]
-public function myGenres(UserLikeGenreRepository $userLikeGenreRepository): Response
-{
-    /** 
-     * @var User $user
-     */
-    $user = $this->getUser();
-    if (!$user) {
-        return $this->redirectToRoute('app_login');
+    #[Route('/profile/my-genres', name: 'app_profile_my_genres')]
+    public function myGenres(UserLikeGenreRepository $userLikeGenreRepository): Response
+    {
+        /** 
+         * @var User $user
+         */
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_login');
+        }
+
+        $myGenres = $userLikeGenreRepository->findBy(['user' => $user]);
+
+        return $this->render('profil/myGenres.html.twig', [
+            'myGenres' => $myGenres
+        ]);
     }
-
-    $myGenres = $userLikeGenreRepository->findBy(['user' => $user]);
-
-    return $this->render('profil/myGenres.html.twig', [
-        'myGenres' => $myGenres
-    ]);
 }
-
-}
-

@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\UpdateUserType;
 use App\Interfaces\PasswordUpdaterInterface;
 use App\Interfaces\UpdateProfilInterface;
+use App\Repository\AnnounceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 final class ProfilController extends AbstractController
 {
     #[Route('/profil', name: 'app_profil')]
-    public function profil(EntityManagerInterface $em): Response
+    public function profil(AnnounceRepository $announceRepository): Response
     {
         /** 
          * @var User $user
@@ -25,7 +26,8 @@ final class ProfilController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
-        $myAnnounce = $em->getRepository(Announce::class)->countByUserNumberOfAnnounces($user->getId());
+
+        $myAnnounce = $announceRepository->countByUserNumberOfAnnounces($user->getId());
 
         return $this->render('profil/profil.html.twig', [
             'myAnnounce' => $myAnnounce

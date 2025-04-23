@@ -49,10 +49,10 @@ final class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/messages/get/{conversationId}', name: 'message.get', methods: ['GET'])]
-    public function getMessages(int $conversationId, Request $request): Response
+    #[Route('/messages/get/{id}', name: 'message.get', methods: ['GET'])]
+    public function getMessages(Conversation $conversation, Request $request): Response
     {
-        $conversation = $this->conversationRepository->find($conversationId);
+        // $conversation = $this->conversationRepository->find($conversationId);
 
         if (!$conversation) {
             return new JsonResponse(['error' => 'Conversation non trouvée'], Response::HTTP_NOT_FOUND);

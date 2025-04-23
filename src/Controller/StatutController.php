@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\AnnounceFilter;
 use App\Entity\Statut;
 use App\Entity\User;
+use App\Repository\StatutRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -76,13 +77,13 @@ final class StatutController extends AbstractController
     }
 
     #[Route('/friends', name: 'friends', methods: ['GET'])]
-    public function friends(EntityManagerInterface $entityManager): Response
+    public function friends(StatutRepository $statutRepository): Response
     {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
-        $friends = $entityManager->getRepository(Statut::class)->findFriendsByUser();
+        // /**
+        //  * @var User $user
+        //  */
+        // $user = $this->getUser();
+        $friends = $statutRepository->findFriendsByUser();
         
 
         return $this->render('profil/friends.html.twig', [
@@ -91,14 +92,14 @@ final class StatutController extends AbstractController
     }
 
     #[Route('/blocked', name: 'blocked', methods: ['GET'])]
-    public function blocked(EntityManagerInterface $entityManager): Response
+    public function blocked(StatutRepository $statutRepository): Response
     {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
+        // /**
+        //  * @var User $user
+        //  */
+        // $user = $this->getUser();
        
-        $blocked = $entityManager->getRepository(Statut::class)->findBlockedByUser();
+        $blocked = $statutRepository->findBlockedByUser();
 
         // dd($blocked);
 
