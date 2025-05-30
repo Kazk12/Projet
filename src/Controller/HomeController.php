@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Interfaces\CommentFormServiceInterface;
 use App\Interfaces\LikeServiceInterface;
 use App\Repository\StatutRepository;
+use App\Services\RefererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class HomeController extends AbstractController
 {
+
+    public function __construct(private RefererService $refererService)
+    {}
     #[Route('/', name: 'app_home')]
     public function index(
         AnnounceRepository $announceRepository,
@@ -88,7 +92,7 @@ final class HomeController extends AbstractController
                 $entityManager->flush();
 
 
-                return $this->redirectToRefererOrHome($request);
+                return $this->refererService->referer($request);
             }
         }
 
@@ -102,16 +106,5 @@ final class HomeController extends AbstractController
             'like_info' => $likeInfo,
             'user_statuses' => $userStatuses,
         ]);
-    }
-    
-    private function redirectToRefererOrHome(Request $request): Response
-    {
-        $referer = $request->headers->get('referer');
-
-        if ($referer) {
-            return $this->redirect($referer);
-        }
-
-        return $this->redirectToRoute('app_home');
     }
 }

@@ -6,6 +6,7 @@ use App\DTO\AnnounceFilter;
 use App\Entity\Statut;
 use App\Entity\User;
 use App\Repository\StatutRepository;
+use App\Services\RefererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class StatutController extends AbstractController
 {
+    public function __construct(private RefererService $refererService)
+    {}
+
     #[Route('/statut/{id}/{statut}', name: 'app_statut', methods: ['GET'])]
     public function index(int $id, string $statut, EntityManagerInterface $entityManager, request $request): Response
     {
@@ -73,7 +77,7 @@ final class StatutController extends AbstractController
             }
         }
 
-        return $this->redirectToRefererOrHome($request);
+        return $this->refererService->referer($request);
     }
 
     #[Route('/friends', name: 'friends', methods: ['GET'])]
@@ -106,17 +110,5 @@ final class StatutController extends AbstractController
         return $this->render('profil/blocked.html.twig', [
             'blocked' => $blocked,
         ]);
-    }
-
-
-    private function redirectToRefererOrHome(Request $request): Response
-    {
-        $referer = $request->headers->get('referer');
-
-        if ($referer) {
-            return $this->redirect($referer);
-        }
-
-        return $this->redirectToRoute('app_home');
     }
 }

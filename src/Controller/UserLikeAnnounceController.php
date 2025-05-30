@@ -6,6 +6,7 @@ use App\Entity\Announce;
 use App\Entity\UserLikeAnnounce;
 use App\Entity\User;
 use App\Repository\UserLikeAnnounceRepository;
+use App\Services\RefererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +15,9 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class UserLikeAnnounceController extends AbstractController
 {
+
+    public function __construct(private RefererService $refererService){}
+
     #[Route('/like/{id}', name: 'app_announce_like')]
     public function index(int $id, EntityManagerInterface $em, Request $request): Response
     {
@@ -52,7 +56,7 @@ final class UserLikeAnnounceController extends AbstractController
             
             $em->flush();
             
-            return $this->redirectToRefererOrHome($request);
+            return $this->refererService->referer($request);
 
         } catch (\Exception $e) {
             $this->addFlash('error', 'Une erreur est survenue');
@@ -74,23 +78,6 @@ final class UserLikeAnnounceController extends AbstractController
             $likedAnnounces = $userLikeAnnounceRepository->findLikedAnnouncesByUser($user->getId());       
             return $this->render('profil/likes.html.twig', [
                 'likes' => $likedAnnounces,
-            ]);
-        
-    }
-
-
-    private function redirectToRefererOrHome(Request $request): Response
-    {
-        $referer = $request->headers->get('referer');
-
-        if ($referer) {
-            return $this->redirect($referer);
-        }
-
-        return $this->redirectToRoute('app_home');
-    }
-    
-
-    
-    
+            ]);   
+    }    
 }

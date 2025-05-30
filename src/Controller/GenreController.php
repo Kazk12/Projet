@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\UserLikeGenre;
 use App\Repository\GenreRepository;
 use App\Repository\UserLikeGenreRepository;
+use App\Services\RefererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ final class GenreController extends AbstractController
         private EntityManagerInterface $entityManager,
         private GenreRepository $genreRepository,
         private UserLikeGenreRepository $userLikeGenreRepository,
+        private RefererService $refererService,
     ) {}
 
     #[Route('/genres', name: 'app_genres_list')]
@@ -62,12 +64,12 @@ final class GenreController extends AbstractController
         ]);
 
         if ($existingLike) {
-            // Si l'utilisateur a déjà liké ce genre, on supprime le like
+            
             $this->entityManager->remove($existingLike);
 
             $this->addFlash('success', 'Genre retiré de vos favoris !');
         } else {
-            // Sinon, on ajoute le like
+            
             $userLikeGenre = new UserLikeGenre();
             $userLikeGenre->setUser($user);
             $userLikeGenre->setGenre($genre);
@@ -79,7 +81,6 @@ final class GenreController extends AbstractController
 
         $this->entityManager->flush();
 
-        $referer = $request->headers->get('referer');
-        return $this->redirect($referer ?: $this->generateUrl('app_genres_list'));
+        return $this->refererService->referer($request);
     }
 }
