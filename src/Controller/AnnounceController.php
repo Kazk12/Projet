@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Announce;
-use App\Entity\User;
 use App\Form\AnnounceType;
 use App\Repository\AnnounceRepository;
 use App\Services\RefererService;
+use App\Services\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,15 +16,15 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/announce')]
 final class AnnounceController extends AbstractController
 {
-    public function __construct(private RefererService $refererService) {}
+    public function __construct(
+        private RefererService $refererService,
+        private UserService $userService,
+    ) {}
 
     #[Route('/mine', name: 'app_announce_mine', methods: ['GET'])]
     public function index(AnnounceRepository $announceRepository): Response
     {
-        /**
-         *  @var User $user
-         */
-        $user = $this->getUser();
+        $user = $this->userService->getCurrentUser();
         return $this->render('announce/myAnnounces.html.twig', [
             'announces' => $announceRepository->findByUserId($user->getId()),
         ]);
@@ -33,10 +33,7 @@ final class AnnounceController extends AbstractController
     #[Route('/new', name: 'app_announce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        /**
-         *  @var User $user
-         */
-        $user = $this->getUser();
+        $user = $this->userService->getCurrentUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
@@ -74,10 +71,7 @@ final class AnnounceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_announce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Announce $announce, EntityManagerInterface $entityManager): Response
     {
-        /**
-         *  @var User $user
-         */
-        $user = $this->getUser();
+        $user = $this->userService->getCurrentUser();
         if (!$user) {
             return $this->redirectToRoute('app_login');
         }
@@ -108,10 +102,7 @@ final class AnnounceController extends AbstractController
     #[Route('/{id}', name: 'app_announce_delete', methods: ['POST'])]
     public function delete(Request $request, Announce $announce, EntityManagerInterface $entityManager): Response
     {
-        /**
-         * @var User $user
-         */
-        $user = $this->getUser();
+        $user = $this->userService->getCurrentUser();
 
         if (!$user) {
             return $this->redirectToRoute('app_login');

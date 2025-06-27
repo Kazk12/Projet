@@ -6,6 +6,7 @@ use App\Entity\Statut;
 use App\Entity\User;
 use App\Repository\StatutRepository;
 use App\Services\RefererService;
+use App\Services\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,12 +14,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class StatutController extends AbstractController
 {
-    public function __construct(private RefererService $refererService) {}
+    public function __construct(
+        private RefererService $refererService,
+        private UserService $userService,
+    ) {}
 
     #[Route('/statut/{id}/{statut}', name: 'app_statut', methods: ['GET'])]
     public function index(int $id, string $statut, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
+        $user = $this->userService->getCurrentUser();
 
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
@@ -52,10 +56,8 @@ final class StatutController extends AbstractController
             }
         } else {
             if ($existingStatut) {
-                // Mettre à jour le statut existant
                 $existingStatut->setStatut($statut);
             } else {
-                // Créer une nouvelle entité Statut
                 $statutEntity = new Statut();
                 $statutEntity->setOtherUser($otherUser);
                 $statutEntity->setStatut($statut);

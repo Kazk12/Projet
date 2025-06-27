@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Repository\AnnounceRepository;
 use App\Form\CommentType;
-use App\Entity\User;
 use App\Interfaces\CommentFormServiceInterface;
 use App\Interfaces\LikeServiceInterface;
 use App\Repository\StatutRepository;
 use App\Services\RefererService;
+use App\Services\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class HomeController extends AbstractController
 {
-    public function __construct(private RefererService $refererService) {}
+    public function __construct(
+        private RefererService $refererService,
+        private UserService $userService,
+    ) {}
 
     #[Route('/', name: 'app_home')]
     public function index(
@@ -31,10 +34,7 @@ final class HomeController extends AbstractController
         CommentFormServiceInterface $commentFormService,
         LikeServiceInterface $likeService
     ): Response {
-        /** 
-         * @var User $user
-         */
-        $user = $this->getUser();
+        $user = $this->userService->getCurrentUser();
 
         $queryBuilder = $announceRepository->findByUserStatus();
 
@@ -49,10 +49,8 @@ final class HomeController extends AbstractController
             $commentForms[$announce->getId()] = $commentFormService->createCommentForm($announce)->createView();
         }
 
-        // Récupération des informations de like en une seule requête
         $likeInfo = $likeService->getLikeInfoForAnnounces($pagination->getItems(), $user);
 
-        // Récupération des statuts de relation entre l'utilisateur connecté et les auteurs des annonces
         $userStatuses = [];
         if ($user) {
             $announceAuthors = [];
