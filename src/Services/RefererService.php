@@ -2,46 +2,41 @@
 
 namespace App\Services;
 
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
 
 class RefererService
 {
+    private RequestStack $requestStack;
     private RouterInterface $router;
 
-    public function __construct(RouterInterface $router)
+    public function __construct(RequestStack $requestStack, RouterInterface $router)
     {
+        $this->requestStack = $requestStack;
         $this->router = $router;
     }
 
     /**
      * Redirige vers le referer ou une route de secours.
      */
-    public function referer(Request $request, ?string $fallbackRoute = null): RedirectResponse
+    public function referer(?string $fallbackRoute = null): RedirectResponse
     {
-        return new RedirectResponse($this->resolveRefererUrl($request, $fallbackRoute));
+        return new RedirectResponse($this->getRefererUrl($fallbackRoute));
     }
 
     /**
      * Retourne l'URL du referer ou une route de secours.
      */
-    public function getRefererUrl(Request $request, ?string $fallbackRoute = null): string
+    public function getRefererUrl(?string $fallbackRoute = null): string
     {
-        return $this->resolveRefererUrl($request, $fallbackRoute);
-    }
-
-    /**
-     * Méthode interne : calcule l'URL finale à utiliser comme referer.
-     */
-    private function resolveRefererUrl(Request $request, ?string $fallbackRoute): string
-    {
-        $referer = $request->headers->get('referer');
-
-        if ($referer) {
-            return $referer;
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request) {
+            $referer = $request->headers->get('referer');
+            if ($referer) {
+                return $referer;
+            }
         }
-
         $route = $fallbackRoute ?? 'app_home';
         return $this->router->generate($route);
     }
