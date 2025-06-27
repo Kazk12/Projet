@@ -17,8 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class GenreController extends AbstractController
 {
-
-
     public function __construct(
         private EntityManagerInterface $entityManager,
         private GenreRepository $genreRepository,
@@ -33,11 +31,6 @@ final class GenreController extends AbstractController
 
         /** @var User $user */
         $user = $this->getUser();
-
-        // foreach($user->getUserLikeGenres() as $userLikeGenre) {
-        //     dd($userLikeGenre->getGenre());
-        // }
-        // dd($user->getUserLikeGenres());
 
         $userGenreLikes = [];
         if ($user) {
@@ -55,7 +48,7 @@ final class GenreController extends AbstractController
 
     #[Route('/genre/{id}/toggle-like', name: 'app_genre_toggle_like', methods: ['POST'])]
     #[IsGranted('ROLE_USER')]
-    public function toggleGenreLike(Genre $genre, Request $request): Response
+    public function toggleGenreLike(Genre $genre): Response
     {
         $user = $this->getUser();
         $existingLike = $this->userLikeGenreRepository->findOneBy([
@@ -64,23 +57,19 @@ final class GenreController extends AbstractController
         ]);
 
         if ($existingLike) {
-            
             $this->entityManager->remove($existingLike);
-
             $this->addFlash('success', 'Genre retiré de vos favoris !');
         } else {
-            
             $userLikeGenre = new UserLikeGenre();
             $userLikeGenre->setUser($user);
             $userLikeGenre->setGenre($genre);
 
             $this->entityManager->persist($userLikeGenre);
-
             $this->addFlash('success', 'Genre ajouté à vos favoris !');
         }
 
         $this->entityManager->flush();
 
-        return $this->refererService->referer($request);
+        return $this->refererService->referer();
     }
 }

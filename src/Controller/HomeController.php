@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Comment;
 use App\Repository\AnnounceRepository;
 use App\Form\CommentType;
@@ -20,9 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 final class HomeController extends AbstractController
 {
+    public function __construct(private RefererService $refererService) {}
 
-    public function __construct(private RefererService $refererService)
-    {}
     #[Route('/', name: 'app_home')]
     public function index(
         AnnounceRepository $announceRepository,
@@ -32,7 +30,6 @@ final class HomeController extends AbstractController
         EntityManagerInterface $entityManager,
         CommentFormServiceInterface $commentFormService,
         LikeServiceInterface $likeService
-
     ): Response {
         /** 
          * @var User $user
@@ -91,14 +88,9 @@ final class HomeController extends AbstractController
                 $entityManager->persist($comment);
                 $entityManager->flush();
 
-
-                return $this->refererService->referer($request);
+                return $this->refererService->referer();
             }
         }
-
-        // dd($pagination);
-
-       
 
         return $this->render('home/index.html.twig', [
             'pagination' => $pagination,

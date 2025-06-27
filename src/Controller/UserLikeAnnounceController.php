@@ -6,43 +6,41 @@ use App\Entity\Announce;
 use App\Entity\UserLikeAnnounce;
 use App\Entity\User;
 use App\Repository\UserLikeAnnounceRepository;
-use App\Services\RefererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Services\RefererService;
 
 final class UserLikeAnnounceController extends AbstractController
 {
-
-    public function __construct(private RefererService $refererService){}
+    public function __construct(private RefererService $refererService) {}
 
     #[Route('/like/{id}', name: 'app_announce_like')]
-    public function index(int $id, EntityManagerInterface $em, Request $request): Response
+    public function index(int $id, EntityManagerInterface $em): Response
     {
         /** 
          * @var User $user
          */
         $user = $this->getUser();
-    
+
         if ($user === null) {
             return $this->redirectToRoute('app_login');
         }
-    
+
         try {
             $announce = $em->getRepository(Announce::class)->find($id);
-    
+
             if ($announce === null) {
                 return $this->redirectToRoute('app_home');
             }
-    
+
             // Vérifier si l'utilisateur a déjà liké cette annonce
             $existingLike = $em->getRepository(UserLikeAnnounce::class)->findOneBy([
                 'user' => $user,
                 'announce' => $announce
             ]);
-    
+
             if ($existingLike) {
                 $em->remove($existingLike);
                 $this->addFlash('success', 'Like retiré avec succès');
@@ -55,8 +53,9 @@ final class UserLikeAnnounceController extends AbstractController
             }
             
             $em->flush();
-            
-            return $this->refererService->referer($request);
+
+            // Utilisation de la nouvelle version du RefererService (RequestStack)
+            return $this->refererService->referer();
 
         } catch (\Exception $e) {
             $this->addFlash('error', 'Une erreur est survenue');
@@ -75,9 +74,9 @@ final class UserLikeAnnounceController extends AbstractController
         if (!$user) {
             throw $this->createAccessDeniedException('Vous devez être connecté pour voir cette page.');
         }
-            $likedAnnounces = $userLikeAnnounceRepository->findLikedAnnouncesByUser($user->getId());       
-            return $this->render('profil/likes.html.twig', [
-                'likes' => $likedAnnounces,
-            ]);   
+        $likedAnnounces = $userLikeAnnounceRepository->findLikedAnnouncesByUser($user->getId());       
+        return $this->render('profil/likes.html.twig', [
+            'likes' => $likedAnnounces,
+        ]);   
     }    
 }

@@ -2,27 +2,24 @@
 
 namespace App\Controller;
 
-use App\DTO\AnnounceFilter;
 use App\Entity\Statut;
 use App\Entity\User;
 use App\Repository\StatutRepository;
 use App\Services\RefererService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 final class StatutController extends AbstractController
 {
-    public function __construct(private RefererService $refererService)
-    {}
+    public function __construct(private RefererService $refererService) {}
 
     #[Route('/statut/{id}/{statut}', name: 'app_statut', methods: ['GET'])]
-    public function index(int $id, string $statut, EntityManagerInterface $entityManager, request $request): Response
+    public function index(int $id, string $statut, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        
+
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
             return $this->redirectToRoute('app_login');
@@ -67,7 +64,7 @@ final class StatutController extends AbstractController
                 $entityManager->persist($statutEntity);
             }
             $entityManager->flush();
-            
+
             if ($statut === 'Friend') {
                 $this->addFlash('success', 'Utilisateur ajouté à vos amis.');
             } elseif ($statut === 'Blocked') {
@@ -77,18 +74,13 @@ final class StatutController extends AbstractController
             }
         }
 
-        return $this->refererService->referer($request);
+        return $this->refererService->referer();
     }
 
     #[Route('/friends', name: 'friends', methods: ['GET'])]
     public function friends(StatutRepository $statutRepository): Response
     {
-        // /**
-        //  * @var User $user
-        //  */
-        // $user = $this->getUser();
         $friends = $statutRepository->findFriendsByUser();
-        
 
         return $this->render('profil/friends.html.twig', [
             'friends' => $friends,
@@ -98,14 +90,7 @@ final class StatutController extends AbstractController
     #[Route('/blocked', name: 'blocked', methods: ['GET'])]
     public function blocked(StatutRepository $statutRepository): Response
     {
-        // /**
-        //  * @var User $user
-        //  */
-        // $user = $this->getUser();
-       
         $blocked = $statutRepository->findBlockedByUser();
-
-        // dd($blocked);
 
         return $this->render('profil/blocked.html.twig', [
             'blocked' => $blocked,

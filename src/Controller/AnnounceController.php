@@ -33,9 +33,6 @@ final class AnnounceController extends AbstractController
     #[Route('/new', name: 'app_announce_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-
-
-
         /**
          *  @var User $user
          */
@@ -64,10 +61,9 @@ final class AnnounceController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_announce_show', methods: ['GET'])]
-    public function show(Request $request, Announce $announce): Response
+    public function show(Announce $announce): Response
     {
-        $referer = $this->refererService->getRefererUrl($request, 'app_announce_mine');
-        
+        $referer = $this->refererService->getRefererUrl('app_announce_mine');
 
         return $this->render('announce/show.html.twig', [
             'announce' => $announce,
@@ -78,8 +74,6 @@ final class AnnounceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_announce_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Announce $announce, EntityManagerInterface $entityManager): Response
     {
-
-
         /**
          *  @var User $user
          */
@@ -90,7 +84,7 @@ final class AnnounceController extends AbstractController
 
         if ($announce->getUser() !== $user) {
             $this->addFlash('warning', 'Vous n\'êtes pas autorisé à modifier cette annonce.');
-            return $this->refererService->referer($request, 'app_announce_mine');
+            return $this->refererService->referer('app_announce_mine');
         }
         $form = $this->createForm(AnnounceType::class, $announce);
         $form->handleRequest($request);
@@ -102,7 +96,7 @@ final class AnnounceController extends AbstractController
             $entityManager->flush();
             $this->addFlash('success', 'L\'annonce a été mise à jour avec succès.');
 
-            return $this->refererService->referer($request);
+            return $this->refererService->referer();
         }
 
         return $this->render('announce/edit.html.twig', [
@@ -123,10 +117,9 @@ final class AnnounceController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-
         if ($announce->getUser() !== $user) {
             $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer cette annonce.');
-            return $this->refererService->referer($request, 'app_home');
+            return $this->refererService->referer('app_home');
         }
 
         if ($this->isCsrfTokenValid('delete' . $announce->getId(), $request->getPayload()->getString('_token'))) {
@@ -135,6 +128,6 @@ final class AnnounceController extends AbstractController
             $this->addFlash('success', 'L\'annonce a été supprimée avec succès.');
         }
 
-        return $this->refererService->referer($request);
+        return $this->refererService->referer();
     }
 }
