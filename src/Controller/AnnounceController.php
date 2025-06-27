@@ -119,6 +119,6 @@ final class AnnounceController extends AbstractController
             $this->addFlash('success', 'L\'annonce a été supprimée avec succès.');
         }
 
-        return $this->refererService->referer();
+        return $this->redirectToRoute('app_announce_mine');
     }
 }
