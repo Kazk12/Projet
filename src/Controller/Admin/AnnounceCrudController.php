@@ -16,17 +16,26 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class AnnounceCrudController extends AbstractCrudController
 {
     private EntityManagerInterface $entityManager;
     private AdminUrlGenerator $adminUrlGenerator;
+    private FormFactoryInterface $formFactory;
 
-    public function __construct(EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager, 
+        AdminUrlGenerator $adminUrlGenerator,
+        FormFactoryInterface $formFactory
+    ) {
         $this->entityManager = $entityManager;
         $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->formFactory = $formFactory;
     }
     
     public static function getEntityFqcn(): string
@@ -61,7 +70,7 @@ class AnnounceCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $deleteWithWarning = Action::new('deleteWithWarning', 'Supprimer avec avertissement', 'fa fa-trash')
-            ->linkToCrudAction('deleteWithWarningAction')
+            ->linkToCrudAction('showWarningForm')
             ->addCssClass('btn btn-danger')
             ->displayAsLink();
 
@@ -72,30 +81,64 @@ class AnnounceCrudController extends AbstractCrudController
     }
 
     /**
-     * Action pour supprimer une annonce et créer un avertissement pour l'utilisateur
-     * en supprimant d'abord tous les commentaires liés à l'annonce
+     * Affiche le formulaire pour saisir le message d'avertissement
      */
-    public function deleteWithWarningAction(): Response
+    public function showWarningForm(Request $request): Response
+    {
+        $announceId = $request->query->get('entityId');
+        $announce = $this->entityManager->getRepository(Announce::class)->find($announceId);
+        
+        if ($announce === null) {
+            $this->addFlash('danger', 'L\'annonce demandée n\'existe pas.');
+            return $this->redirect($this->adminUrlGenerator->setAction(Action::INDEX)->generateUrl());
+        }
+
+        // Création du formulaire
+        $form = $this->formFactory->createBuilder()
+            ->add('message', TextareaType::class, [
+                'label' => 'Message d\'avertissement',
+                'attr' => [
+                    'rows' => 5,
+                    'placeholder' => 'Saisissez le motif de suppression de l\'annonce...'
+                ],
+                'required' => true
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Confirmer la suppression',
+                'attr' => ['class' => 'btn btn-danger']
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->processWarningCreation($announce, $form->get('message')->getData());
+        }
+
+        return $this->render('admin/announce/warning_form.html.twig', [
+            'announce' => $announce,
+            'form' => $form->createView(),
+            'cancel_url' => $this->adminUrlGenerator->setAction(Action::INDEX)->generateUrl()
+        ]);
+    }
+
+    /**
+     * Traite la création de l'avertissement et la suppression de l'annonce
+     */
+    private function processWarningCreation(Announce $announce, string $message): Response
     {
         try {
-            $announceId = $this->getContext()->getRequest()->query->get('entityId');
-            $announce = $this->entityManager->getRepository(Announce::class)->find($announceId);
-            
-            if ($announce === null) {
-                $this->addFlash('danger', 'L\'annonce demandée n\'existe pas.');
-                return $this->redirect($this->adminUrlGenerator->setAction(Action::INDEX)->generateUrl());
-            }
-
             // Création de l'avertissement
             $warning = new Warning();
             $warning->setCreatedAt(new \DateTimeImmutable());
             $warning->setUser($announce->getUser());
             $warning->setCreatedBy($this->getUser());
+            $warning->setMessage($message); // Ajout du message personnalisé
 
             // Enregistrement de l'avertissement
             $this->entityManager->persist($warning);
             
-            // Suppression de l'annonce
+            // Suppression de l'annonce (les commentaires seront supprimés automatiquement grâce à orphanRemoval=true)
             $this->entityManager->remove($announce);
             
             $this->entityManager->flush();

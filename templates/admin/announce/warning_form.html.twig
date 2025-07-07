@@ -1,0 +1,71 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    <h1>Signaler et supprimer l'annonce</h1>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Annonce à supprimer</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Auteur :</strong> {{ announce.user.pseudo }}</p>
+                    
+                    {% if announce.book %}
+                        <p><strong>Livre :</strong> {{ announce.book.title }}</p>
+                    {% endif %}
+                    
+                    {% if announce.content %}
+                        <p><strong>Description :</strong></p>
+                        <div class="alert alert-light">
+                            {{ announce.content|nl2br }}
+                        </div>
+                    {% endif %}
+                    
+                    {% if announce.imageUrl %}
+                        <p><strong>Image :</strong></p>
+                        <img src="{{ vich_uploader_asset(announce, 'thumbnailFile') }}" alt="Image de l'annonce" class="img-thumbnail" style="max-width: 200px;">
+                    {% endif %}
+                    
+                    <p><strong>Créé le :</strong> {{ announce.createdAt|date('d/m/Y à H:i') }}</p>
+                    
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <i class="fa fa-info-circle"></i> 
+                            Cette action supprimera également tous les commentaires associés à cette annonce.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Motif de suppression</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.message) }}
+                            {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.message) }}
+                            <div class="form-text">
+                                Ce message sera visible par l'utilisateur dans ses avertissements.
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ cancel_url }}" class="btn btn-secondary">
+                                <i class="fa fa-times"></i> Annuler
+                            </a>
+                            {{ form_widget(form.submit) }}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
