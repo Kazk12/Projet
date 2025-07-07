@@ -13,17 +13,26 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\FormFactoryInterface;
 
 class CommentCrudController extends AbstractCrudController
 {
     private EntityManagerInterface $entityManager;
     private AdminUrlGenerator $adminUrlGenerator;
+    private FormFactoryInterface $formFactory;
 
-    public function __construct(EntityManagerInterface $entityManager, AdminUrlGenerator $adminUrlGenerator)
-    {
+    public function __construct(
+        EntityManagerInterface $entityManager, 
+        AdminUrlGenerator $adminUrlGenerator,
+        FormFactoryInterface $formFactory
+    ) {
         $this->entityManager = $entityManager;
         $this->adminUrlGenerator = $adminUrlGenerator;
+        $this->formFactory = $formFactory;
     }
 
     public static function getEntityFqcn(): string
@@ -50,7 +59,7 @@ class CommentCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         $createWarning = Action::new('createWarning', 'Signaler et supprimer', 'fa fa-exclamation-triangle')
-            ->linkToCrudAction('createWarningAction')
+            ->linkToCrudAction('showWarningForm')
             ->addCssClass('btn btn-danger')
             ->displayAsLink();
 
@@ -61,39 +70,74 @@ class CommentCrudController extends AbstractCrudController
     }
 
     /**
-     * Action pour supprimer un commentaire et créer un avertissement pour l'utilisateur
+     * Affiche le formulaire pour saisir le message d'avertissement
      */
-    public function createWarningAction(AdminUrlGenerator $adminUrlGenerator, EntityManagerInterface $entityManager): Response
+    public function showWarningForm(Request $request): Response
     {
-        $commentId = $this->getContext()->getRequest()->query->get('entityId');
-        $comment = $entityManager->getRepository(Comment::class)->find($commentId);
+        $commentId = $request->query->get('entityId');
+        $comment = $this->entityManager->getRepository(Comment::class)->find($commentId);
         
         if ($comment === null) {
             $this->addFlash('danger', 'Le commentaire demandé n\'existe pas.');
-            return $this->redirect($adminUrlGenerator->setAction(Action::INDEX)->generateUrl());
+            return $this->redirect($this->adminUrlGenerator->setAction(Action::INDEX)->generateUrl());
         }
 
+        // Création du formulaire
+        $form = $this->formFactory->createBuilder()
+            ->add('message', TextareaType::class, [
+                'label' => 'Message d\'avertissement',
+                'attr' => [
+                    'rows' => 5,
+                    'placeholder' => 'Saisissez le motif de suppression du commentaire...'
+                ],
+                'required' => true
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Confirmer la suppression',
+                'attr' => ['class' => 'btn btn-danger']
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            return $this->processWarningCreation($comment, $form->get('message')->getData());
+        }
+
+        return $this->render('admin/comment/warning_form.html.twig', [
+            'comment' => $comment,
+            'form' => $form->createView(),
+            'cancel_url' => $this->adminUrlGenerator->setAction(Action::INDEX)->generateUrl()
+        ]);
+    }
+
+    /**
+     * Traite la création de l'avertissement et la suppression du commentaire
+     */
+    private function processWarningCreation(Comment $comment, string $message): Response
+    {
         try {
             // Création de l'avertissement
             $warning = new Warning();
             $warning->setCreatedAt(new \DateTimeImmutable());
             $warning->setUser($comment->getUser());
             $warning->setCreatedBy($this->getUser());
+            $warning->setMessage($message); // Ajout du message personnalisé
 
             // Enregistrement de l'avertissement
-            $entityManager->persist($warning);
+            $this->entityManager->persist($warning);
             
             // Suppression du commentaire
-            $entityManager->remove($comment);
+            $this->entityManager->remove($comment);
             
-            $entityManager->flush();
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Le commentaire a été supprimé et un avertissement a été créé pour l\'utilisateur.');
         } catch (\Exception $e) {
             $this->addFlash('danger', 'Une erreur est survenue: ' . $e->getMessage());
         }
 
-        return $this->redirect($adminUrlGenerator->setAction(Action::INDEX)->generateUrl());
+        return $this->redirect($this->adminUrlGenerator->setAction(Action::INDEX)->generateUrl());
     }
 
     public function configureCrud(Crud $crud): Crud

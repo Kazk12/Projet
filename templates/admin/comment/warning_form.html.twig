@@ -1,0 +1,62 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}
+    <h1>Signaler et supprimer le commentaire</h1>
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Commentaire à supprimer</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Auteur :</strong> {{ comment.user.pseudo }}</p>
+                    <p><strong>Contenu :</strong></p>
+                    <div class="alert alert-light">
+                        {{ comment.content|nl2br }}
+                    </div>
+                    <p><strong>Créé le :</strong> {{ comment.createdAt|date('d/m/Y à H:i') }}</p>
+                    {% if comment.announce %}
+                        <p><strong>Annonce :</strong> 
+                            {% if comment.announce.book and comment.announce.book.title %}
+                                {{ comment.announce.book.title }}
+                            {% elseif comment.announce.content %}
+                                {{ comment.announce.content|length > 50 ? comment.announce.content|slice(0, 50) ~ '...' : comment.announce.content }}
+                            {% else %}
+                                Annonce #{{ comment.announce.id }}
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title">Motif de suppression</h5>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.message) }}
+                            {{ form_widget(form.message, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_errors(form.message) }}
+                            <div class="form-text">
+                                Ce message sera visible par l'utilisateur dans ses avertissements.
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ cancel_url }}" class="btn btn-secondary">
+                                <i class="fa fa-times"></i> Annuler
+                            </a>
+                            {{ form_widget(form.submit) }}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
