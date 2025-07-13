@@ -1,17 +1,47 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bibliocritique | Découvrez les avis littéraires{% endblock %}
+{% block title %}Bibliocritique | Livres à découvrir{% endblock %}
 
 {% block body %}
+<div class="min-h-screen bg-white dark:bg-gray-900 py-10 px-4 sm:px-6 lg:px-8 transition-colors duration-300">
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-8 text-center">Tous les livres disponibles</h1>
 
-    {% if books is not empty %}
-        <h2>Derniers livres</h2>
-        <ul>
-            {% for book in books %}
-                <li>{{ book.title }} - {{ book.author }}</li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucun livre trouvé.</p>
-    {% endif %}
+        {% if pagination|length > 0 %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                {% for book in pagination %}
+                    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md dark:shadow-dark-md overflow-hidden flex flex-col transition-transform duration-300 hover:scale-105">
+                        <div class="aspect-[3/4] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
+                            {% if book.img %}
+                                <img src="{{ asset(book.img) }}" alt="Couverture de {{ book.title }}" class="w-full h-full object-cover" loading="lazy">
+                            {% else %}
+                                <svg class="w-16 h-16 text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                                </svg>
+                            {% endif %}
+                        </div>
+                        <div class="flex-1 flex flex-col p-5">
+                            <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 line-clamp-2 mb-2">{{ book.title }}</h2>
+                            <p class="text-gray-600 dark:text-gray-300 text-base mb-4">par <span class="font-medium">{{ book.author }}</span></p>
+                            <div class="mt-auto flex flex-col gap-2">
+                                <a href="{{ path('app_search', {'query': book.title}) }}" class="inline-flex items-center justify-center px-4 py-2 rounded-md bg-indigo-600 dark:bg-indigo-500 text-white font-semibold shadow hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-colors duration-200">
+                                    <span class="material-icons mr-2 text-base align-middle">forum</span>
+                                    Discuter autour de ce livre
+                                </a>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Ajouté le {{ book.createdAt ? book.createdAt|date('d/m/Y') : '?' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="mt-10">
+                {{ knp_pagination_render(pagination, 'partials/custom_pagination.html.twig') }}
+            </div>
+        {% else %}
+            <div class="text-center py-10 text-gray-500 dark:text-gray-400">
+                <p>Aucun livre trouvé.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}
