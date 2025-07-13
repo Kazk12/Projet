@@ -29,16 +29,17 @@ class HomeControllerTest extends WebTestCase
     {
         // Act
         $this->client->request('GET', '/');
+        file_put_contents(__DIR__ . '/../../output.html', $this->client->getResponse()->getContent());
 
         // Assert
         $this->assertResponseIsSuccessful();
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        
+
         // Vérification des éléments clés du template
         $this->assertSelectorTextContains('h1', 'L\'univers des');
         $this->assertSelectorTextContains('h1', 'Critiques Littéraires');
         $this->assertSelectorExists('.grid-cols-1.md\\:grid-cols-2.lg\\:grid-cols-3');
-        
+
         // Vérification de la navigation au lieu de la pagination qui pourrait ne pas être présente
         // s'il n'y a pas assez d'annonces pour paginer
         $this->assertSelectorExists('nav');
@@ -53,41 +54,49 @@ class HomeControllerTest extends WebTestCase
         // Récupération d'un utilisateur et une annonce pour le test
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => 'test@test.com']);
         $announce = $this->entityManager->getRepository(Announce::class)->findOneBy([], ['id' => 'ASC']);
-        
+
         if (!$user || !$announce) {
             $this->markTestSkipped('Utilisateur ou annonce test non trouvés');
         }
-        
+
         // Vérification et suppression des likes existants pour ce test
         $existingLike = $this->entityManager->getRepository(UserLikeAnnounce::class)
             ->findOneBy(['user' => $user, 'announce' => $announce]);
-        
+
         if ($existingLike) {
             $this->entityManager->remove($existingLike);
             $this->entityManager->flush();
         }
-        
+
         // Authentification de l'utilisateur
         $this->client->loginUser($user);
-        
+
         // Act - Liker l'annonce
         $likeUrl = '/like/' . $announce->getId();
         $this->client->request('GET', $likeUrl);
-        
+
         // Assert - Vérifier la redirection et le like enregistré
         $this->assertResponseRedirects();
-        
+
         // Vérifier que le like a été ajouté en base de données
         $like = $this->entityManager->getRepository(UserLikeAnnounce::class)
             ->findOneBy(['user' => $user, 'announce' => $announce]);
-            
+
         $this->assertNotNull($like, 'Le like n\'a pas été enregistré en base de données');
-        
+
         // Vérifier également que l'utilisateur voit bien son like sur la page d'accueil
         $this->client->request('GET', '/');
         $this->assertResponseIsSuccessful();
-        
+
         // La présence d'une classe spécifique sur le bouton de like (cela dépend de l'implémentation)
-        $this->assertSelectorExists('a[href="' . $likeUrl . '"] span.material-icons:contains("favorite")');
+        $this->assertSelectorTextContains(
+            'a[href="' . $likeUrl . '"] span.material-icons',
+            'favorite'
+        );
+        // on vérifie la classe CSS du lien
+        $this->assertSelectorExists(
+            'a[href="' . $likeUrl . '"].text-indigo-600'
+        );
     }
+    
 }
