@@ -40,12 +40,13 @@ final class StatutController extends AbstractController
             'otherUser' => $otherUser
         ]);
 
-        if($statut === 'Débloquer') {
-            if($existingStatut){
+        if ($statut === 'Unblocked') {
+            if ($existingStatut) {
                 $entityManager->remove($existingStatut);
                 $entityManager->flush();
                 $this->addFlash('success', 'Utilisateur débloqué avec succès.');
             }
+            return $this->refererService->referer();
         }
 
         if ($statut === 'Unfriend') {
@@ -54,26 +55,25 @@ final class StatutController extends AbstractController
                 $entityManager->flush();
                 $this->addFlash('success', 'Utilisateur retiré de vos amis.');
             }
+            return $this->refererService->referer();
+        }
+
+        // Pour Friend ou Blocked
+        if ($existingStatut) {
+            $existingStatut->setStatut($statut);
         } else {
-            if ($existingStatut) {
-                $existingStatut->setStatut($statut);
-            } else {
-                $statutEntity = new Statut();
-                $statutEntity->setOtherUser($otherUser);
-                $statutEntity->setStatut($statut);
-                $statutEntity->setUser($user);
+            $statutEntity = new Statut();
+            $statutEntity->setOtherUser($otherUser);
+            $statutEntity->setStatut($statut);
+            $statutEntity->setUser($user);
+            $entityManager->persist($statutEntity);
+        }
+        $entityManager->flush();
 
-                $entityManager->persist($statutEntity);
-            }
-            $entityManager->flush();
-
-            if ($statut === 'Friend') {
-                $this->addFlash('success', 'Utilisateur ajouté à vos amis.');
-            } elseif ($statut === 'Blocked') {
-                $this->addFlash('success', 'Utilisateur bloqué avec succès.');
-            } elseif ($statut === 'Unblocked') {
-                $this->addFlash('success', 'Utilisateur débloqué avec succès.');
-            }
+        if ($statut === 'Friend') {
+            $this->addFlash('success', 'Utilisateur ajouté à vos amis.');
+        } elseif ($statut === 'Blocked') {
+            $this->addFlash('success', 'Utilisateur bloqué avec succès.');
         }
 
         return $this->refererService->referer();

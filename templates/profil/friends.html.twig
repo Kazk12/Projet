@@ -50,7 +50,7 @@
                                         Profil
                                     </a>
                                     {# href="{{ path('app_statut', {id: friend.id, statut: 'Blocked'}) }}"  #}
-                                    <a class="inline-flex items-center text-xs text-gray-800 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400">
+                                    <a href="{{ path('app_statut', {id: friend.id, statut: 'Blocked'}) }}" class="inline-flex items-center text-xs text-gray-800 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400">
                                         <span class="material-icons text-sm mr-1">block</span>
                                         Bloquer
                                     </a>
