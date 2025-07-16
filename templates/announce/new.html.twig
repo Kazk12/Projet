@@ -30,7 +30,7 @@
             
             {{ form_start(form) }}
             <div class="mb-4">
-                {{ form_label(form.thumbnailFile, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'}}) }}
+                {{ form_label(form.thumbnailFile, 'Image de couverture du livre', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'}}) }}
                 {{ form_widget(form.thumbnailFile, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 transition-colors duration-300'}}) }}
                 
                 {# Affichage des erreurs spécifiques au champ thumbnailFile #}
@@ -47,7 +47,7 @@
                 {% endif %}
             </div>
             <div class="mb-4">
-                {{ form_label(form.rate, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'}}) }}
+                {{ form_label(form.rate, 'Note (étoiles)', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'}}) }}
                 <div class="star-rating flex">
                     {% for choice in form.rate %}
                         <label class="star">
@@ -78,7 +78,7 @@
                 {% endif %}
             </div>
             <div class="mb-4">
-                {{ form_label(form.book, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'}}) }}
+                {{ form_label(form.book, 'Livre concerné', {'label_attr': {'class': 'block text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300'}}) }}
                 {{ form_widget(form.book, {'attr': {'class': 'mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 dark:focus:ring-indigo-400 focus:border-indigo-500 dark:focus:border-indigo-400 sm:text-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 transition-colors duration-300'}}) }}
                 {# Affichage des erreurs pour le champ book #}
                 {% if form.book.vars.errors|length > 0 %}
